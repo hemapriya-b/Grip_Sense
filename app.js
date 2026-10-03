@@ -6,7 +6,8 @@ import {
     listenToEvents,
     listenToPatientName,
     listenToConnection,
-    savePatientName
+    savePatientName,
+    acknowledgeEvent
 } from "./firebase.js";
 import { parseEvents } from "./events.js";
 import {
@@ -19,7 +20,8 @@ import {
     setLoginError,
     onPatientSave,
     setPatientBusy,
-    setPatientFeedback
+    setPatientFeedback,
+    onAcknowledgeClick
 } from "./ui.js";
 
 // If no data has arrived after this long, show the error state instead of
@@ -33,7 +35,9 @@ const initialState = () => ({
     patientName: null,
     patientNameLoaded: false,
     connected: false,
-    error: null
+    error: null,
+    acknowledging: new Set(),   // event IDs with a save in progress
+    ackError: null
 });
 
 let state = initialState();
@@ -151,6 +155,28 @@ onPatientSave(async rawName => {
         setPatientFeedback(`Could not save the patient name (${error.code || error.message}).`, "error");
     } finally {
         setPatientBusy(false);
+    }
+});
+
+onAcknowledgeClick(async eventId => {
+    const event = state.events.find(e => e.id === eventId);
+    // Acknowledgement is final: never re-write an already acknowledged event.
+    if (!event || event.acknowledged || state.acknowledging.has(eventId)) return;
+    if (!state.connected) {
+        update({ ackError: "Not connected. The alert was not acknowledged. Please check your internet connection." });
+        return;
+    }
+
+    state.acknowledging.add(eventId);
+    update({ ackError: null });
+    try {
+        await acknowledgeEvent(eventId);
+    } catch (error) {
+        console.error("GripSense: acknowledge failed", error);
+        update({ ackError: `Could not acknowledge the alert (${error.code || error.message}).` });
+    } finally {
+        state.acknowledging.delete(eventId);
+        render(state);
     }
 });
 

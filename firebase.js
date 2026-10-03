@@ -7,7 +7,9 @@ import {
     orderByKey,
     limitToLast,
     onValue,
-    set
+    set,
+    update,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
 import {
     getAuth,
@@ -53,6 +55,15 @@ export function listenToPatientName(onData, onError) {
 
 export function savePatientName(name) {
     return set(ref(db, "patient/name"), name);
+}
+
+// Marks one event as acknowledged. Only adds fields; the ESP32's action,
+// maxPressure and timestamp are never touched. There is no "unacknowledge".
+export function acknowledgeEvent(eventId) {
+    return update(ref(db, `events/${eventId}`), {
+        acknowledged: true,
+        acknowledgedAt: serverTimestamp()
+    });
 }
 
 // Calls onChange(true/false) when the browser's connection to Firebase changes.

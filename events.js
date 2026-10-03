@@ -53,10 +53,22 @@ export function parseEvents(rawEvents) {
             action: raw.action,
             maxPressure: raw.maxPressure,
             timestamp: raw.timestamp,
-            acknowledged: raw.acknowledged === true
+            acknowledged: raw.acknowledged === true,
+            acknowledgedAt: Number.isFinite(raw.acknowledgedAt) ? raw.acknowledgedAt : null
         });
     }
 
     events.sort((a, b) => b.timestamp - a.timestamp);
     return events;
+}
+
+// Picks the event for the main alert card from a newest-first list:
+// the newest unacknowledged event, or the newest event if all are acknowledged.
+export function selectLatestAlert(events) {
+    const unacknowledged = events.filter(event => !event.acknowledged);
+    return {
+        event: unacknowledged[0] ?? events[0] ?? null,
+        allAcknowledged: unacknowledged.length === 0,
+        moreUnacknowledged: Math.max(unacknowledged.length - 1, 0)
+    };
 }

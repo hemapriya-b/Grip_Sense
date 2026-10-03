@@ -1,6 +1,6 @@
 // UI layer: render application state into the page.
 // All text is inserted with textContent so stored values can never inject HTML.
-import { NEED_MAPPINGS } from "./events.js";
+import { NEED_MAPPINGS, selectLatestAlert } from "./events.js";
 
 // Fixed display format ("03 Oct 2026, 9:48 PM"); the time zone is still the browser's own.
 const dateFormat = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short", year: "numeric" });
@@ -39,6 +39,12 @@ export function formatDateTime(timestamp) {
     return `${dateFormat.format(date)}, ${timeFormat.format(date)}`;
 }
 
+// Time only when acknowledged on the same day as the event, otherwise full date.
+function formatAckTime(eventTimestamp, ackTimestamp) {
+    const sameDay = dateFormat.format(new Date(eventTimestamp)) === dateFormat.format(new Date(ackTimestamp));
+    return sameDay ? timeFormat.format(new Date(ackTimestamp)) : formatDateTime(ackTimestamp);
+}
+
 function make(tag, className, text) {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -51,31 +57,58 @@ function messageFor(event, patientName) {
     return patientName ? NEED_MAPPINGS[event.action].message(patientName) : null;
 }
 
-function renderLatest(event, patientName) {
+// "New" + Acknowledge button, or "Acknowledged · <time>".
+function makeAckStatus(event, state) {
+    const status = make("span", "ack-status");
+    if (event.acknowledged) {
+        status.classList.add("ack-done");
+        status.textContent = event.acknowledgedAt
+            ? `Acknowledged · ${formatAckTime(event.timestamp, event.acknowledgedAt)}`
+            : "Acknowledged";
+        return status;
+    }
+    const pending = state.acknowledging.has(event.id);
+    const button = make("button", "button-ack", pending ? "Saving..." : "Acknowledge");
+    button.type = "button";
+    button.dataset.ackId = event.id;
+    button.disabled = pending;
+    status.append(make("span", "badge-new", "New"), button);
+    return status;
+}
+
+function renderLatest(state) {
+    const { event, allAcknowledged, moreUnacknowledged } = selectLatestAlert(state.events);
     const need = NEED_MAPPINGS[event.action];
     const card = el.latestCard;
     card.replaceChildren();
-    card.className = `latest-card need-${need.color}`;
+    card.className = `latest-card need-${need.color}${allAcknowledged ? " all-acknowledged" : ""}`;
     card.dataset.action = event.action;
 
+    if (allAcknowledged) card.append(make("p", "latest-all-ack", "✓ All alerts acknowledged"));
     card.append(
         make("div", "latest-need", `${need.icon} ${need.label.toUpperCase()}`),
-        make("p", "latest-message", messageFor(event, patientName) ?? "Please set the patient name."),
+        make("p", "latest-message", messageFor(event, state.patientName) ?? "Please set the patient name."),
         make("p", "latest-detail", `Maximum Pressure: ${event.maxPressure}`),
-        make("p", "latest-detail", `Time: ${formatDateTime(event.timestamp)}`)
+        make("p", "latest-detail", `Time: ${formatDateTime(event.timestamp)}`),
+        makeAckStatus(event, state)
     );
+    if (moreUnacknowledged > 0) {
+        card.append(make("p", "latest-more", `${moreUnacknowledged} more unacknowledged`));
+    }
 }
 
-function renderHistory(events, patientName) {
-    const items = events.map(event => {
+function renderHistory(state) {
+    const items = state.events.map(event => {
         const need = NEED_MAPPINGS[event.action];
-        const item = make("li", `history-item need-${need.color}`);
+        const item = make("li", `history-item need-${need.color}${event.acknowledged ? " is-acknowledged" : ""}`);
         item.dataset.action = event.action;
+        item.dataset.eventId = event.id;
         item.append(
             make("span", "history-need", `${need.icon} ${need.label}`),
-            make("span", "history-message", messageFor(event, patientName) ?? ""),
+            make("span", "history-message", messageFor(event, state.patientName) ?? ""),
             make("span", "history-pressure", `Pressure ${event.maxPressure}`),
-            make("time", "history-time", formatDateTime(event.timestamp))
+            make("time", "history-time", formatDateTime(event.timestamp)),
+            makeAckStatus(event, state)
         );
         item.querySelector("time").dateTime = new Date(event.timestamp).toISOString();
         return item;
@@ -89,6 +122,7 @@ function renderNotices(state) {
         notices.push(make("p", "notice notice-warning",
             "Connection to GripSense data lost. Alerts shown may be out of date."));
     }
+    if (state.ackError) notices.push(make("p", "notice notice-error", state.ackError));
     el.notices.replaceChildren(...notices);
 }
 
@@ -149,6 +183,16 @@ export function onLoginSubmit(handler) {
     });
 }
 
+// One listener per container; buttons are re-created on every render.
+export function onAcknowledgeClick(handler) {
+    for (const container of [el.latestCard, el.historyList]) {
+        container.addEventListener("click", event => {
+            const button = event.target.closest("[data-ack-id]");
+            if (button && !button.disabled) handler(button.dataset.ackId);
+        });
+    }
+}
+
 export function onLogoutClick(handler) {
     el.logoutButton.addEventListener("click", handler);
 }
@@ -182,7 +226,7 @@ export function render(state) {
         showStatus("No patient alerts yet.");
     } else {
         el.status.hidden = true;
-        renderLatest(state.events[0], state.patientName);
-        renderHistory(state.events, state.patientName);
+        renderLatest(state);
+        renderHistory(state);
     }
 }

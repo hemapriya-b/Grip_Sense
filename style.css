@@ -207,7 +207,7 @@ h2 {
     grid-template-columns: 8rem 1fr auto;
     grid-template-areas:
         "need message time"
-        "need pressure time";
+        "need pressure status";
     gap: 0.15rem 1rem;
     align-items: center;
     padding: 0.75rem 1rem;
@@ -231,6 +231,48 @@ h2 {
         grid-template-areas:
             "need time"
             "message message"
-            "pressure pressure";
+            "pressure pressure"
+            "status status";
     }
+}
+
+/* Acknowledgement */
+.history-item > .ack-status { grid-area: status; justify-self: end; }
+.history-item.is-acknowledged { background: #fafbfc; }
+.history-item.is-acknowledged .history-message { color: var(--muted); }
+
+.ack-status { display: inline-flex; align-items: center; gap: 0.5rem; }
+.ack-done { color: var(--green); font-size: 0.85rem; font-weight: 600; }
+.badge-new {
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    background: var(--text);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.button-ack {
+    padding: 0.35rem 0.8rem;
+    border: 2px solid var(--text);
+    background: var(--card);
+    color: var(--text);
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+.button-ack:hover:not(:disabled) { background: var(--text); color: #fff; }
+
+.latest-card .ack-status { margin-top: 1rem; }
+.latest-card .button-ack { padding: 0.6rem 1.4rem; font-size: 1rem; }
+.latest-card .ack-done { font-size: 1rem; }
+.latest-more { margin: 0.75rem 0 0; font-weight: 600; }
+.latest-all-ack { margin: 0 0 0.75rem; font-weight: 700; color: var(--green); }
+.latest-card.all-acknowledged { background: var(--card); border-left-color: var(--border); }
+.latest-card.all-acknowledged .latest-need,
+.latest-card.all-acknowledged .latest-message { color: var(--muted); }
+.notice-error { background: var(--red-bg); color: var(--red); font-weight: 600; }
+
+@media (max-width: 520px) {
+    .history-item > .ack-status { justify-self: start; margin-top: 0.3rem; }
 }
