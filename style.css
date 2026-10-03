@@ -1,0 +1,144 @@
+:root {
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --text: #1d2430;
+    --muted: #5f6b7a;
+    --border: #dde2e8;
+    --green: #1e9e57;
+    --green-bg: #e8f7ee;
+    --red: #d63a3a;
+    --red-bg: #fdecec;
+    --blue: #2f6fe0;
+    --blue-bg: #eaf1fd;
+    --warn-bg: #fff4dc;
+    --warn: #8a5a00;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.4;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 1rem 1.25rem;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+}
+
+.header h1 { margin: 0; font-size: 1.4rem; letter-spacing: 0.08em; }
+.subtitle { margin: 0; color: var(--muted); }
+
+.connection {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+}
+.connection.online { background: var(--green-bg); color: var(--green); }
+.connection.offline { background: var(--red-bg); color: var(--red); }
+
+.main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 1.25rem;
+}
+
+h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 1.5rem 0 0.6rem;
+}
+
+.notice {
+    margin: 0 0 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background: var(--blue-bg);
+    color: var(--text);
+}
+.notice-warning { background: var(--warn-bg); color: var(--warn); font-weight: 600; }
+
+.status {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: var(--muted);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+.status p { margin: 0.25rem 0; }
+.status-error { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+
+/* Latest alert */
+.latest-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 10px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+}
+.latest-need { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.05em; }
+.latest-message { font-size: 1.9rem; font-weight: 700; margin: 0.5rem 0 1rem; }
+.latest-detail { margin: 0.2rem 0; color: var(--muted); }
+
+.latest-card.need-green { border-left-color: var(--green); background: var(--green-bg); }
+.latest-card.need-red   { border-left-color: var(--red);   background: var(--red-bg); }
+.latest-card.need-blue  { border-left-color: var(--blue);  background: var(--blue-bg); }
+.need-green .latest-need { color: var(--green); }
+.need-red   .latest-need { color: var(--red); }
+.need-blue  .latest-need { color: var(--blue); }
+
+/* History */
+.history-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.history-item {
+    display: grid;
+    grid-template-columns: 8rem 1fr auto;
+    grid-template-areas:
+        "need message time"
+        "need pressure time";
+    gap: 0.15rem 1rem;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-left: 5px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+.history-item:last-child { border-bottom: none; }
+.history-item.need-green { border-left-color: var(--green); }
+.history-item.need-red   { border-left-color: var(--red); }
+.history-item.need-blue  { border-left-color: var(--blue); }
+
+.history-need     { grid-area: need; font-weight: 600; }
+.history-message  { grid-area: message; }
+.history-pressure { grid-area: pressure; color: var(--muted); font-size: 0.85rem; }
+.history-time     { grid-area: time; color: var(--muted); font-size: 0.85rem; text-align: right; }
+
+@media (max-width: 520px) {
+    .latest-message { font-size: 1.5rem; }
+    .history-item {
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "need time"
+            "message message"
+            "pressure pressure";
+    }
+}

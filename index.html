@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GripSense — Caretaker Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div>
+            <h1>GRIPSENSE</h1>
+            <p class="subtitle">Caretaker Dashboard</p>
+        </div>
+        <span id="connection" class="connection offline">Not connected</span>
+    </header>
+
+    <main class="main">
+        <div id="notices"></div>
+
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+
+        <section id="latest" hidden aria-live="assertive">
+            <h2>Latest Patient Alert</h2>
+            <div id="latest-card" class="latest-card"></div>
+        </section>
+
+        <section id="history" hidden>
+            <h2>Event History</h2>
+            <ol id="history-list" class="history-list"></ol>
+        </section>
+    </main>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
