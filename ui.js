@@ -20,6 +20,10 @@ const el = {
     loginPassword: document.getElementById("login-password"),
     loginButton: document.getElementById("login-button"),
     loginError: document.getElementById("login-error"),
+    patientForm: document.getElementById("patient-form"),
+    patientInput: document.getElementById("patient-name"),
+    patientSave: document.getElementById("patient-save"),
+    patientFeedback: document.getElementById("patient-feedback"),
     connection: document.getElementById("connection"),
     notices: document.getElementById("notices"),
     status: document.getElementById("status"),
@@ -104,6 +108,38 @@ export function setUser(user) {
     el.userArea.hidden = !user;
     el.userEmail.textContent = user ? user.email : "";
     el.loginPassword.value = "";
+    el.patientInput.value = "";
+    syncedPatientName = undefined;
+    setPatientFeedback("");
+}
+
+export function onPatientSave(handler) {
+    el.patientForm.addEventListener("submit", event => {
+        event.preventDefault();
+        handler(el.patientInput.value);
+    });
+    el.patientInput.addEventListener("input", () => setPatientFeedback(""));
+}
+
+export function setPatientBusy(busy) {
+    el.patientSave.disabled = busy;
+    el.patientSave.textContent = busy ? "Saving..." : "Save";
+}
+
+// type: "success" | "error"; an empty message hides the feedback.
+export function setPatientFeedback(message, type = "success") {
+    el.patientFeedback.textContent = message;
+    el.patientFeedback.className = `form-feedback ${type}`;
+    el.patientFeedback.hidden = !message;
+}
+
+// Fill the input with the stored name only when the stored name changes,
+// so a caretaker's unsaved typing is not overwritten by unrelated updates.
+let syncedPatientName;
+function syncPatientInput(state) {
+    if (!state.patientNameLoaded || state.patientName === syncedPatientName) return;
+    syncedPatientName = state.patientName;
+    el.patientInput.value = state.patientName ?? "";
 }
 
 export function onLoginSubmit(handler) {
@@ -132,6 +168,7 @@ export function render(state) {
     el.connection.className = state.connected ? "connection online" : "connection offline";
 
     renderNotices(state);
+    syncPatientInput(state);
 
     const hasEvents = state.events.length > 0;
     el.latest.hidden = !hasEvents;

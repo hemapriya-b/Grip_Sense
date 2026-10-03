@@ -101,6 +101,35 @@ button:disabled { opacity: 0.6; cursor: default; }
     color: var(--red);
 }
 
+/* Patient profile */
+.patient-card {
+    margin-bottom: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+.patient-card label { display: block; margin-bottom: 0.4rem; font-weight: 600; }
+.patient-row { display: flex; gap: 0.5rem; }
+.patient-row input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.6rem 0.7rem;
+    font: inherit;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+.button-save {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    background: var(--text);
+    color: #fff;
+    font-weight: 600;
+}
+.form-feedback { margin: 0.6rem 0 0; font-size: 0.9rem; }
+.form-feedback.success { color: var(--green); }
+.form-feedback.error { color: var(--red); }
+
 .connection {
     font-size: 0.85rem;
     padding: 0.3rem 0.7rem;

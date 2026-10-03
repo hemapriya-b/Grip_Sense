@@ -42,6 +42,17 @@
         </section>
 
         <div id="dashboard-view" hidden>
+            <section class="patient-card">
+                <form id="patient-form" novalidate>
+                    <label for="patient-name">Patient Name</label>
+                    <div class="patient-row">
+                        <input id="patient-name" type="text" maxlength="50" autocomplete="off">
+                        <button id="patient-save" type="submit" class="button-save">Save</button>
+                    </div>
+                    <p id="patient-feedback" class="form-feedback" role="status" hidden></p>
+                </form>
+            </section>
+
             <div id="notices"></div>
 
             <div id="status" class="status" role="status" aria-live="polite"></div>

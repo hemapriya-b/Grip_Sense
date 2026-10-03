@@ -5,14 +5,27 @@ import {
     logout,
     listenToEvents,
     listenToPatientName,
-    listenToConnection
+    listenToConnection,
+    savePatientName
 } from "./firebase.js";
 import { parseEvents } from "./events.js";
-import { render, showView, setUser, onLoginSubmit, onLogoutClick, setLoginBusy, setLoginError } from "./ui.js";
+import {
+    render,
+    showView,
+    setUser,
+    onLoginSubmit,
+    onLogoutClick,
+    setLoginBusy,
+    setLoginError,
+    onPatientSave,
+    setPatientBusy,
+    setPatientFeedback
+} from "./ui.js";
 
 // If no data has arrived after this long, show the error state instead of
 // an endless loading message (Firebase does not report "offline" as an error).
 const LOAD_TIMEOUT_MS = 10000;
+const PATIENT_NAME_MAX_LENGTH = 50;
 
 const initialState = () => ({
     events: [],
@@ -102,6 +115,42 @@ onLoginSubmit(async (email, password) => {
         setLoginError(loginErrorMessage(error));
     } finally {
         setLoginBusy(false);
+    }
+});
+
+// Returns an error message, or null when the name is acceptable.
+function validatePatientName(name) {
+    if (!name) return "Please enter the patient name.";
+    if (name.length > PATIENT_NAME_MAX_LENGTH) {
+        return `Patient name must be ${PATIENT_NAME_MAX_LENGTH} characters or fewer.`;
+    }
+    if (/\p{Cc}/u.test(name)) return "Patient name contains invalid characters.";
+    return null;
+}
+
+onPatientSave(async rawName => {
+    const name = rawName.trim();
+    const problem = validatePatientName(name);
+    if (problem) {
+        setPatientFeedback(problem, "error");
+        return;
+    }
+    // Firebase would otherwise queue the write silently until reconnecting.
+    if (!state.connected) {
+        setPatientFeedback("Not connected. Please check your internet connection and try again.", "error");
+        return;
+    }
+
+    setPatientFeedback("");
+    setPatientBusy(true);
+    try {
+        await savePatientName(name);
+        setPatientFeedback(`Patient name saved: ${name}`, "success");
+    } catch (error) {
+        console.error("GripSense: saving patient name failed", error);
+        setPatientFeedback(`Could not save the patient name (${error.code || error.message}).`, "error");
+    } finally {
+        setPatientBusy(false);
     }
 });
 

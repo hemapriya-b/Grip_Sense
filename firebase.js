@@ -6,7 +6,8 @@ import {
     query,
     orderByKey,
     limitToLast,
-    onValue
+    onValue,
+    set
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
 import {
     getAuth,
@@ -48,6 +49,10 @@ export function listenToEvents(onData, onError) {
 // Calls onData(nameOrNull) whenever /patient/name changes.
 export function listenToPatientName(onData, onError) {
     return onValue(ref(db, "patient/name"), snapshot => onData(snapshot.val()), onError);
+}
+
+export function savePatientName(name) {
+    return set(ref(db, "patient/name"), name);
 }
 
 // Calls onChange(true/false) when the browser's connection to Firebase changes.
