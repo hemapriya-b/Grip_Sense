@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GripSense — Caretaker Dashboard</title>
+    <script>
+        // Apply the saved theme before the page paints, to avoid a light/dark flash.
+        document.documentElement.dataset.theme = localStorage.getItem("gripsense-theme")
+            || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    </script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,8 +19,9 @@
         </div>
         <div class="header-right">
             <span id="connection" class="connection offline" hidden>Not connected</span>
+            <button id="theme-toggle" type="button" class="button-secondary"></button>
             <div id="user-area" class="user-area" hidden>
-                <span id="user-email" class="user-email"></span>
+                <span id="user-name" class="user-name"></span>
                 <button id="logout-button" type="button" class="button-secondary">Log out</button>
             </div>
         </div>
@@ -23,21 +29,96 @@
 
     <main class="main">
         <div id="checking-view" class="status" role="status">
-            <p>Loading...</p>
+            <p id="checking-message">Loading...</p>
+            <button id="retry-button" type="button" class="button-secondary" hidden>Try again</button>
         </div>
 
-        <section id="login-view" class="login-card" hidden>
+        <section id="login-view" class="form-card" hidden>
             <h2>Caretaker Login</h2>
             <form id="login-form" novalidate>
                 <label for="login-email">Email</label>
-                <input id="login-email" type="email" autocomplete="username" required>
+                <input id="login-email" data-field="email" type="email" autocomplete="username" required>
 
                 <label for="login-password">Password</label>
-                <input id="login-password" type="password" autocomplete="current-password" required>
+                <input id="login-password" data-field="password" type="password" autocomplete="current-password" required>
 
-                <p id="login-error" class="login-error" role="alert" hidden></p>
+                <p id="login-error" class="form-error" role="alert" hidden></p>
 
                 <button id="login-button" type="submit" class="button-primary">Login</button>
+            </form>
+            <p class="form-switch">New caretaker? <button id="show-signup" type="button" class="link-button">Create account</button></p>
+        </section>
+
+        <section id="signup-view" class="form-card" hidden>
+            <h2>Create Caretaker Account</h2>
+            <form id="signup-form" novalidate>
+                <label for="signup-username">Username</label>
+                <input id="signup-username" data-field="username" type="text" maxlength="50" autocomplete="nickname" aria-describedby="signup-username-error">
+                <p id="signup-username-error" class="field-error" hidden></p>
+
+                <label for="signup-email">Email</label>
+                <input id="signup-email" data-field="email" type="email" autocomplete="email" aria-describedby="signup-email-error">
+                <p id="signup-email-error" class="field-error" hidden></p>
+
+                <label for="signup-password">Password</label>
+                <input id="signup-password" data-field="password" type="password" autocomplete="new-password" aria-describedby="signup-password-error signup-password-hint">
+                <p id="signup-password-hint" class="field-hint">At least 8 characters.</p>
+                <p id="signup-password-error" class="field-error" hidden></p>
+
+                <label for="signup-confirm">Confirm Password</label>
+                <input id="signup-confirm" data-field="confirmPassword" type="password" autocomplete="new-password" aria-describedby="signup-confirm-error">
+                <p id="signup-confirm-error" class="field-error" hidden></p>
+
+                <p id="signup-error" class="form-error" role="alert" hidden></p>
+
+                <button id="signup-button" type="submit" class="button-primary">Create Account</button>
+            </form>
+            <p class="form-switch"><button id="show-login" type="button" class="link-button">Back to Login</button></p>
+        </section>
+
+        <section id="username-view" class="form-card" hidden>
+            <h2>Welcome</h2>
+            <p class="form-intro">Please choose the username other caretakers will see.</p>
+            <form id="username-form" novalidate>
+                <label for="username-input">Username</label>
+                <input id="username-input" data-field="username" type="text" maxlength="50" autocomplete="nickname" aria-describedby="username-input-error">
+                <p id="username-input-error" class="field-error" hidden></p>
+
+                <p id="username-error" class="form-error" role="alert" hidden></p>
+
+                <button id="username-button" type="submit" class="button-primary">Continue</button>
+            </form>
+        </section>
+
+        <section id="patient-setup-view" class="form-card" hidden>
+            <h2>Patient Profile</h2>
+            <p class="form-intro">Enter the patient's details. All caretakers share this profile.</p>
+            <form id="patient-setup-form" novalidate>
+                <label for="setup-name">Patient Name</label>
+                <input id="setup-name" data-field="name" type="text" maxlength="50" autocomplete="off" aria-describedby="setup-name-error">
+                <p id="setup-name-error" class="field-error" hidden></p>
+
+                <label for="setup-age">Age</label>
+                <input id="setup-age" data-field="age" type="number" inputmode="numeric" min="0" max="120" step="1" aria-describedby="setup-age-error">
+                <p id="setup-age-error" class="field-error" hidden></p>
+
+                <label for="setup-gender">Gender</label>
+                <select id="setup-gender" data-field="gender" aria-describedby="setup-gender-error">
+                    <option value="">Select gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                    <option>Prefer not to say</option>
+                </select>
+                <p id="setup-gender-error" class="field-error" hidden></p>
+
+                <label for="setup-condition">Condition</label>
+                <textarea id="setup-condition" data-field="condition" rows="3" maxlength="300" placeholder="e.g. Post-stroke, limited mobility" aria-describedby="setup-condition-error"></textarea>
+                <p id="setup-condition-error" class="field-error" hidden></p>
+
+                <p id="patient-setup-error" class="form-error" role="alert" hidden></p>
+
+                <button id="patient-setup-button" type="submit" class="button-primary">Save Patient Profile</button>
             </form>
         </section>
 
@@ -68,6 +149,13 @@
             </section>
         </div>
     </main>
+
+    <dialog id="event-dialog" class="event-dialog" aria-labelledby="event-detail-title">
+        <div id="event-detail"></div>
+        <form method="dialog" class="dialog-actions">
+            <button type="submit" class="button-secondary button-close">Close</button>
+        </form>
+    </dialog>
 
     <script type="module" src="app.js"></script>
 </body>

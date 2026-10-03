@@ -7,6 +7,7 @@ import {
     orderByKey,
     limitToLast,
     onValue,
+    get,
     set,
     update,
     serverTimestamp
@@ -15,6 +16,7 @@ import {
     getAuth,
     onAuthStateChanged,
     signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 import { firebaseConfig } from "./firebase-config.js";
@@ -38,6 +40,31 @@ export function login(email, password) {
 
 export function logout() {
     return signOut(auth);
+}
+
+// Creates the Firebase Authentication account. The password goes only to
+// Firebase Authentication and is never written to the Realtime Database.
+export function signup(email, password) {
+    return createUserWithEmailAndPassword(auth, email, password);
+}
+
+// One-time reads used for routing after login.
+export async function getCaretaker(uid) {
+    return (await get(ref(db, `caretakers/${uid}`))).val();
+}
+
+export async function getPatient() {
+    return (await get(ref(db, "patient"))).val();
+}
+
+// The caretaker profile is keyed by the Firebase Authentication UID.
+export function saveCaretaker(uid, { username, email }) {
+    return set(ref(db, `caretakers/${uid}`), { username, email, createdAt: serverTimestamp() });
+}
+
+// update() keeps any other /patient fields; /patient/name stays where it was.
+export function savePatientProfile({ name, age, gender, condition }) {
+    return update(ref(db, "patient"), { name, age, gender, condition, updatedAt: serverTimestamp() });
 }
 
 // Calls onData(rawEventsObject) whenever /events changes.

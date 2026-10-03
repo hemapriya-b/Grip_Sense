@@ -20,6 +20,7 @@ Real-time web dashboard for GripSense patient alerts stored in Firebase Realtime
 |---|---|
 | `firebase.js` | Firebase initialization and real-time listeners |
 | `events.js` | Action constants, need mapping, event validation and sorting |
+| `profile.js` | Signup, username and patient-profile validation |
 | `ui.js` | Rendering latest alert, history, loading/empty/error states |
 | `app.js` | Application state; connects data to the UI |
 
@@ -27,4 +28,6 @@ Real-time web dashboard for GripSense patient alerts stored in Firebase Realtime
 
 The ESP32 writes events to `/events` with `action` (`LIGHT_PRESS`, `HARD_PRESS`, `DOUBLE_SQUEEZE`),
 `maxPressure` and `timestamp` (epoch ms). The dashboard maps actions to patient needs in `events.js`;
-the patient name is read from `/patient/name`.
+the shared patient profile is `/patient` (`name`, `age`, `gender`, `condition`, `updatedAt`), and each
+caretaker's profile is `/caretakers/{uid}` (`username`, `email`, `createdAt`). Passwords are handled only
+by Firebase Authentication.

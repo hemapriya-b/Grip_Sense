@@ -4,34 +4,51 @@ import { NEED_MAPPINGS, selectLatestAlert } from "./events.js";
 
 // Fixed display format ("03 Oct 2026, 9:48 PM"); the time zone is still the browser's own.
 const dateFormat = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+const longDateFormat = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "long", year: "numeric" });
 const timeFormat = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+
+const THEME_KEY = "gripsense-theme";
+const $ = id => document.getElementById(id);
 
 const el = {
     views: {
-        checking: document.getElementById("checking-view"),
-        login: document.getElementById("login-view"),
-        dashboard: document.getElementById("dashboard-view")
+        checking: $("checking-view"),
+        login: $("login-view"),
+        signup: $("signup-view"),
+        username: $("username-view"),
+        patientSetup: $("patient-setup-view"),
+        dashboard: $("dashboard-view")
     },
-    userArea: document.getElementById("user-area"),
-    userEmail: document.getElementById("user-email"),
-    logoutButton: document.getElementById("logout-button"),
-    loginForm: document.getElementById("login-form"),
-    loginEmail: document.getElementById("login-email"),
-    loginPassword: document.getElementById("login-password"),
-    loginButton: document.getElementById("login-button"),
-    loginError: document.getElementById("login-error"),
-    patientForm: document.getElementById("patient-form"),
-    patientInput: document.getElementById("patient-name"),
-    patientSave: document.getElementById("patient-save"),
-    patientFeedback: document.getElementById("patient-feedback"),
-    connection: document.getElementById("connection"),
-    notices: document.getElementById("notices"),
-    status: document.getElementById("status"),
-    latest: document.getElementById("latest"),
-    latestCard: document.getElementById("latest-card"),
-    history: document.getElementById("history"),
-    historyList: document.getElementById("history-list")
+    forms: {
+        login: { form: $("login-form"), button: $("login-button"), error: $("login-error") },
+        signup: { form: $("signup-form"), button: $("signup-button"), error: $("signup-error") },
+        username: { form: $("username-form"), button: $("username-button"), error: $("username-error") },
+        patientSetup: { form: $("patient-setup-form"), button: $("patient-setup-button"), error: $("patient-setup-error") }
+    },
+    checkingMessage: $("checking-message"),
+    retryButton: $("retry-button"),
+    themeToggle: $("theme-toggle"),
+    userArea: $("user-area"),
+    userName: $("user-name"),
+    logoutButton: $("logout-button"),
+    patientForm: $("patient-form"),
+    patientInput: $("patient-name"),
+    patientSave: $("patient-save"),
+    patientFeedback: $("patient-feedback"),
+    connection: $("connection"),
+    notices: $("notices"),
+    status: $("status"),
+    latest: $("latest"),
+    latestCard: $("latest-card"),
+    history: $("history"),
+    historyList: $("history-list"),
+    eventDialog: $("event-dialog"),
+    eventDetail: $("event-detail")
 };
+
+// Last rendered dashboard state, so the detail dialog can re-render on updates.
+let lastState = null;
+let openEventId = null;
 
 // "03 Oct 2026, 9:48 PM" in the browser's local time zone.
 export function formatDateTime(timestamp) {
@@ -57,6 +74,15 @@ function messageFor(event, patientName) {
     return patientName ? NEED_MAPPINGS[event.action].message(patientName) : null;
 }
 
+function makeAckButton(event, state, className = "button-ack") {
+    const pending = state.acknowledging.has(event.id);
+    const button = make("button", className, pending ? "Saving..." : "Acknowledge");
+    button.type = "button";
+    button.dataset.ackId = event.id;
+    button.disabled = pending;
+    return button;
+}
+
 // "New" + Acknowledge button, or "Acknowledged · <time>".
 function makeAckStatus(event, state) {
     const status = make("span", "ack-status");
@@ -67,12 +93,7 @@ function makeAckStatus(event, state) {
             : "Acknowledged";
         return status;
     }
-    const pending = state.acknowledging.has(event.id);
-    const button = make("button", "button-ack", pending ? "Saving..." : "Acknowledge");
-    button.type = "button";
-    button.dataset.ackId = event.id;
-    button.disabled = pending;
-    status.append(make("span", "badge-new", "New"), button);
+    status.append(make("span", "badge-new", "New"), makeAckButton(event, state));
     return status;
 }
 
@@ -103,18 +124,93 @@ function renderHistory(state) {
         const item = make("li", `history-item need-${need.color}${event.acknowledged ? " is-acknowledged" : ""}`);
         item.dataset.action = event.action;
         item.dataset.eventId = event.id;
-        item.append(
+
+        // The whole row opens details; this button makes it keyboard-accessible.
+        const open = make("button", "history-open");
+        open.type = "button";
+        open.setAttribute("aria-haspopup", "dialog");
+        const time = make("time", "", formatDateTime(event.timestamp));
+        time.dateTime = new Date(event.timestamp).toISOString();
+        const meta = make("span", "history-meta");
+        meta.append(time, ` · Pressure ${event.maxPressure}`);
+        open.append(
             make("span", "history-need", `${need.icon} ${need.label}`),
             make("span", "history-message", messageFor(event, state.patientName) ?? ""),
-            make("span", "history-pressure", `Pressure ${event.maxPressure}`),
-            make("time", "history-time", formatDateTime(event.timestamp)),
-            makeAckStatus(event, state)
+            meta
         );
-        item.querySelector("time").dateTime = new Date(event.timestamp).toISOString();
+
+        item.append(open, makeAckStatus(event, state));
         return item;
     });
     el.historyList.replaceChildren(...items);
 }
+
+function detailRow(label, value) {
+    const row = make("div", "detail-row");
+    const dd = make("dd");
+    if (value instanceof Node) dd.append(value); else dd.textContent = value;
+    row.append(make("dt", "", label), dd);
+    return row;
+}
+
+// Read-only view of one event; only the Acknowledge button writes anything.
+function renderEventDetail() {
+    const event = lastState?.events.find(e => e.id === openEventId);
+    if (!event) {
+        closeEventDetail();
+        return;
+    }
+    const need = NEED_MAPPINGS[event.action];
+    const date = new Date(event.timestamp);
+
+    const header = make("div", `detail-header need-${need.color}`);
+    const title = make("h3", "detail-title", `${need.icon} ${need.label}`);
+    title.id = "event-detail-title";
+    header.append(title, make("p", "detail-message", messageFor(event, lastState.patientName) ?? "Please set the patient name."));
+
+    const status = make("span", event.acknowledged ? "detail-status done" : "detail-status new",
+        event.acknowledged ? "● Acknowledged" : "● NEW");
+
+    const list = make("dl", "detail-list");
+    list.append(
+        detailRow("Event", event.action),
+        detailRow("Maximum Pressure", String(event.maxPressure)),
+        detailRow("Date", longDateFormat.format(date)),
+        detailRow("Time", timeFormat.format(date)),
+        detailRow("Status", status)
+    );
+    if (event.acknowledged && event.acknowledgedAt) {
+        list.append(detailRow("Acknowledged at", formatAckTime(event.timestamp, event.acknowledgedAt)));
+    }
+
+    el.eventDetail.replaceChildren(header, list);
+    if (lastState.ackError) el.eventDetail.append(make("p", "notice notice-error", lastState.ackError));
+    if (!event.acknowledged) {
+        el.eventDetail.append(makeAckButton(event, lastState, "button-ack button-ack-large"));
+    }
+}
+
+function openEventDetail(eventId) {
+    openEventId = eventId;
+    renderEventDetail();
+    if (openEventId && !el.eventDialog.open) el.eventDialog.showModal();
+}
+
+function closeEventDetail() {
+    openEventId = null;
+    if (el.eventDialog.open) el.eventDialog.close();
+}
+
+el.eventDialog.addEventListener("close", () => { openEventId = null; });
+// Clicking the dimmed backdrop (the dialog element itself) closes it.
+el.eventDialog.addEventListener("click", event => {
+    if (event.target === el.eventDialog) closeEventDetail();
+});
+el.historyList.addEventListener("click", event => {
+    if (event.target.closest("[data-ack-id]")) return;
+    const item = event.target.closest("[data-event-id]");
+    if (item) openEventDetail(item.dataset.eventId);
+});
 
 function renderNotices(state) {
     const notices = [];
@@ -132,20 +228,115 @@ function showStatus(text, isError = false) {
     el.status.hidden = false;
 }
 
-// Show exactly one of: "checking" (login state unknown), "login", "dashboard".
+// ---- Theme ----
+
+function applyThemeLabel() {
+    const dark = document.documentElement.dataset.theme === "dark";
+    el.themeToggle.textContent = dark ? "☀️ Light" : "🌙 Dark";
+    el.themeToggle.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+}
+
+el.themeToggle.addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem(THEME_KEY, next);
+    applyThemeLabel();
+});
+applyThemeLabel();
+
+// ---- Views and forms ----
+
+// Show exactly one view: checking, login, signup, username, patientSetup, dashboard.
 export function showView(name) {
     for (const [key, view] of Object.entries(el.views)) view.hidden = key !== name;
     el.connection.hidden = name !== "dashboard";
+    if (name !== "dashboard") closeEventDetail();
+    for (const input of document.querySelectorAll("input[type=password]")) input.value = "";
+    const firstInput = el.views[name].querySelector("input, select, textarea");
+    if (firstInput && name !== "dashboard") firstInput.focus();
 }
 
-export function setUser(user) {
+export function setChecking(message, showRetry = false) {
+    el.checkingMessage.textContent = message;
+    el.views.checking.classList.toggle("status-error", showRetry);
+    el.retryButton.hidden = !showRetry;
+}
+
+export function onRetryClick(handler) {
+    el.retryButton.addEventListener("click", handler);
+}
+
+$("show-signup").addEventListener("click", () => { clearForm("signup"); showView("signup"); });
+$("show-login").addEventListener("click", () => { clearForm("login"); showView("login"); });
+
+function fieldsOf(name) {
+    return el.forms[name].form.querySelectorAll("[data-field]");
+}
+
+// Calls handler({ fieldName: value, ... }) when the named form is submitted.
+export function onFormSubmit(name, handler) {
+    el.forms[name].form.addEventListener("submit", event => {
+        event.preventDefault();
+        const values = {};
+        for (const field of fieldsOf(name)) {
+            values[field.dataset.field] = field.type === "password" ? field.value : field.value.trim();
+        }
+        handler(values);
+    });
+}
+
+// errors: { fieldName: message }. Fields without an entry are cleared.
+export function setFieldErrors(name, errors) {
+    let first = null;
+    for (const field of fieldsOf(name)) {
+        const message = errors[field.dataset.field] ?? "";
+        const errorEl = $(`${field.id}-error`);
+        if (errorEl) {
+            errorEl.textContent = message;
+            errorEl.hidden = !message;
+        }
+        field.toggleAttribute("aria-invalid", Boolean(message));
+        if (message && !first) first = field;
+    }
+    first?.focus();
+}
+
+export function setFormError(name, message) {
+    const { error } = el.forms[name];
+    error.textContent = message;
+    error.hidden = !message;
+}
+
+export function setFormBusy(name, busy, busyText) {
+    const { button } = el.forms[name];
+    button.dataset.idleText ??= button.textContent;
+    button.disabled = busy;
+    button.textContent = busy ? busyText : button.dataset.idleText;
+}
+
+function clearForm(name) {
+    setFieldErrors(name, {});
+    setFormError(name, "");
+}
+
+// Pre-fills the patient setup form with whatever is already stored (e.g. an old /patient/name).
+export function fillPatientSetup(patient) {
+    clearForm("patientSetup");
+    for (const field of fieldsOf("patientSetup")) {
+        const value = patient?.[field.dataset.field];
+        field.value = value === undefined || value === null ? "" : String(value);
+    }
+}
+
+export function setUser(user, username) {
     el.userArea.hidden = !user;
-    el.userEmail.textContent = user ? user.email : "";
-    el.loginPassword.value = "";
+    el.userName.textContent = user ? (username || user.email) : "";
     el.patientInput.value = "";
     syncedPatientName = undefined;
     setPatientFeedback("");
 }
+
+// ---- Dashboard patient name form (Step 8) ----
 
 export function onPatientSave(handler) {
     el.patientForm.addEventListener("submit", event => {
@@ -176,16 +367,9 @@ function syncPatientInput(state) {
     el.patientInput.value = state.patientName ?? "";
 }
 
-export function onLoginSubmit(handler) {
-    el.loginForm.addEventListener("submit", event => {
-        event.preventDefault();
-        handler(el.loginEmail.value.trim(), el.loginPassword.value);
-    });
-}
-
 // One listener per container; buttons are re-created on every render.
 export function onAcknowledgeClick(handler) {
-    for (const container of [el.latestCard, el.historyList]) {
+    for (const container of [el.latestCard, el.historyList, el.eventDetail]) {
         container.addEventListener("click", event => {
             const button = event.target.closest("[data-ack-id]");
             if (button && !button.disabled) handler(button.dataset.ackId);
@@ -197,17 +381,8 @@ export function onLogoutClick(handler) {
     el.logoutButton.addEventListener("click", handler);
 }
 
-export function setLoginBusy(busy) {
-    el.loginButton.disabled = busy;
-    el.loginButton.textContent = busy ? "Logging in..." : "Login";
-}
-
-export function setLoginError(message) {
-    el.loginError.textContent = message;
-    el.loginError.hidden = !message;
-}
-
 export function render(state) {
+    lastState = state;
     el.connection.textContent = state.connected ? "Connected to Firebase" : "Not connected";
     el.connection.className = state.connected ? "connection online" : "connection offline";
 
@@ -229,4 +404,5 @@ export function render(state) {
         renderLatest(state);
         renderHistory(state);
     }
+    if (openEventId) renderEventDetail();
 }
