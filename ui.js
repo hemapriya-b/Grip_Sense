@@ -7,6 +7,19 @@ const dateFormat = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "sh
 const timeFormat = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
 
 const el = {
+    views: {
+        checking: document.getElementById("checking-view"),
+        login: document.getElementById("login-view"),
+        dashboard: document.getElementById("dashboard-view")
+    },
+    userArea: document.getElementById("user-area"),
+    userEmail: document.getElementById("user-email"),
+    logoutButton: document.getElementById("logout-button"),
+    loginForm: document.getElementById("login-form"),
+    loginEmail: document.getElementById("login-email"),
+    loginPassword: document.getElementById("login-password"),
+    loginButton: document.getElementById("login-button"),
+    loginError: document.getElementById("login-error"),
     connection: document.getElementById("connection"),
     notices: document.getElementById("notices"),
     status: document.getElementById("status"),
@@ -79,6 +92,39 @@ function showStatus(text, isError = false) {
     el.status.replaceChildren(...text.split("\n").map(line => make("p", "", line)));
     el.status.className = isError ? "status status-error" : "status";
     el.status.hidden = false;
+}
+
+// Show exactly one of: "checking" (login state unknown), "login", "dashboard".
+export function showView(name) {
+    for (const [key, view] of Object.entries(el.views)) view.hidden = key !== name;
+    el.connection.hidden = name !== "dashboard";
+}
+
+export function setUser(user) {
+    el.userArea.hidden = !user;
+    el.userEmail.textContent = user ? user.email : "";
+    el.loginPassword.value = "";
+}
+
+export function onLoginSubmit(handler) {
+    el.loginForm.addEventListener("submit", event => {
+        event.preventDefault();
+        handler(el.loginEmail.value.trim(), el.loginPassword.value);
+    });
+}
+
+export function onLogoutClick(handler) {
+    el.logoutButton.addEventListener("click", handler);
+}
+
+export function setLoginBusy(busy) {
+    el.loginButton.disabled = busy;
+    el.loginButton.textContent = busy ? "Logging in..." : "Login";
+}
+
+export function setLoginError(message) {
+    el.loginError.textContent = message;
+    el.loginError.hidden = !message;
 }
 
 export function render(state) {

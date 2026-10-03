@@ -12,23 +12,50 @@
             <h1>GRIPSENSE</h1>
             <p class="subtitle">Caretaker Dashboard</p>
         </div>
-        <span id="connection" class="connection offline">Not connected</span>
+        <div class="header-right">
+            <span id="connection" class="connection offline" hidden>Not connected</span>
+            <div id="user-area" class="user-area" hidden>
+                <span id="user-email" class="user-email"></span>
+                <button id="logout-button" type="button" class="button-secondary">Log out</button>
+            </div>
+        </div>
     </header>
 
     <main class="main">
-        <div id="notices"></div>
+        <div id="checking-view" class="status" role="status">
+            <p>Loading...</p>
+        </div>
 
-        <div id="status" class="status" role="status" aria-live="polite"></div>
+        <section id="login-view" class="login-card" hidden>
+            <h2>Caretaker Login</h2>
+            <form id="login-form" novalidate>
+                <label for="login-email">Email</label>
+                <input id="login-email" type="email" autocomplete="username" required>
 
-        <section id="latest" hidden aria-live="assertive">
-            <h2>Latest Patient Alert</h2>
-            <div id="latest-card" class="latest-card"></div>
+                <label for="login-password">Password</label>
+                <input id="login-password" type="password" autocomplete="current-password" required>
+
+                <p id="login-error" class="login-error" role="alert" hidden></p>
+
+                <button id="login-button" type="submit" class="button-primary">Login</button>
+            </form>
         </section>
 
-        <section id="history" hidden>
-            <h2>Event History</h2>
-            <ol id="history-list" class="history-list"></ol>
-        </section>
+        <div id="dashboard-view" hidden>
+            <div id="notices"></div>
+
+            <div id="status" class="status" role="status" aria-live="polite"></div>
+
+            <section id="latest" hidden aria-live="assertive">
+                <h2>Latest Patient Alert</h2>
+                <div id="latest-card" class="latest-card"></div>
+            </section>
+
+            <section id="history" hidden>
+                <h2>Event History</h2>
+                <ol id="history-list" class="history-list"></ol>
+            </section>
+        </div>
     </main>
 
     <script type="module" src="app.js"></script>
