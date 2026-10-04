@@ -14,7 +14,18 @@ import {
     savePatientName,
     acknowledgeEvent
 } from "./firebase.js";
-import { parseEvents } from "./events.js";
+import { parseEvents, NEED_MAPPINGS } from "./events.js";
+import {
+    audioStatus,
+    unlockAudio,
+    playAlertSound,
+    stopAlertSound,
+    playingEventId,
+    notificationStatus,
+    requestNotificationPermission,
+    isAppInView,
+    showSystemNotification
+} from "./notify.js";
 import {
     validatePatientName,
     validateUsername,
@@ -37,7 +48,9 @@ import {
     onPatientSave,
     setPatientBusy,
     setPatientFeedback,
-    onAcknowledgeClick
+    onAcknowledgeClick,
+    onEnableSound,
+    onEnableNotifications
 } from "./ui.js";
 
 // If no data has arrived after this long, show the error state instead of
@@ -52,10 +65,19 @@ const initialState = () => ({
     connected: false,
     error: null,
     acknowledging: new Set(),   // event IDs with a save in progress
-    ackError: null
+    ackError: null,
+    newThisSession: new Set(),  // unacknowledged events that arrived after the dashboard loaded
+    audio: audioStatus(),
+    notifications: notificationStatus()
 });
 
 let state = initialState();
+
+// Per dashboard session: every event ID seen so far, and events whose sound has
+// already been played. Firebase re-sends the whole list on every change, so these
+// guarantee each event alerts at most once.
+let seenEventIds = new Set();
+let soundPlayedIds = new Set();
 let stopListeners = [];
 let loadTimer = null;
 
@@ -88,10 +110,24 @@ function startDataListeners() {
         if (!state.eventsLoaded) handleError(new Error("Timed out waiting for /events"));
     }, LOAD_TIMEOUT_MS);
 
+    seenEventIds = new Set();
+    soundPlayedIds = new Set();
+
     stopListeners = [
         listenToEvents(raw => {
             clearTimeout(loadTimer);
-            update({ events: parseEvents(raw), eventsLoaded: true, error: null });
+            const events = parseEvents(raw);
+            const isInitialLoad = !state.eventsLoaded;
+
+            // Events present at load are not "new": no sound, no notification.
+            const arrivals = events.filter(e => !seenEventIds.has(e.id));
+            arrivals.forEach(e => seenEventIds.add(e.id));
+            const newAlerts = isInitialLoad ? [] : arrivals.filter(e => !e.acknowledged);
+            newAlerts.forEach(e => state.newThisSession.add(e.id));
+
+            update({ events, eventsLoaded: true, error: null });
+            stopSoundIfResolved();
+            if (newAlerts.length > 0) announceNewAlerts(newAlerts);
         }, handleError),
 
         listenToPatientName(name => {
@@ -103,7 +139,63 @@ function startDataListeners() {
     ];
 }
 
+// ---- New-alert announcements ----
+
+function alertText(event) {
+    const need = NEED_MAPPINGS[event.action];
+    return `${need.icon} ${state.patientName ? need.message(state.patientName) : `${need.label} alert`}`;
+}
+
+// newAlerts is newest first. The full-screen alert itself is driven by render().
+function announceNewAlerts(newAlerts) {
+    playSoundOnce(newAlerts[0]);
+    if (!isAppInView()) {
+        for (const event of newAlerts) showSystemNotification(event.id, alertText(event));
+    }
+}
+
+async function playSoundOnce(event) {
+    if (soundPlayedIds.has(event.id)) return;
+    // Try to start audio; browsers that still require a click keep it locked.
+    if (audioStatus() !== "running") await unlockAudio();
+    if (soundPlayedIds.has(event.id)) return;
+    if (playAlertSound(event.id, event.action)) soundPlayedIds.add(event.id);
+    // Locked → shows "Enable Alert Sound"; running → settings show "On".
+    if (audioStatus() !== state.audio) update({ audio: audioStatus() });
+}
+
+// Stop the pattern as soon as its event is acknowledged (here or by another caretaker).
+function stopSoundIfResolved() {
+    const id = playingEventId();
+    if (id && !state.events.some(e => e.id === id && !e.acknowledged)) stopAlertSound();
+}
+
+// Any click/tap/key press lets the browser start audio (including the
+// "Enable Alert Sound" button). If the current alert arrived while sound was
+// blocked, it plays now — still at most once per event.
+async function unlockAudioFromGesture() {
+    if (audioStatus() === "running") return;
+    const status = await unlockAudio();
+    if (status !== state.audio) update({ audio: status });
+    const active = state.events.find(e => !e.acknowledged);
+    if (status === "running" && active && state.newThisSession.has(active.id)) playSoundOnce(active);
+}
+document.addEventListener("pointerdown", unlockAudioFromGesture, true);
+document.addEventListener("keydown", unlockAudioFromGesture, true);
+onEnableSound(unlockAudioFromGesture);
+
+onEnableNotifications(async () => {
+    const status = await requestNotificationPermission();
+    update({ notifications: status });
+});
+
+// Permission can be changed in browser settings while the page is open.
+document.addEventListener("visibilitychange", () => {
+    if (state.notifications !== notificationStatus()) update({ notifications: notificationStatus() });
+});
+
 function stopDataListeners() {
+    stopAlertSound();
     clearTimeout(loadTimer);
     stopListeners.forEach(stop => stop());
     stopListeners = [];

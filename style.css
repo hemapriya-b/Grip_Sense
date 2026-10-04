@@ -333,6 +333,89 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .dialog-actions { margin-top: 0.75rem; }
 .button-close { width: 100%; min-height: 2.75rem; font-size: 1rem; }
 
+/* ---- Alert settings strip ---- */
+.alert-settings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+.alert-setting { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+
+/* ---- Full-screen patient alert ----
+   Fixed colours matching the RGB LED; independent of the light/dark theme.
+   White text on each background has a contrast ratio above 5:1. */
+.alert-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 100dvh;
+    padding: max(1.5rem, env(safe-area-inset-top)) 1.5rem max(1.5rem, env(safe-area-inset-bottom));
+    overflow-y: auto;
+    text-align: center;
+    color: #ffffff;
+    background: #333333;
+}
+body[data-alert] { overflow: hidden; }
+body[data-alert="green"] .alert-screen { background: #13703d; }
+body[data-alert="blue"]  .alert-screen { background: #1d55c0; }
+body[data-alert="red"]   .alert-screen { background: #b71c1c; }
+
+.alert-tag {
+    margin: 0;
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    font-size: 0.9rem;
+}
+.alert-icon { font-size: clamp(4rem, 20vw, 7rem); line-height: 1.1; }
+.alert-label { margin: 0; font-size: clamp(1.1rem, 4.5vw, 1.5rem); font-weight: 800; letter-spacing: 0.15em; }
+.alert-message {
+    margin: 0.25rem 0 0.5rem;
+    max-width: 18em;
+    font-size: clamp(2rem, 9vw, 3.75rem);
+    font-weight: 800;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+}
+.alert-meta { margin: 0 0 1rem; font-size: 1rem; opacity: 0.9; }
+.alert-ack {
+    width: min(100%, 26rem);
+    min-height: 4.5rem;
+    border: none;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #111111;
+    font-size: clamp(1.3rem, 5.5vw, 1.7rem);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+.alert-ack:focus-visible { outline: 4px solid #ffffff; outline-offset: 4px; }
+.alert-more { margin: 0.75rem 0 0; min-height: 1.4em; font-weight: 700; font-size: 1.05rem; }
+.alert-more.is-error { padding: 0.4rem 0.8rem; border-radius: 8px; background: rgba(0, 0, 0, 0.3); }
+.alert-sound {
+    margin-top: 0.5rem;
+    min-height: 3rem;
+    padding: 0.5rem 1.25rem;
+    border: 2px solid #ffffff;
+    background: transparent;
+    color: #ffffff;
+    font-weight: 700;
+}
+
 /* ---- Mobile ---- */
 @media (max-width: 520px) {
     .latest-message { font-size: 1.5rem; }

@@ -43,8 +43,26 @@ const el = {
     history: $("history"),
     historyList: $("history-list"),
     eventDialog: $("event-dialog"),
-    eventDetail: $("event-detail")
+    eventDetail: $("event-detail"),
+    alert: {
+        screen: $("alert-screen"),
+        tag: $("alert-tag"),
+        icon: $("alert-icon"),
+        label: $("alert-label"),
+        message: $("alert-message"),
+        meta: $("alert-meta"),
+        ack: $("alert-ack"),
+        more: $("alert-more"),
+        sound: $("alert-sound")
+    },
+    soundStatus: $("sound-status"),
+    enableSound: $("enable-sound"),
+    notificationStatus: $("notification-status"),
+    enableNotifications: $("enable-notifications")
 };
+
+const APP_TITLE = document.title;
+let shownAlertId = null;
 
 // Last rendered dashboard state, so the detail dialog can re-render on updates.
 let lastState = null;
@@ -212,6 +230,77 @@ el.historyList.addEventListener("click", event => {
     if (item) openEventDetail(item.dataset.eventId);
 });
 
+// ---- Full-screen patient alert ----
+// Shown whenever an unacknowledged event exists; it overrides the light/dark theme.
+
+function hideAlertScreen() {
+    el.alert.screen.hidden = true;
+    delete document.body.dataset.alert;
+    document.title = APP_TITLE;
+    shownAlertId = null;
+}
+
+function renderAlertScreen(state) {
+    const { event, allAcknowledged, moreUnacknowledged } = selectLatestAlert(state.events);
+    if (!state.eventsLoaded || allAcknowledged || !event) {
+        hideAlertScreen();
+        return;
+    }
+    const need = NEED_MAPPINGS[event.action];
+    const a = el.alert;
+
+    a.screen.hidden = false;
+    document.body.dataset.alert = need.color;
+    a.tag.textContent = state.newThisSession.has(event.id) ? "NEW ALERT" : "ACTIVE ALERT";
+    a.icon.textContent = need.icon;
+    a.label.textContent = need.label.toUpperCase();
+    a.message.textContent = messageFor(event, state.patientName) ?? "Please set the patient name.";
+    a.meta.textContent = `${formatDateTime(event.timestamp)} · Pressure ${event.maxPressure}`;
+
+    const pending = state.acknowledging.has(event.id);
+    a.ack.dataset.ackId = event.id;
+    a.ack.disabled = pending;
+    a.ack.textContent = pending ? "SAVING..." : "ACKNOWLEDGE";
+
+    a.more.textContent = state.ackError
+        ?? (moreUnacknowledged > 0 ? `${moreUnacknowledged} more unacknowledged alert${moreUnacknowledged > 1 ? "s" : ""}` : "");
+    a.more.classList.toggle("is-error", Boolean(state.ackError));
+    a.sound.hidden = state.audio !== "locked";
+
+    document.title = `${need.icon} ${need.label.toUpperCase()} — GripSense`;
+
+    // A different alert came to the front: make sure nothing covers it.
+    if (shownAlertId !== event.id) {
+        shownAlertId = event.id;
+        closeEventDetail();
+        a.ack.focus();
+    }
+}
+
+function renderAlertSettings(state) {
+    const sound = { running: "On", locked: "Off", unsupported: "Not supported in this browser" };
+    el.soundStatus.textContent = sound[state.audio];
+    el.enableSound.hidden = state.audio !== "locked";
+
+    const notifications = {
+        granted: "On (when GripSense is in the background)",
+        denied: "Blocked — allow notifications for this site in browser settings",
+        default: "Off",
+        unsupported: "Not supported in this browser"
+    };
+    el.notificationStatus.textContent = notifications[state.notifications];
+    el.enableNotifications.hidden = state.notifications !== "default";
+}
+
+export function onEnableSound(handler) {
+    el.enableSound.addEventListener("click", handler);
+    el.alert.sound.addEventListener("click", handler);
+}
+
+export function onEnableNotifications(handler) {
+    el.enableNotifications.addEventListener("click", handler);
+}
+
 function renderNotices(state) {
     const notices = [];
     if (state.events.length > 0 && !state.connected) {
@@ -250,7 +339,10 @@ applyThemeLabel();
 export function showView(name) {
     for (const [key, view] of Object.entries(el.views)) view.hidden = key !== name;
     el.connection.hidden = name !== "dashboard";
-    if (name !== "dashboard") closeEventDetail();
+    if (name !== "dashboard") {
+        closeEventDetail();
+        hideAlertScreen();
+    }
     for (const input of document.querySelectorAll("input[type=password]")) input.value = "";
     const firstInput = el.views[name].querySelector("input, select, textarea");
     if (firstInput && name !== "dashboard") firstInput.focus();
@@ -369,7 +461,7 @@ function syncPatientInput(state) {
 
 // One listener per container; buttons are re-created on every render.
 export function onAcknowledgeClick(handler) {
-    for (const container of [el.latestCard, el.historyList, el.eventDetail]) {
+    for (const container of [el.latestCard, el.historyList, el.eventDetail, el.alert.screen]) {
         container.addEventListener("click", event => {
             const button = event.target.closest("[data-ack-id]");
             if (button && !button.disabled) handler(button.dataset.ackId);
@@ -405,4 +497,6 @@ export function render(state) {
         renderHistory(state);
     }
     if (openEventId) renderEventDetail();
+    renderAlertSettings(state);
+    renderAlertScreen(state);
 }

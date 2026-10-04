@@ -123,6 +123,17 @@
         </section>
 
         <div id="dashboard-view" hidden>
+            <section class="alert-settings" aria-label="Alert settings">
+                <div class="alert-setting">
+                    <span>Alert sound: <strong id="sound-status"></strong></span>
+                    <button id="enable-sound" type="button" class="button-secondary" hidden>🔔 Enable Alert Sound</button>
+                </div>
+                <div class="alert-setting">
+                    <span>Notifications: <strong id="notification-status"></strong></span>
+                    <button id="enable-notifications" type="button" class="button-secondary" hidden>Enable Notifications</button>
+                </div>
+            </section>
+
             <section class="patient-card">
                 <form id="patient-form" novalidate>
                     <label for="patient-name">Patient Name</label>
@@ -149,6 +160,19 @@
             </section>
         </div>
     </main>
+
+    <!-- Full-screen patient alert: shown whenever an unacknowledged event exists. -->
+    <div id="alert-screen" class="alert-screen" role="alertdialog" aria-modal="true"
+         aria-labelledby="alert-message" hidden>
+        <p id="alert-tag" class="alert-tag"></p>
+        <div id="alert-icon" class="alert-icon" aria-hidden="true"></div>
+        <p id="alert-label" class="alert-label"></p>
+        <p id="alert-message" class="alert-message"></p>
+        <p id="alert-meta" class="alert-meta"></p>
+        <button id="alert-ack" type="button" class="alert-ack">ACKNOWLEDGE</button>
+        <p id="alert-more" class="alert-more"></p>
+        <button id="alert-sound" type="button" class="alert-sound" hidden>🔔 Enable Alert Sound</button>
+    </div>
 
     <dialog id="event-dialog" class="event-dialog" aria-labelledby="event-detail-title">
         <div id="event-detail"></div>
