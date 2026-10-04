@@ -2,8 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>GripSense — Caretaker Dashboard</title>
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#18202a" media="(prefers-color-scheme: dark)">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="GripSense">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="logo/GripSense%20logo.png">
+    <link rel="apple-touch-icon" href="logo/GripSense%20logo.png">
     <script>
         // Apply the saved theme before the page paints, to avoid a light/dark flash.
         document.documentElement.dataset.theme = localStorage.getItem("gripsense-theme")
@@ -12,10 +20,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Startup screen: intro video, then the logo. Covers the app while it loads underneath. -->
+    <div id="startup" class="startup" data-stage="intro">
+        <div class="startup-intro">
+            <video id="intro-video" class="startup-video" muted playsinline preload="auto"
+                   disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
+            <button id="intro-play" type="button" class="startup-play" hidden>▶ Play intro</button>
+            <button id="intro-skip" type="button" class="startup-skip">Skip ›</button>
+        </div>
+        <div class="startup-logo">
+            <img class="startup-logo-img" src="logo/GripSense%20logo.png" alt="GripSense">
+        </div>
+    </div>
+
     <header class="header">
-        <div>
-            <h1>GRIPSENSE</h1>
-            <p class="subtitle">Caretaker Dashboard</p>
+        <div class="brand">
+            <img class="brand-logo" src="logo/GripSense%20logo.png" alt="" width="44" height="44">
+            <div>
+                <h1>GRIPSENSE</h1>
+                <p class="subtitle">Caretaker Dashboard</p>
+            </div>
         </div>
         <div class="header-right">
             <span id="connection" class="connection offline" hidden>Not connected</span>
@@ -33,48 +57,58 @@
             <button id="retry-button" type="button" class="button-secondary" hidden>Try again</button>
         </div>
 
-        <section id="login-view" class="form-card" hidden>
-            <h2>Caretaker Login</h2>
-            <form id="login-form" novalidate>
-                <label for="login-email">Email</label>
-                <input id="login-email" data-field="email" type="email" autocomplete="username" required>
+        <!-- Login and signup share the login animation, so switching between them does not restart it. -->
+        <div id="auth-view" class="auth-view" hidden>
+            <div class="auth-stage">
+                <video id="login-video" class="auth-video" muted playsinline preload="auto"
+                       disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
+                <div class="auth-panel">
+                    <section id="login-view" class="form-card" hidden>
+                        <h2>Welcome back</h2>
+                        <p class="form-intro">Log in to your GripSense caretaker account.</p>
+                        <form id="login-form" novalidate>
+                            <label for="login-email">Email</label>
+                            <input id="login-email" data-field="email" type="email" autocomplete="username" required>
 
-                <label for="login-password">Password</label>
-                <input id="login-password" data-field="password" type="password" autocomplete="current-password" required>
+                            <label for="login-password">Password</label>
+                            <input id="login-password" data-field="password" type="password" autocomplete="current-password" required>
 
-                <p id="login-error" class="form-error" role="alert" hidden></p>
+                            <p id="login-error" class="form-error" role="alert" hidden></p>
 
-                <button id="login-button" type="submit" class="button-primary">Login</button>
-            </form>
-            <p class="form-switch">New caretaker? <button id="show-signup" type="button" class="link-button">Create account</button></p>
-        </section>
+                            <button id="login-button" type="submit" class="button-primary">Login</button>
+                        </form>
+                        <p class="form-switch">Don't have an account? <button id="show-signup" type="button" class="link-button">Create Account</button></p>
+                    </section>
 
-        <section id="signup-view" class="form-card" hidden>
-            <h2>Create Caretaker Account</h2>
-            <form id="signup-form" novalidate>
-                <label for="signup-username">Username</label>
-                <input id="signup-username" data-field="username" type="text" maxlength="50" autocomplete="nickname" aria-describedby="signup-username-error">
-                <p id="signup-username-error" class="field-error" hidden></p>
+                    <section id="signup-view" class="form-card" hidden>
+                        <h2>Create your GripSense account</h2>
+                        <form id="signup-form" novalidate>
+                            <label for="signup-username">Username</label>
+                            <input id="signup-username" data-field="username" type="text" maxlength="50" autocomplete="nickname" aria-describedby="signup-username-error">
+                            <p id="signup-username-error" class="field-error" hidden></p>
 
-                <label for="signup-email">Email</label>
-                <input id="signup-email" data-field="email" type="email" autocomplete="email" aria-describedby="signup-email-error">
-                <p id="signup-email-error" class="field-error" hidden></p>
+                            <label for="signup-email">Email</label>
+                            <input id="signup-email" data-field="email" type="email" autocomplete="email" aria-describedby="signup-email-error">
+                            <p id="signup-email-error" class="field-error" hidden></p>
 
-                <label for="signup-password">Password</label>
-                <input id="signup-password" data-field="password" type="password" autocomplete="new-password" aria-describedby="signup-password-error signup-password-hint">
-                <p id="signup-password-hint" class="field-hint">At least 8 characters.</p>
-                <p id="signup-password-error" class="field-error" hidden></p>
+                            <label for="signup-password">Password</label>
+                            <input id="signup-password" data-field="password" type="password" autocomplete="new-password" aria-describedby="signup-password-error signup-password-hint">
+                            <p id="signup-password-hint" class="field-hint">At least 8 characters.</p>
+                            <p id="signup-password-error" class="field-error" hidden></p>
 
-                <label for="signup-confirm">Confirm Password</label>
-                <input id="signup-confirm" data-field="confirmPassword" type="password" autocomplete="new-password" aria-describedby="signup-confirm-error">
-                <p id="signup-confirm-error" class="field-error" hidden></p>
+                            <label for="signup-confirm">Confirm Password</label>
+                            <input id="signup-confirm" data-field="confirmPassword" type="password" autocomplete="new-password" aria-describedby="signup-confirm-error">
+                            <p id="signup-confirm-error" class="field-error" hidden></p>
 
-                <p id="signup-error" class="form-error" role="alert" hidden></p>
+                            <p id="signup-error" class="form-error" role="alert" hidden></p>
 
-                <button id="signup-button" type="submit" class="button-primary">Create Account</button>
-            </form>
-            <p class="form-switch"><button id="show-login" type="button" class="link-button">Back to Login</button></p>
-        </section>
+                            <button id="signup-button" type="submit" class="button-primary">Create Account</button>
+                        </form>
+                        <p class="form-switch">Already have an account? <button id="show-login" type="button" class="link-button">Back to Login</button></p>
+                    </section>
+                </div>
+            </div>
+        </div>
 
         <section id="username-view" class="form-card" hidden>
             <h2>Welcome</h2>
@@ -181,6 +215,13 @@
         </form>
     </dialog>
 
+    <script type="module" src="startup.js"></script>
     <script type="module" src="app.js"></script>
+    <script>
+        if ("serviceWorker" in navigator) {
+            addEventListener("load", () => navigator.serviceWorker.register("sw.js")
+                .catch(error => console.warn("GripSense: service worker not registered", error)));
+        }
+    </script>
 </body>
 </html>

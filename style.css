@@ -71,10 +71,14 @@ h2 {
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
-    padding: 1rem 1.25rem;
+    /* Safe-area insets keep the header clear of the notch when installed as an app. */
+    padding: max(1rem, env(safe-area-inset-top)) max(1.25rem, env(safe-area-inset-right))
+             1rem max(1.25rem, env(safe-area-inset-left));
     background: var(--card);
     border-bottom: 1px solid var(--border);
 }
+.brand { display: flex; align-items: center; gap: 0.75rem; }
+.brand-logo { flex-shrink: 0; width: 44px; height: 44px; border-radius: 22%; }
 .header h1 { margin: 0; font-size: 1.4rem; letter-spacing: 0.08em; }
 .subtitle { margin: 0; color: var(--muted); }
 .header-right { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
@@ -159,6 +163,73 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
     color: var(--red);
 }
 .form-switch { margin: 1rem 0 0; text-align: center; color: var(--muted); }
+
+/* ---- Login / signup with the login animation ----
+   The login videos leave an empty area for the form: the lower half of the phone
+   video and the frosted panel on the right of the laptop video. The form is real
+   HTML placed over that area. */
+.auth-stage { position: relative; }
+.auth-video { display: block; width: 100%; object-fit: cover; background: var(--subtle); }
+
+@media (max-width: 767px) {
+    /* Full-width animation under the header; its faded lower part blends into the page. */
+    .auth-view { margin: -1.25rem -1.25rem 0; }
+    .auth-video {
+        height: min(88vw, 40dvh);
+        object-position: top center;
+        -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent);
+        mask-image: linear-gradient(to bottom, #000 65%, transparent);
+    }
+    .auth-panel { position: relative; margin: -3rem 1rem 1.25rem; }
+    .auth-panel .form-card { margin: 0 auto; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); }
+    /* Only the theme toggle is in the header here, so keep it on one row. */
+    body:is([data-view="login"], [data-view="signup"]) .header-right { width: auto; }
+}
+
+@media (min-width: 768px) {
+    body:is([data-view="login"], [data-view="signup"]) .main { max-width: 1120px; }
+    .auth-video { border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12); }
+}
+
+/* Tablets / small windows: side by side — the mascot side of the video, then the form. */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .auth-stage { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: center; }
+    .auth-video { height: auto; aspect-ratio: 372 / 360; object-position: left center; }
+    .auth-panel .form-card { margin: 0; max-width: none; }
+}
+
+/* Laptops: the form sits on the video's own frosted panel. */
+@media (min-width: 1024px) {
+    .auth-stage {
+        /* 16:9 like the video, as large as the window allows below the header. */
+        width: max(min(100%, 720px), min(100%, calc((100dvh - 9rem) * 16 / 9)));
+        aspect-ratio: 16 / 9;
+        margin: 0 auto;
+    }
+    .auth-video { position: absolute; inset: 0; height: 100%; }
+    /* Covers the frosted panel in "login laptop.mp4" (x 58–95%, y 6–94%) with a small margin.
+       A taller form (e.g. signup with errors) simply extends below it. */
+    .auth-panel {
+        position: absolute;
+        left: 57.6%;
+        top: 5.4%;
+        width: 37.6%;
+        min-height: 89.4%;
+        display: flex;
+    }
+    .auth-panel .form-card {
+        flex: 1;
+        margin: 0;
+        max-width: none;
+        padding: clamp(1rem, 2.2vw, 1.75rem);
+        border-color: transparent;
+        border-radius: clamp(12px, 1.8vw, 22px);
+        background: color-mix(in srgb, var(--card) 90%, transparent);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+    }
+    .auth-panel .form-card label { margin-top: 0.7rem; }
+}
 
 /* ---- Dashboard patient name (Step 8) ---- */
 .patient-card {
@@ -414,6 +485,61 @@ body[data-alert="red"]   .alert-screen { background: #b71c1c; }
     background: transparent;
     color: #ffffff;
     font-weight: 700;
+}
+
+/* ---- Startup screen: intro video → logo ---- */
+.startup {
+    position: fixed;
+    inset: 0;
+    z-index: 900;   /* below the full-screen patient alert (1000) */
+    background: #000000;
+    transition: opacity 400ms ease;
+}
+.startup[data-stage="logo"] { background: var(--bg); }
+.startup.is-leaving { opacity: 0; pointer-events: none; }
+.startup-intro,
+.startup-logo {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 400ms ease, transform 400ms ease;
+}
+.startup:not([data-stage="intro"]) .startup-intro { opacity: 0; visibility: hidden; }
+.startup-logo { pointer-events: none; }   /* never blocks the Skip button underneath */
+.startup:not([data-stage="logo"]) .startup-logo { opacity: 0; transform: scale(0.94); }
+.startup-video { width: 100%; height: 100%; object-fit: cover; }
+/* Fill the screen when its shape is close to the video's; otherwise show it whole. */
+@media (max-aspect-ratio: 4/3) { .startup[data-device="laptop"] .startup-video { object-fit: contain; } }
+@media (min-aspect-ratio: 3/4) { .startup[data-device="phone"] .startup-video { object-fit: contain; } }
+.startup-logo-img {
+    width: min(60vw, 42dvh, 320px);
+    height: auto;
+    border-radius: 22%;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+.startup-skip,
+.startup-play {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    font-weight: 600;
+}
+.startup-skip {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    min-height: 2.75rem;
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+.startup-skip:hover { opacity: 1; }
+.startup-play { min-height: 3.25rem; padding: 0.6rem 1.5rem; font-size: 1.1rem; }
+
+@media (prefers-reduced-motion: reduce) {
+    .startup, .startup-intro, .startup-logo { transition: none; }
 }
 
 /* ---- Mobile ---- */

@@ -1,6 +1,7 @@
 // UI layer: render application state into the page.
 // All text is inserted with textContent so stored values can never inject HTML.
 import { NEED_MAPPINGS, selectLatestAlert } from "./events.js";
+import { isStartupDone, onStartupDone, showLoginAnimation, hideLoginAnimation } from "./startup.js";
 
 // Fixed display format ("03 Oct 2026, 9:48 PM"); the time zone is still the browser's own.
 const dateFormat = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short", year: "numeric" });
@@ -19,6 +20,7 @@ const el = {
         patientSetup: $("patient-setup-view"),
         dashboard: $("dashboard-view")
     },
+    authView: $("auth-view"),     // wraps login + signup and the login animation
     forms: {
         login: { form: $("login-form"), button: $("login-button"), error: $("login-error") },
         signup: { form: $("signup-form"), button: $("signup-button"), error: $("signup-error") },
@@ -335,17 +337,31 @@ applyThemeLabel();
 
 // ---- Views and forms ----
 
+const AUTH_VIEWS = ["login", "signup"];
+let currentView = null;
+
+// Focus the first field of a form view; waits until the startup screen is gone.
+function focusFirstInput() {
+    if (!isStartupDone() || currentView === "dashboard") return;
+    el.views[currentView]?.querySelector("input, select, textarea")?.focus();
+}
+onStartupDone(focusFirstInput);
+
 // Show exactly one view: checking, login, signup, username, patientSetup, dashboard.
 export function showView(name) {
+    currentView = name;
+    document.body.dataset.view = name;
     for (const [key, view] of Object.entries(el.views)) view.hidden = key !== name;
+    const isAuth = AUTH_VIEWS.includes(name);
+    el.authView.hidden = !isAuth;
+    if (isAuth) showLoginAnimation(); else hideLoginAnimation();
     el.connection.hidden = name !== "dashboard";
     if (name !== "dashboard") {
         closeEventDetail();
         hideAlertScreen();
     }
     for (const input of document.querySelectorAll("input[type=password]")) input.value = "";
-    const firstInput = el.views[name].querySelector("input, select, textarea");
-    if (firstInput && name !== "dashboard") firstInput.focus();
+    focusFirstInput();
 }
 
 export function setChecking(message, showRetry = false) {

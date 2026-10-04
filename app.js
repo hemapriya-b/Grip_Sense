@@ -52,6 +52,7 @@ import {
     onEnableSound,
     onEnableNotifications
 } from "./ui.js";
+import { endStartup } from "./startup.js";
 
 // If no data has arrived after this long, show the error state instead of
 // an endless loading message (Firebase does not report "offline" as an error).
@@ -126,6 +127,8 @@ function startDataListeners() {
             newAlerts.forEach(e => state.newThisSession.add(e.id));
 
             update({ events, eventsLoaded: true, error: null });
+            // A waiting patient alert has priority over the intro/logo: show it now.
+            if (events.some(e => !e.acknowledged)) endStartup();
             stopSoundIfResolved();
             if (newAlerts.length > 0) announceNewAlerts(newAlerts);
         }, handleError),
