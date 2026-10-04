@@ -183,7 +183,7 @@ async function unlockAudioFromGesture() {
     const active = state.events.find(e => !e.acknowledged);
     if (status === "running" && active && state.newThisSession.has(active.id)) playSoundOnce(active);
 }
-document.addEventListener("pointerdown", unlockAudioFromGesture, true);
+document.addEventListener("click", unlockAudioFromGesture, true);
 document.addEventListener("keydown", unlockAudioFromGesture, true);
 onEnableSound(unlockAudioFromGesture);
 
