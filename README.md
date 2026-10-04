@@ -5,7 +5,9 @@ Real-time web dashboard for GripSense patient alerts stored in Firebase Realtime
 ## Setup
 
 1. Copy `firebase-config.example.js` to `firebase-config.js` and fill in the Firebase Web App config
-   (Firebase Console → Project settings → General → Your apps). This file is git-ignored.
+   (Firebase Console → Project settings → General → Your apps). This client-side Web SDK configuration
+   is deployed with the app; it must contain only the standard Web App fields, never a service-account
+   JSON file, Firebase Admin credentials, or private keys.
 2. From this folder, start a local server:
 
    ```sh
