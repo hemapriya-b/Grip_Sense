@@ -9,9 +9,8 @@ import {
     saveCaretaker,
     savePatientProfile,
     listenToEvents,
-    listenToPatientName,
+    listenToPatient,
     listenToConnection,
-    savePatientName,
     acknowledgeEvent
 } from "./firebase.js";
 import { parseEvents, NEED_MAPPINGS } from "./events.js";
@@ -27,7 +26,6 @@ import {
     showSystemNotification
 } from "./notify.js";
 import {
-    validatePatientName,
     validateUsername,
     validateSignup,
     validatePatientProfile,
@@ -43,11 +41,9 @@ import {
     setFieldErrors,
     setFormError,
     setFormBusy,
-    fillPatientSetup,
+    fillPatientForm,
+    closePatientEdit,
     onLogoutClick,
-    onPatientSave,
-    setPatientBusy,
-    setPatientFeedback,
     onAcknowledgeClick,
     onEnableSound,
     onEnableNotifications
@@ -61,8 +57,8 @@ const LOAD_TIMEOUT_MS = 10000;
 const initialState = () => ({
     events: [],
     eventsLoaded: false,
+    patient: null,              // the shared /patient profile (live)
     patientName: null,
-    patientNameLoaded: false,
     connected: false,
     error: null,
     acknowledging: new Set(),   // event IDs with a save in progress
@@ -133,9 +129,9 @@ function startDataListeners() {
             if (newAlerts.length > 0) announceNewAlerts(newAlerts);
         }, handleError),
 
-        listenToPatientName(name => {
-            const trimmed = typeof name === "string" ? name.trim() : "";
-            update({ patientName: trimmed || null, patientNameLoaded: true });
+        listenToPatient(patient => {
+            const name = typeof patient?.name === "string" ? patient.name.trim() : "";
+            update({ patient, patientName: name || null });
         }, handleError),
 
         listenToConnection(connected => update({ connected }))
@@ -227,7 +223,7 @@ async function routeSignedIn(user) {
         const patient = await withTimeout(getPatient());
         if (id !== routeId) return;
         if (!isPatientComplete(patient)) {
-            fillPatientSetup(patient);
+            fillPatientForm("patientSetup", patient);
             showView("patientSetup");
             return;
         }
@@ -376,29 +372,27 @@ onLogoutClick(() => {
 
 // ---- Dashboard actions ----
 
-onPatientSave(async rawName => {
-    const name = rawName.trim();
-    const problem = validatePatientName(name);
-    if (problem) {
-        setPatientFeedback(problem, "error");
-        return;
-    }
+// Settings → Edit Patient Details: updates the one shared /patient profile in place.
+onFormSubmit("patientEdit", async values => {
+    setFormError("patientEdit", "");
+    const errors = validatePatientProfile(values);
+    setFieldErrors("patientEdit", errors);
+    if (Object.keys(errors).length > 0) return;
     // Firebase would otherwise queue the write silently until reconnecting.
     if (!state.connected) {
-        setPatientFeedback("Not connected. Please check your internet connection and try again.", "error");
+        setFormError("patientEdit", "Not connected. Please check your internet connection and try again.");
         return;
     }
 
-    setPatientFeedback("");
-    setPatientBusy(true);
+    setFormBusy("patientEdit", true, "Saving...");
     try {
-        await savePatientName(name);
-        setPatientFeedback(`Patient name saved: ${name}`, "success");
+        await withTimeout(savePatientProfile({ ...values, age: Number(values.age) }));
+        closePatientEdit("Patient details saved.");
     } catch (error) {
-        console.error("GripSense: saving patient name failed", error);
-        setPatientFeedback(`Could not save the patient name (${error.code || error.message}).`, "error");
+        console.error("GripSense: saving patient details failed", error);
+        setFormError("patientEdit", `Could not save the patient details (${error.code || error.message}).`);
     } finally {
-        setPatientBusy(false);
+        setFormBusy("patientEdit", false);
     }
 });
 

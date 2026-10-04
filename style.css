@@ -140,8 +140,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .form-card label { display: block; margin: 0.9rem 0 0.3rem; font-weight: 600; }
 .form-card input,
 .form-card select,
-.form-card textarea,
-.patient-row input {
+.form-card textarea {
     width: 100%;
     min-height: 2.75rem;
     padding: 0.6rem 0.7rem;
@@ -176,7 +175,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
     .auth-view { margin: -1.25rem -1.25rem 0; }
     .auth-video {
         height: min(88vw, 40dvh);
-        object-position: top center;
+        object-position: 50% 30%;   /* keeps the mascot in view when the screen is short */
         -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent);
         mask-image: linear-gradient(to bottom, #000 65%, transparent);
     }
@@ -231,24 +230,64 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
     .auth-panel .form-card label { margin-top: 0.7rem; }
 }
 
-/* ---- Dashboard patient name (Step 8) ---- */
-.patient-card {
+/* ---- Dashboard patient summary (read-only; editing lives in Settings) ---- */
+.patient-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.75rem;
     margin-bottom: 1rem;
-    padding: 1rem 1.25rem;
+    padding: 0.75rem 1.25rem;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
 }
-.patient-card label { display: block; margin-bottom: 0.4rem; font-weight: 600; }
-.patient-row { display: flex; gap: 0.5rem; }
-.patient-row input { flex: 1; min-width: 0; }
-.button-save {
-    padding: 0.6rem 1.2rem;
+.summary-label { color: var(--muted); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+.summary-name { font-size: 1.15rem; }
+.summary-meta { color: var(--muted); overflow-wrap: anywhere; }
+
+/* ---- Settings ---- */
+.settings-card { max-width: 520px; margin-top: 0.5rem; }
+.form-card .settings-title { margin: 0 0 0.5rem; font-size: 1.3rem; text-transform: none; letter-spacing: 0; color: var(--text); }
+.settings-title:focus { outline: none; }
+.settings-heading {
+    margin: 1.25rem 0 0.25rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+}
+.patient-details-list { margin: 0 0 1rem; }
+.patient-details-list dd { white-space: pre-line; }
+.settings-divider { margin: 1.5rem 0 0.25rem; border: none; border-top: 1px solid var(--border); }
+.button-wide { width: 100%; min-height: 2.75rem; font-size: 1rem; font-weight: 600; }
+.form-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+.form-actions > * { flex: 1; min-height: 2.75rem; margin-top: 0; }
+
+/* Light/Dark segmented control */
+.theme-switch {
+    display: flex;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+    padding: 0.25rem;
+    background: var(--subtle);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+.theme-switch button {
+    flex: 1;
+    min-height: 2.75rem;
     border: none;
-    background: var(--accent);
-    color: var(--on-accent);
+    background: transparent;
+    color: var(--muted);
     font-weight: 600;
 }
+.theme-switch button[aria-pressed="true"] {
+    background: var(--accent);
+    color: var(--on-accent);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
 .form-feedback { margin: 0.6rem 0 0; font-size: 0.9rem; }
 .form-feedback.success { color: var(--green); }
 .form-feedback.error { color: var(--red); }
@@ -536,7 +575,15 @@ body[data-alert="red"]   .alert-screen { background: #b71c1c; }
     opacity: 0.85;
 }
 .startup-skip:hover { opacity: 1; }
-.startup-play { min-height: 3.25rem; padding: 0.6rem 1.5rem; font-size: 1.1rem; }
+.startup-play {
+    min-height: 3.5rem;
+    padding: 0.75rem 1.75rem;
+    border-width: 2px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.55);
+    font-size: 1.15rem;
+    font-weight: 700;
+}
 
 @media (prefers-reduced-motion: reduce) {
     .startup, .startup-intro, .startup-logo { transition: none; }

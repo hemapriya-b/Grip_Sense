@@ -25,18 +25,30 @@ const el = {
         login: { form: $("login-form"), button: $("login-button"), error: $("login-error") },
         signup: { form: $("signup-form"), button: $("signup-button"), error: $("signup-error") },
         username: { form: $("username-form"), button: $("username-button"), error: $("username-error") },
-        patientSetup: { form: $("patient-setup-form"), button: $("patient-setup-button"), error: $("patient-setup-error") }
+        patientSetup: { form: $("patient-setup-form"), button: $("patient-setup-button"), error: $("patient-setup-error") },
+        patientEdit: { form: $("patient-edit-form"), button: $("patient-edit-button"), error: $("patient-edit-error") }
     },
     checkingMessage: $("checking-message"),
     retryButton: $("retry-button"),
-    themeToggle: $("theme-toggle"),
+    themeButtons: document.querySelectorAll("[data-theme-choice]"),
     userArea: $("user-area"),
     userName: $("user-name"),
     logoutButton: $("logout-button"),
-    patientForm: $("patient-form"),
-    patientInput: $("patient-name"),
-    patientSave: $("patient-save"),
-    patientFeedback: $("patient-feedback"),
+    patientSummary: $("patient-summary"),
+    summaryName: $("summary-name"),
+    summaryMeta: $("summary-meta"),
+    dashboardHome: $("dashboard-home"),
+    settings: {
+        button: $("settings-button"),
+        panel: $("settings-panel"),
+        title: $("settings-title"),
+        back: $("settings-back"),
+        details: $("patient-details"),
+        detailsList: $("patient-details-list"),
+        edit: $("edit-patient"),
+        cancel: $("patient-edit-cancel"),
+        feedback: $("patient-edit-feedback")
+    },
     connection: $("connection"),
     notices: $("notices"),
     status: $("status"),
@@ -321,19 +333,21 @@ function showStatus(text, isError = false) {
 
 // ---- Theme ----
 
-function applyThemeLabel() {
-    const dark = document.documentElement.dataset.theme === "dark";
-    el.themeToggle.textContent = dark ? "☀️ Light" : "🌙 Dark";
-    el.themeToggle.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+// Light/Dark control in Settings. The saved choice is applied before first paint by index.html.
+function syncThemeButtons() {
+    for (const button of el.themeButtons) {
+        button.setAttribute("aria-pressed", String(button.dataset.themeChoice === document.documentElement.dataset.theme));
+    }
 }
 
-el.themeToggle.addEventListener("click", () => {
-    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem(THEME_KEY, next);
-    applyThemeLabel();
-});
-applyThemeLabel();
+for (const button of el.themeButtons) {
+    button.addEventListener("click", () => {
+        document.documentElement.dataset.theme = button.dataset.themeChoice;
+        localStorage.setItem(THEME_KEY, button.dataset.themeChoice);
+        syncThemeButtons();
+    });
+}
+syncThemeButtons();
 
 // ---- Views and forms ----
 
@@ -356,6 +370,8 @@ export function showView(name) {
     el.authView.hidden = !isAuth;
     if (isAuth) showLoginAnimation(); else hideLoginAnimation();
     el.connection.hidden = name !== "dashboard";
+    el.settings.button.hidden = name !== "dashboard";
+    setSettingsOpen(false);     // every visit to the dashboard starts on its main page
     if (name !== "dashboard") {
         closeEventDetail();
         hideAlertScreen();
@@ -427,10 +443,11 @@ function clearForm(name) {
     setFormError(name, "");
 }
 
-// Pre-fills the patient setup form with whatever is already stored (e.g. an old /patient/name).
-export function fillPatientSetup(patient) {
-    clearForm("patientSetup");
-    for (const field of fieldsOf("patientSetup")) {
+// Pre-fills a patient form (setup or Settings edit) with whatever is already stored,
+// e.g. an old /patient/name.
+export function fillPatientForm(name, patient) {
+    clearForm(name);
+    for (const field of fieldsOf(name)) {
         const value = patient?.[field.dataset.field];
         field.value = value === undefined || value === null ? "" : String(value);
     }
@@ -439,40 +456,67 @@ export function fillPatientSetup(patient) {
 export function setUser(user, username) {
     el.userArea.hidden = !user;
     el.userName.textContent = user ? (username || user.email) : "";
-    el.patientInput.value = "";
-    syncedPatientName = undefined;
-    setPatientFeedback("");
 }
 
-// ---- Dashboard patient name form (Step 8) ----
+// ---- Settings: patient details and appearance ----
+// Settings is a panel inside the dashboard view, so data listeners and the
+// full-screen alert keep working while it is open.
 
-export function onPatientSave(handler) {
-    el.patientForm.addEventListener("submit", event => {
-        event.preventDefault();
-        handler(el.patientInput.value);
-    });
-    el.patientInput.addEventListener("input", () => setPatientFeedback(""));
+function setSettingsOpen(open) {
+    el.dashboardHome.hidden = open;
+    el.settings.panel.hidden = !open;
+    el.settings.button.setAttribute("aria-expanded", String(open));
+    if (open) {
+        closePatientEdit();
+        el.settings.title.focus();
+    }
 }
 
-export function setPatientBusy(busy) {
-    el.patientSave.disabled = busy;
-    el.patientSave.textContent = busy ? "Saving..." : "Save";
+el.settings.button.addEventListener("click", () => setSettingsOpen(el.settings.panel.hidden));
+el.settings.back.addEventListener("click", () => {
+    setSettingsOpen(false);
+    el.settings.button.focus();
+});
+
+el.settings.edit.addEventListener("click", () => {
+    fillPatientForm("patientEdit", lastState?.patient);
+    el.settings.feedback.hidden = true;
+    el.settings.details.hidden = true;
+    el.forms.patientEdit.form.hidden = false;
+    fieldsOf("patientEdit")[0].focus();
+});
+el.settings.cancel.addEventListener("click", () => closePatientEdit());
+
+// Back to the read-only patient details, optionally with a confirmation message.
+export function closePatientEdit(message = "") {
+    const wasEditing = !el.forms.patientEdit.form.hidden;
+    el.forms.patientEdit.form.hidden = true;
+    el.settings.details.hidden = false;
+    el.settings.feedback.textContent = message;
+    el.settings.feedback.hidden = !message;
+    if (wasEditing) el.settings.edit.focus();
 }
 
-// type: "success" | "error"; an empty message hides the feedback.
-export function setPatientFeedback(message, type = "success") {
-    el.patientFeedback.textContent = message;
-    el.patientFeedback.className = `form-feedback ${type}`;
-    el.patientFeedback.hidden = !message;
+function patientValue(patient, key) {
+    const value = patient?.[key];
+    return value === undefined || value === null || value === "" ? "—" : String(value);
 }
 
-// Fill the input with the stored name only when the stored name changes,
-// so a caretaker's unsaved typing is not overwritten by unrelated updates.
-let syncedPatientName;
-function syncPatientInput(state) {
-    if (!state.patientNameLoaded || state.patientName === syncedPatientName) return;
-    syncedPatientName = state.patientName;
-    el.patientInput.value = state.patientName ?? "";
+function renderPatient(state) {
+    const patient = state.patient;
+    el.patientSummary.hidden = !patient;
+    if (patient) {
+        el.summaryName.textContent = patientValue(patient, "name");
+        el.summaryMeta.textContent = [patient.age, patient.gender, patient.condition]
+            .filter(value => value !== undefined && value !== null && value !== "")
+            .join(" · ");
+    }
+    el.settings.detailsList.replaceChildren(
+        detailRow("Patient Name", patientValue(patient, "name")),
+        detailRow("Age", patientValue(patient, "age")),
+        detailRow("Gender", patientValue(patient, "gender")),
+        detailRow("Condition", patientValue(patient, "condition"))
+    );
 }
 
 // One listener per container; buttons are re-created on every render.
@@ -495,7 +539,7 @@ export function render(state) {
     el.connection.className = state.connected ? "connection online" : "connection offline";
 
     renderNotices(state);
-    syncPatientInput(state);
+    renderPatient(state);
 
     const hasEvents = state.events.length > 0;
     el.latest.hidden = !hasEvents;

@@ -1,8 +1,8 @@
 // Service worker: the PWA foundation only (no push notifications in this stage).
-// Network first, so caretakers always get the latest app and data; the cached copy
-// of the app files is used only when the network is unavailable.
+// Network first, and "no-cache" so the browser's HTTP cache is always revalidated:
+// caretakers always get the latest files. The cached copy is used only offline.
 // Firebase (other origins) and the videos (range requests) are never cached here.
-const CACHE = "gripsense-v1";
+const CACHE = "gripsense-v2";
 
 self.addEventListener("install", () => self.skipWaiting());
 
@@ -21,7 +21,7 @@ self.addEventListener("fetch", event => {
 
     event.respondWith((async () => {
         try {
-            const response = await fetch(request);
+            const response = await fetch(request, { cache: "no-cache" });
             if (response.ok) {
                 const copy = response.clone();
                 event.waitUntil(caches.open(CACHE).then(cache => cache.put(request, copy)));

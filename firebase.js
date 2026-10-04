@@ -75,13 +75,9 @@ export function listenToEvents(onData, onError) {
     return onValue(eventsQuery, snapshot => onData(snapshot.val()), onError);
 }
 
-// Calls onData(nameOrNull) whenever /patient/name changes.
-export function listenToPatientName(onData, onError) {
-    return onValue(ref(db, "patient/name"), snapshot => onData(snapshot.val()), onError);
-}
-
-export function savePatientName(name) {
-    return set(ref(db, "patient/name"), name);
+// Calls onData(patientOrNull) whenever the shared /patient profile changes.
+export function listenToPatient(onData, onError) {
+    return onValue(ref(db, "patient"), snapshot => onData(snapshot.val()), onError);
 }
 
 // Marks one event as acknowledged. Only adds fields; the ESP32's action,

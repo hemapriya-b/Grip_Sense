@@ -1,4 +1,5 @@
 // Startup experience: intro video → logo → app, plus the login animation.
+// The intro plays with its original sound; the login animation is always muted.
 // Loaded on its own from index.html so the intro plays even while (or if) Firebase
 // is still loading. Phone-sized viewports get the portrait videos; tablets and
 // laptops get the landscape ones. Only the videos actually needed are downloaded.
@@ -43,11 +44,18 @@ export function onStartupDone(handler) {
 function playIntro() {
     clearTimeout(introTimer);
     introTimer = setTimeout(showLogo, INTRO_MAX_MS);
-    introVideo.play().catch(() => {
+    introVideo.play().catch(error => {
         if (stage !== "intro") return;
-        // Autoplay blocked (e.g. iOS Low Power Mode): wait for a tap instead.
         clearTimeout(introTimer);
+        if (error.name !== "NotAllowedError") {
+            console.warn("GripSense: intro video could not play", error);
+            showLogo();
+            return;
+        }
+        // Browsers usually block autoplay *with sound* until the first tap.
+        // Never fall back to muted: wait for "Tap to start GripSense" instead.
         introPlay.hidden = false;
+        introPlay.focus();
     });
 }
 
@@ -124,10 +132,16 @@ PHONE_QUERY.addEventListener("change", () => {
 
 appParts.forEach(part => { part.inert = true; });
 screen.dataset.device = currentDevice();
-introVideo.muted = true;
+introVideo.muted = false;
 loginVideo.muted = true;
 introVideo.addEventListener("ended", showLogo);
-introVideo.addEventListener("error", showLogo);
+introVideo.addEventListener("error", () => {
+    if (introVideo.getAttribute("src")) console.warn("GripSense: intro video failed to load", introVideo.error);
+    showLogo();
+});
+loginVideo.addEventListener("error", () => {
+    if (loginVideo.getAttribute("src")) console.warn("GripSense: login video failed to load", loginVideo.error);
+});
 introSkip.addEventListener("click", showLogo);
 introPlay.addEventListener("click", () => {
     introPlay.hidden = true;

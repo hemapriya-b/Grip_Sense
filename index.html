@@ -23,9 +23,10 @@
     <!-- Startup screen: intro video, then the logo. Covers the app while it loads underneath. -->
     <div id="startup" class="startup" data-stage="intro">
         <div class="startup-intro">
-            <video id="intro-video" class="startup-video" muted playsinline preload="auto"
+            <!-- The intro plays with its original sound; the login animation below is always muted. -->
+            <video id="intro-video" class="startup-video" playsinline preload="auto"
                    disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
-            <button id="intro-play" type="button" class="startup-play" hidden>▶ Play intro</button>
+            <button id="intro-play" type="button" class="startup-play" hidden>▶ Tap to start GripSense</button>
             <button id="intro-skip" type="button" class="startup-skip">Skip ›</button>
         </div>
         <div class="startup-logo">
@@ -43,8 +44,8 @@
         </div>
         <div class="header-right">
             <span id="connection" class="connection offline" hidden>Not connected</span>
-            <button id="theme-toggle" type="button" class="button-secondary"></button>
             <div id="user-area" class="user-area" hidden>
+                <button id="settings-button" type="button" class="button-secondary" aria-controls="settings-panel" hidden>⚙️ Settings</button>
                 <span id="user-name" class="user-name"></span>
                 <button id="logout-button" type="button" class="button-secondary">Log out</button>
             </div>
@@ -157,40 +158,89 @@
         </section>
 
         <div id="dashboard-view" hidden>
-            <section class="alert-settings" aria-label="Alert settings">
-                <div class="alert-setting">
-                    <span>Alert sound: <strong id="sound-status"></strong></span>
-                    <button id="enable-sound" type="button" class="button-secondary" hidden>🔔 Enable Alert Sound</button>
-                </div>
-                <div class="alert-setting">
-                    <span>Notifications: <strong id="notification-status"></strong></span>
-                    <button id="enable-notifications" type="button" class="button-secondary" hidden>Enable Notifications</button>
-                </div>
-            </section>
-
-            <section class="patient-card">
-                <form id="patient-form" novalidate>
-                    <label for="patient-name">Patient Name</label>
-                    <div class="patient-row">
-                        <input id="patient-name" type="text" maxlength="50" autocomplete="off">
-                        <button id="patient-save" type="submit" class="button-save">Save</button>
+            <div id="dashboard-home">
+                <section class="alert-settings" aria-label="Alert settings">
+                    <div class="alert-setting">
+                        <span>Alert sound: <strong id="sound-status"></strong></span>
+                        <button id="enable-sound" type="button" class="button-secondary" hidden>🔔 Enable Alert Sound</button>
                     </div>
-                    <p id="patient-feedback" class="form-feedback" role="status" hidden></p>
+                    <div class="alert-setting">
+                        <span>Notifications: <strong id="notification-status"></strong></span>
+                        <button id="enable-notifications" type="button" class="button-secondary" hidden>Enable Notifications</button>
+                    </div>
+                </section>
+
+                <section id="patient-summary" class="patient-summary" aria-label="Patient" hidden>
+                    <span class="summary-label">Patient</span>
+                    <strong id="summary-name" class="summary-name"></strong>
+                    <span id="summary-meta" class="summary-meta"></span>
+                </section>
+
+                <div id="notices"></div>
+
+                <div id="status" class="status" role="status" aria-live="polite"></div>
+
+                <section id="latest" hidden aria-live="assertive">
+                    <h2>Latest Patient Alert</h2>
+                    <div id="latest-card" class="latest-card"></div>
+                </section>
+
+                <section id="history" hidden>
+                    <h2>Event History</h2>
+                    <ol id="history-list" class="history-list"></ol>
+                </section>
+            </div>
+
+            <section id="settings-panel" class="form-card settings-card" aria-labelledby="settings-title" hidden>
+                <h2 id="settings-title" class="settings-title" tabindex="-1">⚙️ Settings</h2>
+
+                <h3 class="settings-heading">Patient Details</h3>
+                <div id="patient-details">
+                    <dl id="patient-details-list" class="patient-details-list"></dl>
+                    <p id="patient-edit-feedback" class="form-feedback success" role="status" hidden></p>
+                    <button id="edit-patient" type="button" class="button-secondary button-wide">Edit Patient Details</button>
+                </div>
+
+                <form id="patient-edit-form" novalidate hidden>
+                    <label for="edit-name">Patient Name</label>
+                    <input id="edit-name" data-field="name" type="text" maxlength="50" autocomplete="off" aria-describedby="edit-name-error">
+                    <p id="edit-name-error" class="field-error" hidden></p>
+
+                    <label for="edit-age">Age</label>
+                    <input id="edit-age" data-field="age" type="number" inputmode="numeric" min="0" max="120" step="1" aria-describedby="edit-age-error">
+                    <p id="edit-age-error" class="field-error" hidden></p>
+
+                    <label for="edit-gender">Gender</label>
+                    <select id="edit-gender" data-field="gender" aria-describedby="edit-gender-error">
+                        <option value="">Select gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                        <option>Prefer not to say</option>
+                    </select>
+                    <p id="edit-gender-error" class="field-error" hidden></p>
+
+                    <label for="edit-condition">Condition</label>
+                    <textarea id="edit-condition" data-field="condition" rows="3" maxlength="300" aria-describedby="edit-condition-error"></textarea>
+                    <p id="edit-condition-error" class="field-error" hidden></p>
+
+                    <p id="patient-edit-error" class="form-error" role="alert" hidden></p>
+
+                    <div class="form-actions">
+                        <button id="patient-edit-cancel" type="button" class="button-secondary">Cancel</button>
+                        <button id="patient-edit-button" type="submit" class="button-primary">Save</button>
+                    </div>
                 </form>
-            </section>
 
-            <div id="notices"></div>
+                <hr class="settings-divider">
 
-            <div id="status" class="status" role="status" aria-live="polite"></div>
+                <h3 class="settings-heading">Appearance</h3>
+                <div class="theme-switch" role="group" aria-label="Theme">
+                    <button type="button" data-theme-choice="light">☀️ Light</button>
+                    <button type="button" data-theme-choice="dark">🌙 Dark</button>
+                </div>
 
-            <section id="latest" hidden aria-live="assertive">
-                <h2>Latest Patient Alert</h2>
-                <div id="latest-card" class="latest-card"></div>
-            </section>
-
-            <section id="history" hidden>
-                <h2>Event History</h2>
-                <ol id="history-list" class="history-list"></ol>
+                <button id="settings-back" type="button" class="button-primary">Back to Dashboard</button>
             </section>
         </div>
     </main>
@@ -218,6 +268,12 @@
     <script type="module" src="startup.js"></script>
     <script type="module" src="app.js"></script>
     <script>
+        // Opened by double-clicking index.html: the modules cannot run, so say why.
+        if (location.protocol === "file:") {
+            document.getElementById("startup").hidden = true;
+            document.getElementById("checking-message").textContent =
+                "GripSense must be opened through a web server. In this folder run: python3 serve.py — then open http://localhost:8000";
+        }
         if ("serviceWorker" in navigator) {
             addEventListener("load", () => navigator.serviceWorker.register("sw.js")
                 .catch(error => console.warn("GripSense: service worker not registered", error)));
