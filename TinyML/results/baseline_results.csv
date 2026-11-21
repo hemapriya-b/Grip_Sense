@@ -1,0 +1,3 @@
+baseline,description,features,val_accuracy,val_macro_f1,centroids_mean_adc
+B0_majority_class,"Always predicts the most frequent training class (classes are tied, so sklearn picks the first label alphabetically).",all,0.25,0.1,
+B1_nearest_centroid_mean_adc,Nearest class centroid on a single feature: the trial's mean ADC. Centroids = per-class average of trial means on the training set.,['mean'],0.725,0.7141148325358851,"{'DOUBLE_SQUEEZE': 504.73866666666675, 'HARD_PRESS': 1622.114666666667, 'LIGHT_PRESS': 578.4719999999999, 'NO_PRESS': 0.4537777777777778}"

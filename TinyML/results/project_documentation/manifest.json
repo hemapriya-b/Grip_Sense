@@ -1,0 +1,152 @@
+{
+  "generated_utc": "2026-10-10T15:57:32+00:00",
+  "root": "results/project_documentation",
+  "checks_passed": 109,
+  "checks_failed": 0,
+  "files": [
+    {
+      "filename": "GripSense_Project_Report.md",
+      "relative_path": "GripSense_Project_Report.md",
+      "type": "markdown",
+      "description": "Complete technical report",
+      "status": "generated_and_checked",
+      "bytes": 31713
+    },
+    {
+      "filename": "GripSense_Project_Report.pdf",
+      "relative_path": "GripSense_Project_Report.pdf",
+      "type": "pdf",
+      "description": "Complete technical report with cover, contents, page numbers, figures",
+      "status": "generated_and_checked",
+      "bytes": 1662107
+    },
+    {
+      "filename": "GripSense_Executive_Summary.md",
+      "relative_path": "GripSense_Executive_Summary.md",
+      "type": "markdown",
+      "description": "Short executive summary",
+      "status": "generated_and_checked",
+      "bytes": 2140
+    },
+    {
+      "filename": "README.md",
+      "relative_path": "README.md",
+      "type": "markdown",
+      "description": "Entry point linking all deliverables",
+      "status": "generated_and_checked",
+      "bytes": 2737
+    },
+    {
+      "filename": "QUALITY_CHECKS.md",
+      "relative_path": "QUALITY_CHECKS.md",
+      "type": "markdown",
+      "description": "Quality-control results",
+      "status": "generated_and_checked",
+      "bytes": 10585
+    },
+    {
+      "filename": "manifest.json",
+      "relative_path": "manifest.json",
+      "type": "json",
+      "description": "This manifest",
+      "status": "generated_and_checked",
+      "bytes": 5002
+    },
+    {
+      "filename": "report_facts.json",
+      "relative_path": "report_facts.json",
+      "type": "json",
+      "description": "All values used in the report, re-derived from artifacts",
+      "status": "generated_and_checked",
+      "bytes": 42011
+    },
+    {
+      "filename": "preservation_baseline.json",
+      "relative_path": "preservation_baseline.json",
+      "type": "json",
+      "description": "SHA-256 of pre-existing project files before documentation work",
+      "status": "generated_and_checked",
+      "bytes": 9231
+    },
+    {
+      "filename": "GripSense_System_Architecture.png",
+      "relative_path": "figures/GripSense_System_Architecture.png",
+      "type": "png",
+      "description": "System architecture and methodology diagram",
+      "status": "generated_and_checked",
+      "bytes": 371380
+    },
+    {
+      "filename": "GripSense_Model_Comparison.png",
+      "relative_path": "figures/GripSense_Model_Comparison.png",
+      "type": "png",
+      "description": "Validation vs test accuracy, 8 models, Wilson intervals",
+      "status": "generated_and_checked",
+      "bytes": 181578
+    },
+    {
+      "filename": "GripSense_Model_Size.png",
+      "relative_path": "figures/GripSense_Model_Size.png",
+      "type": "png",
+      "description": "Approximate model size with measurement method",
+      "status": "generated_and_checked",
+      "bytes": 202058
+    },
+    {
+      "filename": "GripSense_C_Port_Verification.png",
+      "relative_path": "figures/GripSense_C_Port_Verification.png",
+      "type": "png",
+      "description": "Offline C-port parity verification diagram",
+      "status": "generated_and_checked",
+      "bytes": 311276
+    },
+    {
+      "filename": "GripSense_Confusion_Matrix.png",
+      "relative_path": "figures/GripSense_Confusion_Matrix.png",
+      "type": "png",
+      "description": "Test-split confusion matrices (RF, depth-2 tree)",
+      "status": "generated_and_checked",
+      "bytes": 190319
+    },
+    {
+      "filename": "GripSense_Test_Recall_Uncertainty.png",
+      "relative_path": "figures/GripSense_Test_Recall_Uncertainty.png",
+      "type": "png",
+      "description": "Per-class test recall with uncertainty",
+      "status": "generated_and_checked",
+      "bytes": 90727
+    },
+    {
+      "filename": "GripSense_DoubleSqueeze_Presses.png",
+      "relative_path": "figures/GripSense_DoubleSqueeze_Presses.png",
+      "type": "png",
+      "description": "Press counts in DOUBLE_SQUEEZE trials",
+      "status": "generated_and_checked",
+      "bytes": 81495
+    },
+    {
+      "filename": "build_documentation.py",
+      "relative_path": "scripts/build_documentation.py",
+      "type": "python",
+      "description": "Builds figures, Markdown, README and PDF",
+      "status": "generated_and_checked",
+      "bytes": 78491
+    },
+    {
+      "filename": "check_documentation.py",
+      "relative_path": "scripts/check_documentation.py",
+      "type": "python",
+      "description": "Runs these checks; writes manifest and QC report",
+      "status": "generated_and_checked",
+      "bytes": 17570
+    },
+    {
+      "filename": "manual_figure_inspection.json",
+      "relative_path": "scripts/manual_figure_inspection.json",
+      "type": "json",
+      "description": "Record of manual visual inspection of figures",
+      "status": "generated_and_checked",
+      "bytes": 1298
+    }
+  ]
+}

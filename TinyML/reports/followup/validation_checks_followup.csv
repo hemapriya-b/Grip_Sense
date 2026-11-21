@@ -1,0 +1,95 @@
+check,status,detail
+phase-1 validator passes,PASS,91/91 checks passed
+all 40 pre-existing files unchanged,PASS,[]
+exists reports/followup/GripSense_TinyML_Final_Report.md,PASS,
+exists reports/followup/followup_metrics.json,PASS,
+exists results/followup/model_comparison.csv,PASS,
+exists results/followup/predictions_all_models.csv,PASS,
+exists results/followup/selection_freeze.json,PASS,
+exists results/followup/press_segments_per_trial.csv,PASS,
+exists results/followup/flagged_trials_review.csv,PASS,
+exists results/followup/exploratory_perturbations.csv,PASS,
+exists results/followup/exploratory_probes.csv,PASS,
+exists results/followup/exploratory_probe_summary.csv,PASS,
+exists results/followup/exploratory_confidence_threshold.csv,PASS,
+figure f01_model_comparison.png,PASS,
+figure f02_cm_test_RF_existing.png,PASS,
+figure f02_cm_test_DT_depth2.png,PASS,
+figure f03_double_squeeze_anatomy.png,PASS,
+figure f04_flagged_trials_all.png,PASS,
+figure f05_exploratory_repeated_cv.png,PASS,
+figure f06_exploratory_gain_sensitivity.png,PASS,
+figure f07_exploratory_probes_rf.png,PASS,
+figure f08_exploratory_confidence_threshold.png,PASS,
+split counts 120/40/40,PASS,
+no trial overlap,PASS,
+follow-up models trained on phase-1 train trials only,PASS,
+freeze hash matches metrics,PASS,
+freeze written before test stage,PASS,2026-10-10T15:16:13+00:00
+frozen selections match reported selections,PASS,
+freeze contains no test metrics,PASS,
+metrics recomputed: B0_majority / test,PASS,
+metrics recomputed: B0_majority / validation,PASS,
+metrics recomputed: B1_mean_adc_centroid / test,PASS,
+metrics recomputed: B1_mean_adc_centroid / validation,PASS,
+metrics recomputed: DT_depth2 / test,PASS,
+metrics recomputed: DT_depth2 / validation,PASS,
+metrics recomputed: DT_depth3 / test,PASS,
+metrics recomputed: DT_depth3 / validation,PASS,
+metrics recomputed: LR_C0.1 / test,PASS,
+metrics recomputed: LR_C0.1 / validation,PASS,
+metrics recomputed: LR_C1 / test,PASS,
+metrics recomputed: LR_C1 / validation,PASS,
+metrics recomputed: LR_C10 / test,PASS,
+metrics recomputed: LR_C10 / validation,PASS,
+metrics recomputed: RF_existing / test,PASS,
+metrics recomputed: RF_existing / validation,PASS,
+model_comparison.csv matches evaluations,PASS,
+RF_existing reproduces phase-1 test predictions,PASS,
+saved model reloads + reproduces test predictions: DT_depth2.joblib,PASS,
+saved model reloads + reproduces test predictions: LR_C1.joblib,PASS,
+saved model reloads + reproduces test predictions: RF_existing.joblib,PASS,
+trial ID not a feature,PASS,
+report contains no-new-data statement,PASS,No new data was collected and no hardware testing was performed
+report contains test not untouched disclosure,PASS,not completely
+report contains exploratory label,PASS,EXPLORATORY robustness analyses (not independent validation)
+report contains A test accuracy,PASS,**Accuracy 0.975** (39/40
+report contains A misclassified,PASS,Misclassified test trials: [39]
+report contains A CM LIGHT_PRESS,PASS,| **LIGHT_PRESS** | 9 | 1 | 0 | 0 |
+report contains A CM HARD_PRESS,PASS,| **HARD_PRESS** | 0 | 10 | 0 | 0 |
+report contains A CM DOUBLE_SQUEEZE,PASS,| **DOUBLE_SQUEEZE** | 0 | 0 | 10 | 0 |
+report contains A CM NO_PRESS,PASS,| **NO_PRESS** | 0 | 0 | 0 | 10 |
+report contains A per-class LIGHT_PRESS,PASS,1.000 | 0.900 | 0.947
+report contains A per-class HARD_PRESS,PASS,0.909 | 1.000 | 0.952
+report contains A per-class DOUBLE_SQUEEZE,PASS,1.000 | 1.000 | 1.000
+report contains A per-class NO_PRESS,PASS,1.000 | 1.000 | 1.000
+report contains B test accuracy,PASS,**Accuracy 0.950** (38/40
+report contains B misclassified,PASS,"Misclassified test trials: [39, 157]"
+report contains B CM LIGHT_PRESS,PASS,| **LIGHT_PRESS** | 9 | 1 | 0 | 0 |
+report contains B CM HARD_PRESS,PASS,| **HARD_PRESS** | 0 | 10 | 0 | 0 |
+report contains B CM DOUBLE_SQUEEZE,PASS,| **DOUBLE_SQUEEZE** | 0 | 0 | 10 | 0 |
+report contains B CM NO_PRESS,PASS,| **NO_PRESS** | 0 | 0 | 1 | 9 |
+report contains B per-class LIGHT_PRESS,PASS,1.000 | 0.900 | 0.947
+report contains B per-class HARD_PRESS,PASS,0.909 | 1.000 | 0.952
+report contains B per-class DOUBLE_SQUEEZE,PASS,0.909 | 1.000 | 0.952
+report contains B per-class NO_PRESS,PASS,1.000 | 0.900 | 0.947
+report contains comparison row B0_majority,PASS,| B0_majority | 0.250 | 0.100 |
+report contains comparison row B1_mean_adc_centroid,PASS,| B1_mean_adc_centroid | 0.750 | 0.734 |
+report contains comparison row RF_existing,PASS,| RF_existing | 0.975 | 0.975 |
+report contains comparison row LR_C0.1,PASS,| LR_C0.1 | 0.950 | 0.950 |
+report contains comparison row LR_C1,PASS,| LR_C1 | 0.975 | 0.975 |
+report contains comparison row LR_C10,PASS,| LR_C10 | 0.975 | 0.975 |
+report contains comparison row DT_depth2,PASS,| DT_depth2 | 0.950 | 0.950 |
+report contains comparison row DT_depth3,PASS,| DT_depth3 | 0.950 | 0.950 |
+report contains DS distribution,PASS,"{3: 13, 4: 20, 5: 11, 6: 5, 7: 1}"
+report contains DS exactly-2 count,PASS,| Trials with exactly 2 presses | **0** |
+report contains threshold,PASS,**0.80** (validation coverage 0.950)
+report contains E1 RF,PASS,| RF (RF_existing) | 100 | 0.981 |
+report contains E1 LR,PASS,| LR (LR_C1) | 100 | 0.985 |
+report contains E1 DT,PASS,| DT (DT_depth2) | 100 | 0.970 |
+report section: Dataset and quality audit (performed BEFORE training,PASS,
+report section: Model comparison,PASS,
+report section: Final held-out test results,PASS,
+report section: Error analysis and uncertainty,PASS,
+report section: Dataset protocol limitations,PASS,
+report section: Practical ESP32 deployment recommendations,PASS,

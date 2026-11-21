@@ -1,0 +1,154 @@
+{
+  "generated_utc": "2026-10-10T15:22:42+00:00",
+  "source_model": "models/followup/DT_depth2.joblib",
+  "source_model_sha256": "d8c854e47f0dbb8ee6bb68f09417e058581c1e8b28afacbd3c7455e67bfa0362",
+  "sklearn_version": "1.9.1",
+  "label_order_c_enum": [
+    "LIGHT_PRESS",
+    "HARD_PRESS",
+    "DOUBLE_SQUEEZE",
+    "NO_PRESS"
+  ],
+  "sklearn_classes_order": [
+    "DOUBLE_SQUEEZE",
+    "HARD_PRESS",
+    "LIGHT_PRESS",
+    "NO_PRESS"
+  ],
+  "features_c_order": [
+    "longest_active_run_frac",
+    "segment_1_mean"
+  ],
+  "features_original_column_index": [
+    15,
+    31
+  ],
+  "feature_units": {
+    "longest_active_run_frac": "fraction of 150 samples (0..1); longest consecutive run with ADC > 100",
+    "segment_1_mean": "ADC counts; mean of samples 15..29"
+  },
+  "comparison_semantics": "go left if (double)(float)x <= threshold (sklearn casts X to float32)",
+  "nodes": [
+    {
+      "node": 0,
+      "is_leaf": false,
+      "feature_orig_index": 15,
+      "feature_c_index": 0,
+      "feature_name": "longest_active_run_frac",
+      "threshold": 0.35333333909511566,
+      "threshold_hex": "0x1.69d0370000000p-2",
+      "threshold_is_float32_exact": false,
+      "left": 1,
+      "right": 4,
+      "leaf_class": null,
+      "leaf_class_c_index": -1,
+      "n_train_samples": 120
+    },
+    {
+      "node": 1,
+      "is_leaf": false,
+      "feature_orig_index": 15,
+      "feature_c_index": 0,
+      "feature_name": "longest_active_run_frac",
+      "threshold": 0.046666666865348816,
+      "threshold_hex": "0x1.7e4b180000000p-5",
+      "threshold_is_float32_exact": true,
+      "left": 2,
+      "right": 3,
+      "leaf_class": null,
+      "leaf_class_c_index": -1,
+      "n_train_samples": 60
+    },
+    {
+      "node": 2,
+      "is_leaf": true,
+      "feature_orig_index": -1,
+      "feature_c_index": -1,
+      "feature_name": null,
+      "threshold": null,
+      "threshold_hex": null,
+      "threshold_is_float32_exact": null,
+      "left": -1,
+      "right": -1,
+      "leaf_class": "NO_PRESS",
+      "leaf_class_c_index": 3,
+      "n_train_samples": 30
+    },
+    {
+      "node": 3,
+      "is_leaf": true,
+      "feature_orig_index": -1,
+      "feature_c_index": -1,
+      "feature_name": null,
+      "threshold": null,
+      "threshold_hex": null,
+      "threshold_is_float32_exact": null,
+      "left": -1,
+      "right": -1,
+      "leaf_class": "DOUBLE_SQUEEZE",
+      "leaf_class_c_index": 2,
+      "n_train_samples": 30
+    },
+    {
+      "node": 4,
+      "is_leaf": false,
+      "feature_orig_index": 31,
+      "feature_c_index": 1,
+      "feature_name": "segment_1_mean",
+      "threshold": 840.6333312988281,
+      "threshold_hex": "0x1.a451110000000p+9",
+      "threshold_is_float32_exact": false,
+      "left": 5,
+      "right": 6,
+      "leaf_class": null,
+      "leaf_class_c_index": -1,
+      "n_train_samples": 60
+    },
+    {
+      "node": 5,
+      "is_leaf": true,
+      "feature_orig_index": -1,
+      "feature_c_index": -1,
+      "feature_name": null,
+      "threshold": null,
+      "threshold_hex": null,
+      "threshold_is_float32_exact": null,
+      "left": -1,
+      "right": -1,
+      "leaf_class": "LIGHT_PRESS",
+      "leaf_class_c_index": 0,
+      "n_train_samples": 30
+    },
+    {
+      "node": 6,
+      "is_leaf": true,
+      "feature_orig_index": -1,
+      "feature_c_index": -1,
+      "feature_name": null,
+      "threshold": null,
+      "threshold_hex": null,
+      "threshold_is_float32_exact": null,
+      "left": -1,
+      "right": -1,
+      "leaf_class": "HARD_PRESS",
+      "leaf_class_c_index": 1,
+      "n_train_samples": 30
+    }
+  ],
+  "rules": [
+    "if ((float)longest_active_run_frac <= 0.35333333909511566):",
+    "    if ((float)longest_active_run_frac <= 0.046666666865348816):",
+    "        -> NO_PRESS",
+    "    else:",
+    "        -> DOUBLE_SQUEEZE",
+    "else:",
+    "    if ((float)segment_1_mean <= 840.6333312988281):",
+    "        -> LIGHT_PRESS",
+    "    else:",
+    "        -> HARD_PRESS"
+  ],
+  "samples_per_window": 150,
+  "active_threshold_adc": 100,
+  "c_source": "models/c_port/decision_tree.c",
+  "c_source_sha256": "cdba6e7d0adada7856f46470e62c451057b185f9209e967627b21f3dd473991f"
+}

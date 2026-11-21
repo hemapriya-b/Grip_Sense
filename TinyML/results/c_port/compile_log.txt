@@ -1,0 +1,5 @@
+$ cc -std=c99 -O2 -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wdouble-promotion -Wstrict-prototypes -Wmissing-prototypes -Wfloat-equal -Wcast-qual -Wformat=2 -Wundef -Wvla decision_tree.c -o build/decision_tree -lm
+exit=0
+
+$ cc -std=c99 -O2 -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wdouble-promotion -Wstrict-prototypes -Wmissing-prototypes -Wfloat-equal -Wcast-qual -Wformat=2 -Wundef -Wvla -DGS_NO_MAIN -c decision_tree.c -o build/decision_tree.o
+exit=0

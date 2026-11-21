@@ -1,0 +1,3 @@
+trial,actual,predicted,correct,prob_DOUBLE_SQUEEZE,prob_HARD_PRESS,prob_LIGHT_PRESS,prob_NO_PRESS,confidence,audit_flags,split
+6,LIGHT_PRESS,DOUBLE_SQUEEZE,False,0.78,0.0633,0.0467,0.11,0.78,atypical_std(z=+7.2); atypical_max(z=+7.3); atypical_zero_fraction(z=+6.3); atypical_mean_abs_diff(z=+6.7); dropout_to_zero_during_press(35%); light_press_peak_in_hard_range(max=1954),validation
+39,LIGHT_PRESS,HARD_PRESS,False,0.04,0.83,0.13,0.0,0.83,atypical_std(z=+3.9); atypical_max(z=+4.3); atypical_mean_abs_diff(z=+3.7),test

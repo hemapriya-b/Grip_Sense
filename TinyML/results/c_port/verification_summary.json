@@ -1,0 +1,142 @@
+{
+  "generated_utc": "2026-10-10T15:22:42+00:00",
+  "hardware_used": false,
+  "new_data_collected": false,
+  "model_retrained": false,
+  "environment": {
+    "python": "3.12.13",
+    "sklearn": "1.9.1",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "cc": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+    "platform": "macOS-27.0.1-arm64-arm-64bit"
+  },
+  "compiler": {
+    "flags": [
+      "-std=c99",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-Wsign-conversion",
+      "-Wshadow",
+      "-Wdouble-promotion",
+      "-Wstrict-prototypes",
+      "-Wmissing-prototypes",
+      "-Wfloat-equal",
+      "-Wcast-qual",
+      "-Wformat=2",
+      "-Wundef",
+      "-Wvla"
+    ],
+    "exe_exit": 0,
+    "obj_exit": 0,
+    "n_warnings": 0,
+    "warnings_text": ""
+  },
+  "trials": 200,
+  "agreement_features_mode": 200,
+  "agreement_raw_adc_mode": 200,
+  "features_bit_exact_raw_mode": {
+    "longest_active_run_frac": 200,
+    "segment_1_mean": 200
+  },
+  "python_features_match_saved_trial_features": true,
+  "python_matches_followup_predictions_val_test": true,
+  "followup_trials_compared": 80,
+  "boundary_tests": {
+    "n": 26,
+    "agree": 26,
+    "naive_double_compare_disagreements": 2,
+    "naive_double_compare_disagreements_on_200_real_trials": 0
+  },
+  "invalid_input_rejected": true,
+  "accuracy_vs_labels_by_split": {
+    "test": 0.95,
+    "train": 1.0,
+    "validation": 0.975
+  },
+  "misclassified_vs_labels": [
+    {
+      "trial": 6,
+      "split": "validation",
+      "actual": "LIGHT_PRESS",
+      "python_sklearn": "DOUBLE_SQUEEZE"
+    },
+    {
+      "trial": 39,
+      "split": "test",
+      "actual": "LIGHT_PRESS",
+      "python_sklearn": "HARD_PRESS"
+    },
+    {
+      "trial": 157,
+      "split": "test",
+      "actual": "NO_PRESS",
+      "python_sklearn": "DOUBLE_SQUEEZE"
+    }
+  ],
+  "sizes": {
+    "estimate_phase2_12_bytes_per_node": 84,
+    "c_tables_sizeof_bytes_host": 84,
+    "adc_window_buffer_bytes": 300,
+    "executable_file_bytes": 34560,
+    "executable_size_cmd": {
+      "__TEXT": "16384",
+      "__DATA": "0",
+      "__OBJC": "0",
+      "others": "4295000064",
+      "dec": "4295016448",
+      "hex": "10000c000"
+    },
+    "object_file_bytes": 3296,
+    "object_size_cmd": {
+      "__TEXT": "1159",
+      "__DATA": "48",
+      "__OBJC": "0",
+      "others": "160",
+      "dec": "1367",
+      "hex": "557"
+    },
+    "object_size_m_output": "Segment : 1376\n\tSection (__TEXT, __text): 972\n\tSection (__TEXT, __literal16): 16\n\tSection (__TEXT, __const): 85\n\tSection (__DATA, __const): 48\n\tSection (__TEXT, __cstring): 86\n\tSection (__LD, __compact_unwind): 160\n\ttotal 1367\ntotal 1376",
+    "binary_arch": "/Users/zenith/Desktop/GripSense-TinyML /models/c_port/build/decision_tree: Mach-O 64-bit executable arm64",
+    "note": "Host macOS build (Apple clang). Does not represent ESP32 flash/RAM usage; the ESP32 toolchain (xtensa/riscv gcc), libc, and FreeRTOS change all sizes."
+  },
+  "preservation": {
+    "files_checked": 70,
+    "changed": [],
+    "saved_model_unchanged": true
+  },
+  "stage_log": [
+    {
+      "stage": "1. read fitted tree from saved model",
+      "utc": "2026-10-10T15:22:41+00:00"
+    },
+    {
+      "stage": "2. generate C source + metadata",
+      "utc": "2026-10-10T15:22:42+00:00"
+    },
+    {
+      "stage": "3. compile with cc (strict warnings)",
+      "utc": "2026-10-10T15:22:42+00:00"
+    },
+    {
+      "stage": "4. verify Python vs C on all 200 trials",
+      "utc": "2026-10-10T15:22:42+00:00"
+    },
+    {
+      "stage": "4c. threshold boundary tests",
+      "utc": "2026-10-10T15:22:42+00:00"
+    },
+    {
+      "stage": "5. sizes (host build; not ESP32)",
+      "utc": "2026-10-10T15:22:42+00:00"
+    },
+    {
+      "stage": "6. preservation checks",
+      "utc": "2026-10-10T15:22:42+00:00"
+    }
+  ],
+  "all_checks_pass": true
+}

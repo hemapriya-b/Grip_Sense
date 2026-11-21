@@ -1,0 +1,11 @@
+{
+  "inspected_by": "Claude Code (viewed each PNG and rendered PDF pages as images)",
+  "GripSense_System_Architecture.png": {"ok": true, "note": "after fix: subtitle/lane-label overlap and arrows crossing labels removed (elbow connectors); parity box text wrapped"},
+  "GripSense_Model_Comparison.png": {"ok": true, "note": "legend above plot, value labels and Wilson error bars legible"},
+  "GripSense_Model_Size.png": {"ok": true, "note": "after fix: '1 feature' singular; estimate vs measured legend legible"},
+  "GripSense_C_Port_Verification.png": {"ok": true, "note": "after fix: red subtitle no longer collides with 'Comparison results'; warning box text inside box"},
+  "GripSense_Confusion_Matrix.png": {"ok": true, "note": "both matrices, labels and titles legible; marked TEST split"},
+  "GripSense_Test_Recall_Uncertainty.png": {"ok": true, "note": "after fix: legend moved above plot (previously covered NO_PRESS bars)"},
+  "GripSense_DoubleSqueeze_Presses.png": {"ok": true, "note": "after fix: annotation arrow no longer covers the zero label"},
+  "pdf_pages": "All 15 pages rendered and viewed: no table overflow, no orphaned headings, figures kept with captions; fixed earlier: narrow numeric columns wrapping, broken bold span, orphaned section-11 heading, string-keyed dict."
+}

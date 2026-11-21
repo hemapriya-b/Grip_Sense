@@ -1,0 +1,44 @@
+category,check,expected,observed,status,notes
+schema,required columns present,"['trial', 'label', 'elapsed_ms', 'adc']","['trial', 'label', 'elapsed_ms', 'adc']",PASS,
+schema,column dtypes,"int,str,int,int","{'trial': 'int64', 'label': 'str', 'elapsed_ms': 'int64', 'adc': 'int64'}",PASS,
+counts,total readings,30000,30000,PASS,
+counts,unique trials,200,200,PASS,
+counts,trial IDs contiguous,1..200,1..200,PASS,
+counts,readings per trial,all 150,{150: 200},PASS,
+missing,missing values: trial,0,0,PASS,
+missing,missing values: label,0,0,PASS,
+missing,missing values: elapsed_ms,0,0,PASS,
+missing,missing values: adc,0,0,PASS,
+duplicates,exact duplicate rows,0,0,PASS,
+duplicates,"duplicate (trial, elapsed_ms)",0,0,PASS,
+labels,labels within allowed set,"['LIGHT_PRESS', 'HARD_PRESS', 'DOUBLE_SQUEEZE', 'NO_PRESS']","['DOUBLE_SQUEEZE', 'HARD_PRESS', 'LIGHT_PRESS', 'NO_PRESS']",PASS,
+labels,trials with inconsistent labels,0,0,PASS,
+balance,trials for LIGHT_PRESS,50,50,PASS,
+balance,readings for LIGHT_PRESS,7500,7500,PASS,
+balance,trials for HARD_PRESS,50,50,PASS,
+balance,readings for HARD_PRESS,7500,7500,PASS,
+balance,trials for DOUBLE_SQUEEZE,50,50,PASS,
+balance,readings for DOUBLE_SQUEEZE,7500,7500,PASS,
+balance,trials for NO_PRESS,50,50,PASS,
+balance,readings for NO_PRESS,7500,7500,PASS,
+timing,sampling interval (ms),all 20,{20: 29800},PASS,Timestamps are relative per trial; jitter of the real sampling clock cannot be observed if the logger wrote nominal times.
+timing,trial start elapsed_ms,all 0,{0: 200},PASS,
+timing,trial last timestamp (ms),all 2980 (150 x 20 ms = 3.0 s window),{2980: 200},PASS,
+timing,timestamps monotonic within trial (file order),True,True,PASS,
+adc,ADC min / max,within 0..4095,0 / 2608,PASS,
+adc,saturated readings (>= 4095),0,0,PASS,
+adc,zero readings overall,INFO,11035 (36.8%),INFO,"Zeros are expected when the FSR is unloaded (NO_PRESS, gaps between squeezes)."
+adc,ADC stats LIGHT_PRESS,INFO,mean=566.8 median=557 std=284.5 min=0 max=2273 zero=1.6%,INFO,
+adc,ADC stats HARD_PRESS,INFO,mean=1651.5 median=1693 std=496.2 min=0 max=2608 zero=0.4%,INFO,
+adc,ADC stats DOUBLE_SQUEEZE,INFO,mean=511.9 median=144 std=641.9 min=0 max=2414 zero=45.6%,INFO,
+adc,ADC stats NO_PRESS,INFO,mean=1.2 median=0 std=24.3 min=0 max=704 zero=99.6%,INFO,
+protocol,classes recorded in contiguous trial blocks,interleaved/randomised order,LIGHT_PRESS: 1-50; HARD_PRESS: 51-100; DOUBLE_SQUEEZE: 101-150; NO_PRESS: 151-200,WARN,"Class is confounded with recording session/time. Sensor drift, grip habituation or placement changes between blocks could be learned as 'class'. Trial ID is excluded from features, but the confound cannot be removed from this dataset."
+protocol,press events per trial: LIGHT_PRESS,1 (one sustained press),"{1: 42, 2: 3, 3: 1, 4: 4}",INFO,
+protocol,press events per trial: HARD_PRESS,1 (one sustained press),"{1: 49, 2: 1}",INFO,
+protocol,press events per trial: DOUBLE_SQUEEZE,2 (one double squeeze),"{3: 13, 4: 20, 5: 11, 6: 5, 7: 1}",WARN,"Only 0/50 trials contain exactly 2 presses; median 4. Trials contain repeated squeezing for the whole 3 s window, so a single real-world double squeeze is not represented in the training data."
+protocol,press events per trial: NO_PRESS,0,"{0: 48, 1: 1, 2: 1}",INFO,
+quality,trials flagged for review (kept in dataset),0,20,WARN,"IDs: 4, 6, 10, 38, 39, 45, 46, 53, 55, 60, 63, 64, 65, 66, 75, 77, 91, 92, 156, 157"
+quality,flagged trials LIGHT_PRESS,INFO,7,INFO,"4, 6, 10, 38, 39, 45, 46"
+quality,flagged trials HARD_PRESS,INFO,11,INFO,"53, 55, 60, 63, 64, 65, 66, 75, 77, 91, 92"
+quality,flagged trials DOUBLE_SQUEEZE,INFO,0,INFO,
+quality,flagged trials NO_PRESS,INFO,2,INFO,"156, 157"

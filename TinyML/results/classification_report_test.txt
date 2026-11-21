@@ -1,0 +1,10 @@
+                precision    recall  f1-score   support
+
+   LIGHT_PRESS      1.000     0.900     0.947        10
+    HARD_PRESS      0.909     1.000     0.952        10
+DOUBLE_SQUEEZE      1.000     1.000     1.000        10
+      NO_PRESS      1.000     1.000     1.000        10
+
+      accuracy                          0.975        40
+     macro avg      0.977     0.975     0.975        40
+  weighted avg      0.977     0.975     0.975        40

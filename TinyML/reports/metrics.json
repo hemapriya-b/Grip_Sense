@@ -1,0 +1,610 @@
+{
+  "generated_utc": "2026-10-10T14:34:48+00:00",
+  "seed": 42,
+  "environment": {
+    "python": "3.12.13",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "joblib": "1.6.0"
+  },
+  "input": {
+    "csv": "gripsense_clean_data.csv",
+    "sha256": "05e0fc031e28a2406bc2cbf7d35642e1064310fc03c499710c8f6796148c9ec8",
+    "unchanged_after_run": true
+  },
+  "dataset": {
+    "rows": 30000,
+    "trials": 200,
+    "readings_per_trial": 150,
+    "trials_per_class": {
+      "LIGHT_PRESS": 50,
+      "HARD_PRESS": 50,
+      "DOUBLE_SQUEEZE": 50,
+      "NO_PRESS": 50
+    },
+    "audit_status_counts": {
+      "PASS": 28,
+      "INFO": 12,
+      "WARN": 3
+    },
+    "flagged_trials": 20,
+    "flagged_trial_ids": [
+      4,
+      6,
+      10,
+      38,
+      39,
+      45,
+      46,
+      53,
+      55,
+      60,
+      63,
+      64,
+      65,
+      66,
+      75,
+      77,
+      91,
+      92,
+      156,
+      157
+    ],
+    "recording_blocks": "LIGHT_PRESS: 1-50; HARD_PRESS: 51-100; DOUBLE_SQUEEZE: 101-150; NO_PRESS: 151-200"
+  },
+  "split": {
+    "method": "stratified by label at trial level, sklearn train_test_split x2",
+    "trials": {
+      "train": 120,
+      "validation": 40,
+      "test": 40
+    },
+    "readings": {
+      "train": 18000,
+      "validation": 6000,
+      "test": 6000
+    },
+    "per_class": {
+      "train": {
+        "LIGHT_PRESS": 30,
+        "HARD_PRESS": 30,
+        "DOUBLE_SQUEEZE": 30,
+        "NO_PRESS": 30
+      },
+      "validation": {
+        "LIGHT_PRESS": 10,
+        "HARD_PRESS": 10,
+        "DOUBLE_SQUEEZE": 10,
+        "NO_PRESS": 10
+      },
+      "test": {
+        "LIGHT_PRESS": 10,
+        "HARD_PRESS": 10,
+        "DOUBLE_SQUEEZE": 10,
+        "NO_PRESS": 10
+      }
+    },
+    "checks": [
+      {
+        "check": "train trials",
+        "expected": 120,
+        "observed": 120,
+        "status": "PASS"
+      },
+      {
+        "check": "train readings",
+        "expected": 18000,
+        "observed": 18000,
+        "status": "PASS"
+      },
+      {
+        "check": "train LIGHT_PRESS trials",
+        "expected": 30,
+        "observed": 30,
+        "status": "PASS"
+      },
+      {
+        "check": "train HARD_PRESS trials",
+        "expected": 30,
+        "observed": 30,
+        "status": "PASS"
+      },
+      {
+        "check": "train DOUBLE_SQUEEZE trials",
+        "expected": 30,
+        "observed": 30,
+        "status": "PASS"
+      },
+      {
+        "check": "train NO_PRESS trials",
+        "expected": 30,
+        "observed": 30,
+        "status": "PASS"
+      },
+      {
+        "check": "validation trials",
+        "expected": 40,
+        "observed": 40,
+        "status": "PASS"
+      },
+      {
+        "check": "validation readings",
+        "expected": 6000,
+        "observed": 6000,
+        "status": "PASS"
+      },
+      {
+        "check": "validation LIGHT_PRESS trials",
+        "expected": 10,
+        "observed": 10,
+        "status": "PASS"
+      },
+      {
+        "check": "validation HARD_PRESS trials",
+        "expected": 10,
+        "observed": 10,
+        "status": "PASS"
+      },
+      {
+        "check": "validation DOUBLE_SQUEEZE trials",
+        "expected": 10,
+        "observed": 10,
+        "status": "PASS"
+      },
+      {
+        "check": "validation NO_PRESS trials",
+        "expected": 10,
+        "observed": 10,
+        "status": "PASS"
+      },
+      {
+        "check": "test trials",
+        "expected": 40,
+        "observed": 40,
+        "status": "PASS"
+      },
+      {
+        "check": "test readings",
+        "expected": 6000,
+        "observed": 6000,
+        "status": "PASS"
+      },
+      {
+        "check": "test LIGHT_PRESS trials",
+        "expected": 10,
+        "observed": 10,
+        "status": "PASS"
+      },
+      {
+        "check": "test HARD_PRESS trials",
+        "expected": 10,
+        "observed": 10,
+        "status": "PASS"
+      },
+      {
+        "check": "test DOUBLE_SQUEEZE trials",
+        "expected": 10,
+        "observed": 10,
+        "status": "PASS"
+      },
+      {
+        "check": "test NO_PRESS trials",
+        "expected": 10,
+        "observed": 10,
+        "status": "PASS"
+      },
+      {
+        "check": "overlap train/validation",
+        "expected": 0,
+        "observed": 0,
+        "status": "PASS"
+      },
+      {
+        "check": "overlap train/test",
+        "expected": 0,
+        "observed": 0,
+        "status": "PASS"
+      },
+      {
+        "check": "overlap validation/test",
+        "expected": 0,
+        "observed": 0,
+        "status": "PASS"
+      },
+      {
+        "check": "trials assigned exactly once",
+        "expected": 200,
+        "observed": 200,
+        "status": "PASS"
+      }
+    ]
+  },
+  "features": {
+    "n_features": 49,
+    "names": [
+      "mean",
+      "median",
+      "std",
+      "min",
+      "max",
+      "range",
+      "q10",
+      "q25",
+      "q75",
+      "q90",
+      "iqr",
+      "rms",
+      "zero_fraction",
+      "active_mean",
+      "longest_zero_run_frac",
+      "longest_active_run_frac",
+      "peak_position_frac",
+      "mean_abs_diff",
+      "std_diff",
+      "max_rise",
+      "max_fall",
+      "above_50_fraction",
+      "above_100_fraction",
+      "above_500_fraction",
+      "above_1000_fraction",
+      "above_1500_fraction",
+      "above_2000_fraction",
+      "press_events_100",
+      "press_events_300",
+      "segment_0_mean",
+      "segment_0_max",
+      "segment_1_mean",
+      "segment_1_max",
+      "segment_2_mean",
+      "segment_2_max",
+      "segment_3_mean",
+      "segment_3_max",
+      "segment_4_mean",
+      "segment_4_max",
+      "segment_5_mean",
+      "segment_5_max",
+      "segment_6_mean",
+      "segment_6_max",
+      "segment_7_mean",
+      "segment_7_max",
+      "segment_8_mean",
+      "segment_8_max",
+      "segment_9_mean",
+      "segment_9_max"
+    ]
+  },
+  "baselines_validation": [
+    {
+      "baseline": "B0_majority_class",
+      "description": "Always predicts the most frequent training class (classes are tied, so sklearn picks the first label alphabetically).",
+      "features": "all",
+      "val_accuracy": 0.25,
+      "val_macro_f1": 0.1,
+      "val_confusion_matrix": [
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ]
+      ]
+    },
+    {
+      "baseline": "B1_nearest_centroid_mean_adc",
+      "description": "Nearest class centroid on a single feature: the trial's mean ADC. Centroids = per-class average of trial means on the training set.",
+      "features": [
+        "mean"
+      ],
+      "val_accuracy": 0.725,
+      "val_macro_f1": 0.7141148325358851,
+      "val_confusion_matrix": [
+        [
+          5,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          4,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "centroids_mean_adc": {
+        "DOUBLE_SQUEEZE": 504.73866666666675,
+        "HARD_PRESS": 1622.114666666667,
+        "LIGHT_PRESS": 578.4719999999999,
+        "NO_PRESS": 0.4537777777777778
+      }
+    }
+  ],
+  "model_selection": {
+    "rule": "max val macro-F1 -> max train 5-fold CV macro-F1 -> min val log-loss -> simpler family -> candidate order",
+    "n_candidates": 14,
+    "selection_used_trials": "train + validation only",
+    "test_trials_used_in_selection": [],
+    "selected": {
+      "candidate_id": 6,
+      "family": "RandomForest",
+      "params": {
+        "n_estimators": 300,
+        "max_depth": null,
+        "min_samples_leaf": 1,
+        "max_features": "sqrt"
+      },
+      "val_accuracy": 0.975,
+      "val_macro_f1": 0.9749373433583959,
+      "val_log_loss": 0.10240383079114201,
+      "train_cv5_macro_f1": 0.9916083916083916
+    },
+    "best_random_forest": {
+      "candidate_id": 6,
+      "params": {
+        "n_estimators": 300,
+        "max_depth": null,
+        "min_samples_leaf": 1,
+        "max_features": "sqrt"
+      },
+      "val_accuracy": 0.975,
+      "val_macro_f1": 0.9749373433583959,
+      "val_log_loss": 0.10240383079114201,
+      "train_cv5_macro_f1": 0.9916083916083916
+    },
+    "n_candidates_tied_at_best_val_macro_f1": 14
+  },
+  "validation": {
+    "n_trials": 40,
+    "n_correct": 39,
+    "accuracy": 0.975,
+    "accuracy_95ci_wilson": [
+      0.8711834051199223,
+      0.9955732825922052
+    ],
+    "per_class": {
+      "LIGHT_PRESS": {
+        "precision": 1.0,
+        "recall": 0.9,
+        "f1": 0.9473684210526315,
+        "support": 10
+      },
+      "HARD_PRESS": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 10
+      },
+      "DOUBLE_SQUEEZE": {
+        "precision": 0.9090909090909091,
+        "recall": 1.0,
+        "f1": 0.9523809523809523,
+        "support": 10
+      },
+      "NO_PRESS": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 10
+      }
+    },
+    "macro_avg": {
+      "precision": 0.9772727272727273,
+      "recall": 0.975,
+      "f1": 0.9749373433583959
+    },
+    "weighted_avg": {
+      "precision": 0.9772727272727273,
+      "recall": 0.975,
+      "f1": 0.974937343358396
+    },
+    "confusion_matrix": {
+      "labels_order": [
+        "LIGHT_PRESS",
+        "HARD_PRESS",
+        "DOUBLE_SQUEEZE",
+        "NO_PRESS"
+      ],
+      "rows": "actual",
+      "columns": "predicted",
+      "matrix": [
+        [
+          9,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ]
+    }
+  },
+  "test": {
+    "n_trials": 40,
+    "n_correct": 39,
+    "accuracy": 0.975,
+    "accuracy_95ci_wilson": [
+      0.8711834051199223,
+      0.9955732825922052
+    ],
+    "per_class": {
+      "LIGHT_PRESS": {
+        "precision": 1.0,
+        "recall": 0.9,
+        "f1": 0.9473684210526315,
+        "support": 10
+      },
+      "HARD_PRESS": {
+        "precision": 0.9090909090909091,
+        "recall": 1.0,
+        "f1": 0.9523809523809523,
+        "support": 10
+      },
+      "DOUBLE_SQUEEZE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 10
+      },
+      "NO_PRESS": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 10
+      }
+    },
+    "macro_avg": {
+      "precision": 0.9772727272727273,
+      "recall": 0.975,
+      "f1": 0.974937343358396
+    },
+    "weighted_avg": {
+      "precision": 0.9772727272727273,
+      "recall": 0.975,
+      "f1": 0.974937343358396
+    },
+    "confusion_matrix": {
+      "labels_order": [
+        "LIGHT_PRESS",
+        "HARD_PRESS",
+        "DOUBLE_SQUEEZE",
+        "NO_PRESS"
+      ],
+      "rows": "actual",
+      "columns": "predicted",
+      "matrix": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ]
+    }
+  },
+  "misclassified": {
+    "validation": [
+      6
+    ],
+    "test": [
+      39
+    ]
+  },
+  "model_reload_predictions_match": true,
+  "stage_log": [
+    {
+      "stage": "1. load + dataset audit (before split/training)",
+      "utc": "2026-10-10T14:34:34+00:00"
+    },
+    {
+      "stage": "2. trial-level stratified split 60/20/20",
+      "utc": "2026-10-10T14:34:36+00:00"
+    },
+    {
+      "stage": "3. feature extraction (one vector per trial)",
+      "utc": "2026-10-10T14:34:36+00:00"
+    },
+    {
+      "stage": "4. baselines (fit on train, evaluated on validation)",
+      "utc": "2026-10-10T14:34:36+00:00"
+    },
+    {
+      "stage": "5. pre-training plan written (no model fitted yet)",
+      "utc": "2026-10-10T14:34:36+00:00"
+    },
+    {
+      "stage": "6. model training + selection (train/validation only)",
+      "utc": "2026-10-10T14:34:36+00:00"
+    },
+    {
+      "stage": "7. final evaluation on held-out test set (once)",
+      "utc": "2026-10-10T14:34:48+00:00"
+    },
+    {
+      "stage": "8. artifacts, figures, report",
+      "utc": "2026-10-10T14:34:48+00:00"
+    }
+  ],
+  "figures": {
+    "class_distribution": "fig01_class_distribution.png",
+    "representative_waveforms": "fig02_representative_waveforms.png",
+    "class_median_waveform": "fig03_class_median_waveform.png",
+    "adc_distribution": "fig04_adc_distribution.png",
+    "trial_stats_by_class": "fig05_trial_stats_by_class.png",
+    "recording_order": "fig06_recording_order.png",
+    "flagged_trials": "fig07_flagged_trials.png",
+    "model_comparison": "fig08_model_comparison_validation.png",
+    "cm_baseline": "fig09_confusion_matrix_baseline_validation.png",
+    "cm_validation": "fig10_confusion_matrix_validation.png",
+    "cm_test": "fig11_confusion_matrix_test.png",
+    "feature_importance": "fig12_feature_importance.png",
+    "val_vs_test": "fig13_val_vs_test_f1.png",
+    "misclassified": "fig14_misclassified_trials.png"
+  }
+}

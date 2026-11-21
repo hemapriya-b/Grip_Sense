@@ -1,0 +1,92 @@
+check,status,detail
+exists: reports/GripSense_TinyML_Report.md,PASS,
+exists: reports/dataset_audit.csv,PASS,
+exists: reports/trial_features.csv,PASS,
+exists: reports/split_manifest.csv,PASS,
+exists: reports/metrics.json,PASS,
+exists: reports/pre_training_plan.md,PASS,
+exists: reports/trial_quality_flags.csv,PASS,
+exists: models/gripsense_model.joblib,PASS,
+exists: models/model_metadata.json,PASS,
+exists: results/test_predictions.csv,PASS,
+exists: results/validation_predictions.csv,PASS,
+exists: results/model_selection_results.csv,PASS,
+exists: results/baseline_results.csv,PASS,
+exists: results/misclassified_trials.csv,PASS,
+exists: results/classification_report_test.txt,PASS,
+exists: results/feature_importance.csv,PASS,
+exists: run_experiment.py,PASS,
+exists: README.md,PASS,
+exists: requirements.txt,PASS,
+figure exists: fig01_class_distribution.png,PASS,
+figure exists: fig02_representative_waveforms.png,PASS,
+figure exists: fig03_class_median_waveform.png,PASS,
+figure exists: fig04_adc_distribution.png,PASS,
+figure exists: fig05_trial_stats_by_class.png,PASS,
+figure exists: fig06_recording_order.png,PASS,
+figure exists: fig07_flagged_trials.png,PASS,
+figure exists: fig08_model_comparison_validation.png,PASS,
+figure exists: fig09_confusion_matrix_baseline_validation.png,PASS,
+figure exists: fig10_confusion_matrix_validation.png,PASS,
+figure exists: fig11_confusion_matrix_test.png,PASS,
+figure exists: fig12_feature_importance.png,PASS,
+figure exists: fig13_val_vs_test_f1.png,PASS,
+figure exists: fig14_misclassified_trials.png,PASS,
+original CSV unchanged (SHA-256),PASS,
+"30,000 readings",PASS,30000
+200 trials,PASS,
+150 readings per trial,PASS,
+50 trials per class,PASS,
+manifest covers 200 unique trials,PASS,
+train: 120 trials,PASS,120
+train: 30 trials per class,PASS,
+train: 18000 readings,PASS,
+validation: 40 trials,PASS,40
+validation: 10 trials per class,PASS,
+validation: 6000 readings,PASS,
+test: 40 trials,PASS,40
+test: 10 trials per class,PASS,
+test: 6000 readings,PASS,
+no trial overlap across splits,PASS,
+manifest labels match CSV,PASS,
+trial_features: 200 rows,PASS,
+trial_features match recomputation,PASS,
+trial_features split column matches manifest,PASS,
+model trained only on train trials,PASS,
+no test trials used in model selection,PASS,
+stage order: audit < baseline < plan < selection < test,PASS,
+trial ID not used as a feature,PASS,
+"test predictions: 40 rows, ids match manifest",PASS,
+test accuracy matches metrics.json,PASS,0.9750
+test macro-F1 matches metrics.json,PASS,
+test per-class P/R/F1 match metrics.json,PASS,
+test confusion matrix matches metrics.json,PASS,
+test misclassified IDs match metrics.json,PASS,
+"validation predictions: 40 rows, ids match manifest",PASS,
+validation accuracy matches metrics.json,PASS,0.9750
+validation macro-F1 matches metrics.json,PASS,
+validation per-class P/R/F1 match metrics.json,PASS,
+validation confusion matrix matches metrics.json,PASS,
+validation misclassified IDs match metrics.json,PASS,
+saved model reloads and reproduces test predictions,PASS,
+report contains test accuracy,PASS,**0.975**
+report contains test n_correct,PASS,39/40
+report contains test macro-F1,PASS,macro-F1 **0.975**
+report contains validation accuracy,PASS,Validation accuracy 0.975
+report contains baseline B1 accuracy,PASS,0.725
+report contains seed,PASS,Seed: **42**
+report contains test CM row LIGHT_PRESS,PASS,| **LIGHT_PRESS** | 9 | 1 | 0 | 0 |
+report contains test CM row HARD_PRESS,PASS,| **HARD_PRESS** | 0 | 10 | 0 | 0 |
+report contains test CM row DOUBLE_SQUEEZE,PASS,| **DOUBLE_SQUEEZE** | 0 | 0 | 10 | 0 |
+report contains test CM row NO_PRESS,PASS,| **NO_PRESS** | 0 | 0 | 0 | 10 |
+report contains test per-class LIGHT_PRESS,PASS,1.000 | 0.900 | 0.947
+report contains test per-class HARD_PRESS,PASS,0.909 | 1.000 | 0.952
+report contains test per-class DOUBLE_SQUEEZE,PASS,1.000 | 1.000 | 1.000
+report contains test per-class NO_PRESS,PASS,1.000 | 1.000 | 1.000
+report section: Dataset findings BEFORE training,PASS,
+report section: Baseline results,PASS,
+report section: Model training and validation,PASS,
+report section: Final test results AFTER training,PASS,
+report section: Limitations,PASS,
+report section: Conclusion,PASS,
+report section: Next steps,PASS,

@@ -1,0 +1,1268 @@
+{
+  "current_dt2": {
+    "description": "saved depth-2 tree via verified C code (unchanged)",
+    "train": {
+      "accuracy": 1.0,
+      "n": 120,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        }
+      },
+      "confusion_matrix": [
+        [
+          30,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          30,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          30,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          30
+        ]
+      ]
+    },
+    "validation": {
+      "accuracy": 0.975,
+      "n": 40,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        }
+      },
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ]
+    },
+    "test": {
+      "accuracy": 0.95,
+      "n": 40,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10
+        }
+      },
+      "confusion_matrix": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          9
+        ]
+      ]
+    },
+    "train_cv5": {
+      "accuracy": 0.9833333333333333,
+      "n": 120,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9666666666666667,
+          "support": 30
+        },
+        "HARD_PRESS": {
+          "precision": 0.967741935483871,
+          "recall": 1.0,
+          "support": 30
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.967741935483871,
+          "recall": 1.0,
+          "support": 30
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9666666666666667,
+          "support": 30
+        }
+      },
+      "confusion_matrix": [
+        [
+          29,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          30,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          30,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          29
+        ]
+      ]
+    }
+  },
+  "gate_ev2": {
+    "description": "current tree; DS leaf only if press_events_100 >= 2, else L/H by active_mean <= 943.550",
+    "train": {
+      "accuracy": 1.0,
+      "n": 120,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        }
+      },
+      "confusion_matrix": [
+        [
+          30,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          30,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          30,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          30
+        ]
+      ]
+    },
+    "validation": {
+      "accuracy": 0.975,
+      "n": 40,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        }
+      },
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ]
+    },
+    "test": {
+      "accuracy": 0.95,
+      "n": 40,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 0.9,
+          "recall": 0.9,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10
+        }
+      },
+      "confusion_matrix": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          9
+        ]
+      ]
+    },
+    "train_cv5": {
+      "accuracy": 1.0,
+      "n": 120,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        }
+      },
+      "confusion_matrix": [
+        [
+          30,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          30,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          30,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          30
+        ]
+      ]
+    }
+  },
+  "gate_ev3": {
+    "description": "current tree; DS leaf only if press_events_100 >= 3, else L/H by active_mean <= 943.550",
+    "train": {
+      "accuracy": 1.0,
+      "n": 120,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        }
+      },
+      "confusion_matrix": [
+        [
+          30,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          30,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          30,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          30
+        ]
+      ]
+    },
+    "validation": {
+      "accuracy": 0.975,
+      "n": 40,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        }
+      },
+      "confusion_matrix": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ]
+    },
+    "test": {
+      "accuracy": 0.95,
+      "n": 40,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 0.9,
+          "recall": 0.9,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10
+        }
+      },
+      "confusion_matrix": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          9
+        ]
+      ]
+    },
+    "train_cv5": {
+      "accuracy": 1.0,
+      "n": 120,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        }
+      },
+      "confusion_matrix": [
+        [
+          30,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          30,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          30,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          30
+        ]
+      ]
+    }
+  },
+  "dt2_robust": {
+    "description": "DecisionTree depth 2 on 5 features (train trials only)",
+    "train": {
+      "accuracy": 0.75,
+      "n": 120,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 30
+        },
+        "HARD_PRESS": {
+          "precision": 0.5263157894736842,
+          "recall": 1.0,
+          "support": 30
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 30
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        }
+      },
+      "confusion_matrix": [
+        [
+          0,
+          27,
+          3,
+          0
+        ],
+        [
+          0,
+          30,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          30,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          30
+        ]
+      ]
+    },
+    "validation": {
+      "accuracy": 0.75,
+      "n": 40,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.5263157894736842,
+          "recall": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        }
+      },
+      "confusion_matrix": [
+        [
+          0,
+          9,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ]
+    },
+    "test": {
+      "accuracy": 0.7,
+      "n": 40,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.5,
+          "recall": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9,
+          "recall": 0.9,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 0.9,
+          "recall": 0.9,
+          "support": 10
+        }
+      },
+      "confusion_matrix": [
+        [
+          0,
+          9,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          9,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          9
+        ]
+      ]
+    },
+    "train_cv5": {
+      "accuracy": 0.7416666666666667,
+      "n": 120,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 30
+        },
+        "HARD_PRESS": {
+          "precision": 0.5471698113207547,
+          "recall": 0.9666666666666667,
+          "support": 30
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.8108108108108109,
+          "recall": 1.0,
+          "support": 30
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        }
+      },
+      "confusion_matrix": [
+        [
+          0,
+          24,
+          6,
+          0
+        ],
+        [
+          0,
+          29,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          30,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          30
+        ]
+      ]
+    }
+  },
+  "dt3_robust": {
+    "description": "DecisionTree depth 3 on 5 features (train trials only)",
+    "train": {
+      "accuracy": 0.9916666666666667,
+      "n": 120,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9666666666666667,
+          "support": 30
+        },
+        "HARD_PRESS": {
+          "precision": 0.967741935483871,
+          "recall": 1.0,
+          "support": 30
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        }
+      },
+      "confusion_matrix": [
+        [
+          29,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          30,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          30,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          30
+        ]
+      ]
+    },
+    "validation": {
+      "accuracy": 0.975,
+      "n": 40,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        }
+      },
+      "confusion_matrix": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ]
+    },
+    "test": {
+      "accuracy": 0.9,
+      "n": 40,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 0.8888888888888888,
+          "recall": 0.8,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9,
+          "recall": 0.9,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 0.9,
+          "recall": 0.9,
+          "support": 10
+        }
+      },
+      "confusion_matrix": [
+        [
+          8,
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          9,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          9
+        ]
+      ]
+    },
+    "train_cv5": {
+      "accuracy": 0.9583333333333334,
+      "n": 120,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.8666666666666667,
+          "support": 30
+        },
+        "HARD_PRESS": {
+          "precision": 0.9666666666666667,
+          "recall": 0.9666666666666667,
+          "support": 30
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.8823529411764706,
+          "recall": 1.0,
+          "support": 30
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        }
+      },
+      "confusion_matrix": [
+        [
+          26,
+          1,
+          3,
+          0
+        ],
+        [
+          0,
+          29,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          30,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          30
+        ]
+      ]
+    }
+  },
+  "dt3_all": {
+    "description": "DecisionTree depth 3 on 49 features (train trials only)",
+    "train": {
+      "accuracy": 1.0,
+      "n": 120,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 30
+        }
+      },
+      "confusion_matrix": [
+        [
+          30,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          30,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          30,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          30
+        ]
+      ]
+    },
+    "validation": {
+      "accuracy": 0.975,
+      "n": 40,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10
+        }
+      },
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ]
+    },
+    "test": {
+      "accuracy": 0.95,
+      "n": 40,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10
+        }
+      },
+      "confusion_matrix": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          9
+        ]
+      ]
+    },
+    "train_cv5": {
+      "accuracy": 0.9833333333333333,
+      "n": 120,
+      "per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9666666666666667,
+          "support": 30
+        },
+        "HARD_PRESS": {
+          "precision": 0.967741935483871,
+          "recall": 1.0,
+          "support": 30
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.967741935483871,
+          "recall": 1.0,
+          "support": 30
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9666666666666667,
+          "support": 30
+        }
+      },
+      "confusion_matrix": [
+        [
+          29,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          30,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          30,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          29
+        ]
+      ]
+    }
+  }
+}

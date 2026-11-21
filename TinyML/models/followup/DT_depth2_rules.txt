@@ -1,0 +1,10 @@
+|--- longest_active_run_frac <= 0.353
+|   |--- longest_active_run_frac <= 0.047
+|   |   |--- class: NO_PRESS
+|   |--- longest_active_run_frac >  0.047
+|   |   |--- class: DOUBLE_SQUEEZE
+|--- longest_active_run_frac >  0.353
+|   |--- segment_1_mean <= 840.633
+|   |   |--- class: LIGHT_PRESS
+|   |--- segment_1_mean >  840.633
+|   |   |--- class: HARD_PRESS

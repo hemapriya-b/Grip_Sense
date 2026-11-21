@@ -1,0 +1,13 @@
+probe,model,original_label,LIGHT_PRESS,HARD_PRESS,DOUBLE_SQUEEZE,NO_PRESS
+P1_two_squeezes_then_rest,DT,DOUBLE_SQUEEZE,0,0,19,1
+P1_two_squeezes_then_rest,LR,DOUBLE_SQUEEZE,0,0,18,2
+P1_two_squeezes_then_rest,RF,DOUBLE_SQUEEZE,0,0,18,2
+P2_single_squeeze_then_rest,DT,DOUBLE_SQUEEZE,0,0,17,3
+P2_single_squeeze_then_rest,LR,DOUBLE_SQUEEZE,0,0,10,10
+P2_single_squeeze_then_rest,RF,DOUBLE_SQUEEZE,0,0,11,9
+P3_press_with_onset_and_release,DT,HARD_PRESS,20,0,0,0
+P3_press_with_onset_and_release,DT,LIGHT_PRESS,18,0,2,0
+P3_press_with_onset_and_release,LR,HARD_PRESS,0,0,20,0
+P3_press_with_onset_and_release,LR,LIGHT_PRESS,5,0,15,0
+P3_press_with_onset_and_release,RF,HARD_PRESS,0,0,20,0
+P3_press_with_onset_and_release,RF,LIGHT_PRESS,0,0,20,0
