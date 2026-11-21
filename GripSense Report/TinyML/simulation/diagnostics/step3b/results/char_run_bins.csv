@@ -1,0 +1,13 @@
+split,label,0-7 (NO_PRESS leaf),8-53 (DS leaf),54-150 (L/H branch)
+test,DOUBLE_SQUEEZE,0,10,0
+test,HARD_PRESS,0,0,10
+test,LIGHT_PRESS,0,0,10
+test,NO_PRESS,9,1,0
+train,DOUBLE_SQUEEZE,0,30,0
+train,HARD_PRESS,0,0,30
+train,LIGHT_PRESS,0,0,30
+train,NO_PRESS,30,0,0
+validation,DOUBLE_SQUEEZE,0,10,0
+validation,HARD_PRESS,0,0,10
+validation,LIGHT_PRESS,0,1,9
+validation,NO_PRESS,10,0,0

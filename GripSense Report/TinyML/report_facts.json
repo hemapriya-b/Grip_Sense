@@ -1,0 +1,1934 @@
+{
+  "columns": [
+    "trial",
+    "label",
+    "elapsed_ms",
+    "adc"
+  ],
+  "rows": 30000,
+  "trials": 200,
+  "per_trial": [
+    150
+  ],
+  "per_label_trials": {
+    "LIGHT_PRESS": 50,
+    "HARD_PRESS": 50,
+    "DOUBLE_SQUEEZE": 50,
+    "NO_PRESS": 50
+  },
+  "per_label_rows": {
+    "LIGHT_PRESS": 7500,
+    "HARD_PRESS": 7500,
+    "DOUBLE_SQUEEZE": 7500,
+    "NO_PRESS": 7500
+  },
+  "intervals_ms": [
+    20
+  ],
+  "elapsed_min": 0,
+  "elapsed_max": 2980,
+  "adc_min": 0,
+  "adc_max": 2608,
+  "missing": 0,
+  "dup_rows": 0,
+  "labels_per_trial_max": 1,
+  "blocks": {
+    "LIGHT_PRESS": [
+      1,
+      50
+    ],
+    "HARD_PRESS": [
+      51,
+      100
+    ],
+    "DOUBLE_SQUEEZE": [
+      101,
+      150
+    ],
+    "NO_PRESS": [
+      151,
+      200
+    ]
+  },
+  "zero_frac_by_label": {
+    "LIGHT_PRESS": 0.0156,
+    "HARD_PRESS": 0.004,
+    "DOUBLE_SQUEEZE": 0.45586666666666664,
+    "NO_PRESS": 0.9958666666666667
+  },
+  "split_trials": {
+    "train": 120,
+    "test": 40,
+    "validation": 40
+  },
+  "split_per_class": {
+    "train": {
+      "LIGHT_PRESS": 30,
+      "HARD_PRESS": 30,
+      "DOUBLE_SQUEEZE": 30,
+      "NO_PRESS": 30
+    },
+    "validation": {
+      "LIGHT_PRESS": 10,
+      "HARD_PRESS": 10,
+      "DOUBLE_SQUEEZE": 10,
+      "NO_PRESS": 10
+    },
+    "test": {
+      "LIGHT_PRESS": 10,
+      "HARD_PRESS": 10,
+      "DOUBLE_SQUEEZE": 10,
+      "NO_PRESS": 10
+    }
+  },
+  "split_rows": {
+    "train": 18000,
+    "validation": 6000,
+    "test": 6000
+  },
+  "split_overlap": 0,
+  "seed": 42,
+  "env": {
+    "python": "3.12.13",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "joblib": "1.6.0"
+  },
+  "n_features": 49,
+  "phase1_selected": {
+    "candidate_id": 6,
+    "family": "RandomForest",
+    "params": {
+      "n_estimators": 300,
+      "max_depth": null,
+      "min_samples_leaf": 1,
+      "max_features": "sqrt"
+    },
+    "val_accuracy": 0.975,
+    "val_macro_f1": 0.9749373433583959,
+    "val_log_loss": 0.10240383079114201,
+    "train_cv5_macro_f1": 0.9916083916083916
+  },
+  "phase1_generated": "2026-10-10T14:34:48+00:00",
+  "audit_status": {
+    "PASS": 28,
+    "INFO": 12,
+    "WARN": 3
+  },
+  "flagged_ids": [
+    4,
+    6,
+    10,
+    38,
+    39,
+    45,
+    46,
+    53,
+    55,
+    60,
+    63,
+    64,
+    65,
+    66,
+    75,
+    77,
+    91,
+    92,
+    156,
+    157
+  ],
+  "flagged_by_label": {
+    "LIGHT_PRESS": 7,
+    "HARD_PRESS": 11,
+    "DOUBLE_SQUEEZE": 0,
+    "NO_PRESS": 2
+  },
+  "no_press_flagged": {
+    "156": "atypical_zero_fraction(z=-5.6); activity_during_no_press(max=186)",
+    "157": "atypical_mean(z=+6.9); atypical_std(z=+7.0); atypical_max(z=+6.9); atypical_zero_fraction(z=-4.6); atypical_mean_abs_diff(z=+6.5); activity_during_no_press(max=704)"
+  },
+  "disclosure": "Phase 1 already computed and reported RF_existing test results (39/40, trial 39 misclassified); the phase-1 run history also discloses a rerun after the test score was seen. The test set is therefore NOT completely untouched. In phase 2, selection rules were frozen (selection_freeze.json) before any test prediction of the new candidates. run_followup.py was executed more than once while the report text was being corrected; between runs only report wording changed - the split, candidates, selection rules and selected models were identical in every run.",
+  "selection": {
+    "rule_A": "RF_existing",
+    "rule_B": "DT_depth2",
+    "best_lr": "LR_C1",
+    "best_dt": "DT_depth2",
+    "n_eligible": 6,
+    "n_tied_best_val": 6,
+    "best_val_macro_f1": 0.9749373433583959,
+    "freeze_sha256": "15bdbea7b420f6bb3bcf8dc967f643d51a2ff1004ee38e8fa61192bef29caad3"
+  },
+  "models": [
+    {
+      "id": "B0_majority",
+      "name": "Majority-class baseline",
+      "family": "Baseline",
+      "params": "{}",
+      "validation_acc": 0.25,
+      "validation_macro_f1": 0.1,
+      "validation_errors": 30,
+      "validation_mis": [
+        6,
+        9,
+        11,
+        22,
+        25,
+        30,
+        31,
+        43,
+        46,
+        47,
+        53,
+        56,
+        65,
+        66,
+        69,
+        71,
+        74,
+        83,
+        84,
+        100,
+        158,
+        162,
+        170,
+        174,
+        175,
+        177,
+        180,
+        183,
+        195,
+        197
+      ],
+      "validation_ci": [
+        0.14186967895549518,
+        0.40194259066970106
+      ],
+      "validation_cm": [
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ]
+      ],
+      "validation_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.25,
+          "recall": 1.0,
+          "f1": 0.4,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10
+        }
+      },
+      "test_acc": 0.25,
+      "test_macro_f1": 0.1,
+      "test_errors": 30,
+      "test_mis": [
+        5,
+        8,
+        17,
+        28,
+        33,
+        35,
+        39,
+        41,
+        42,
+        48,
+        52,
+        57,
+        58,
+        59,
+        64,
+        70,
+        76,
+        78,
+        85,
+        94,
+        152,
+        157,
+        163,
+        165,
+        172,
+        178,
+        179,
+        182,
+        186,
+        193
+      ],
+      "test_ci": [
+        0.14186967895549518,
+        0.40194259066970106
+      ],
+      "test_cm": [
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ]
+      ],
+      "test_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.25,
+          "recall": 1.0,
+          "f1": 0.4,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10
+        }
+      },
+      "size_units": "1 label",
+      "est_bytes": 1,
+      "n_features_used": 0,
+      "train_cv": 0.1
+    },
+    {
+      "id": "B1_mean_adc_centroid",
+      "name": "Mean-ADC baseline",
+      "family": "Baseline",
+      "params": "{\"feature\": \"mean\"}",
+      "validation_acc": 0.725,
+      "validation_macro_f1": 0.7141148325358851,
+      "validation_errors": 11,
+      "validation_mis": [
+        11,
+        22,
+        31,
+        46,
+        47,
+        102,
+        116,
+        122,
+        136,
+        137,
+        142
+      ],
+      "validation_ci": [
+        0.5716474916687543,
+        0.8389214656685692
+      ],
+      "validation_cm": [
+        [
+          5,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          4,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "validation_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 0.5555555555555556,
+          "recall": 0.5,
+          "f1": 0.5263157894736842,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.4444444444444444,
+          "recall": 0.4,
+          "f1": 0.42105263157894735,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 0.8333333333333334,
+          "recall": 1.0,
+          "f1": 0.9090909090909091,
+          "support": 10
+        }
+      },
+      "test_acc": 0.75,
+      "test_macro_f1": 0.7343738133211817,
+      "test_errors": 10,
+      "test_mis": [
+        8,
+        17,
+        35,
+        48,
+        111,
+        115,
+        119,
+        121,
+        139,
+        143
+      ],
+      "test_ci": [
+        0.598057409330299,
+        0.8581303210445048
+      ],
+      "test_cm": [
+        [
+          6,
+          0,
+          4,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          3,
+          1,
+          4,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "test_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 0.6666666666666666,
+          "recall": 0.6,
+          "f1": 0.631578947368421,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.5,
+          "recall": 0.4,
+          "f1": 0.4444444444444444,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 0.8333333333333334,
+          "recall": 1.0,
+          "f1": 0.9090909090909091,
+          "support": 10
+        }
+      },
+      "size_units": "4 floats",
+      "est_bytes": 16,
+      "n_features_used": 1,
+      "train_cv": 0.611713702963703
+    },
+    {
+      "id": "RF_existing",
+      "name": "Random Forest (300 trees)",
+      "family": "RandomForest",
+      "params": "{\"n_estimators\": 300, \"max_depth\": null, \"min_samples_leaf\": 1, \"max_features\": \"sqrt\"}",
+      "validation_acc": 0.975,
+      "validation_macro_f1": 0.9749373433583959,
+      "validation_errors": 1,
+      "validation_mis": [
+        6
+      ],
+      "validation_ci": [
+        0.8711834051199223,
+        0.9955732825922052
+      ],
+      "validation_cm": [
+        [
+          9,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "validation_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        }
+      },
+      "test_acc": 0.975,
+      "test_macro_f1": 0.974937343358396,
+      "test_errors": 1,
+      "test_mis": [
+        39
+      ],
+      "test_ci": [
+        0.8711834051199223,
+        0.9955732825922052
+      ],
+      "test_cm": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "test_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        }
+      },
+      "size_units": "2556 nodes",
+      "est_bytes": 30672,
+      "n_features_used": 47,
+      "train_cv": 0.9916083916083916
+    },
+    {
+      "id": "LR_C0.1",
+      "name": "Logistic Regression C=0.1",
+      "family": "LogisticRegression",
+      "params": "{\"C\": 0.1}",
+      "validation_acc": 0.975,
+      "validation_macro_f1": 0.9749373433583959,
+      "validation_errors": 1,
+      "validation_mis": [
+        6
+      ],
+      "validation_ci": [
+        0.8711834051199223,
+        0.9955732825922052
+      ],
+      "validation_cm": [
+        [
+          9,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "validation_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        }
+      },
+      "test_acc": 0.95,
+      "test_macro_f1": 0.949874686716792,
+      "test_errors": 2,
+      "test_mis": [
+        39,
+        111
+      ],
+      "test_ci": [
+        0.834958291820748,
+        0.9861796228538989
+      ],
+      "test_cm": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          9,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "test_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        }
+      },
+      "size_units": "298 float params",
+      "est_bytes": 1192,
+      "n_features_used": 49,
+      "train_cv": 0.9916083916083916
+    },
+    {
+      "id": "LR_C1",
+      "name": "Logistic Regression C=1",
+      "family": "LogisticRegression",
+      "params": "{\"C\": 1.0}",
+      "validation_acc": 0.975,
+      "validation_macro_f1": 0.9749373433583959,
+      "validation_errors": 1,
+      "validation_mis": [
+        6
+      ],
+      "validation_ci": [
+        0.8711834051199223,
+        0.9955732825922052
+      ],
+      "validation_cm": [
+        [
+          9,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "validation_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        }
+      },
+      "test_acc": 0.975,
+      "test_macro_f1": 0.974937343358396,
+      "test_errors": 1,
+      "test_mis": [
+        39
+      ],
+      "test_ci": [
+        0.8711834051199223,
+        0.9955732825922052
+      ],
+      "test_cm": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "test_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        }
+      },
+      "size_units": "298 float params",
+      "est_bytes": 1192,
+      "n_features_used": 49,
+      "train_cv": 0.9916083916083916
+    },
+    {
+      "id": "LR_C10",
+      "name": "Logistic Regression C=10",
+      "family": "LogisticRegression",
+      "params": "{\"C\": 10.0}",
+      "validation_acc": 0.975,
+      "validation_macro_f1": 0.9749373433583959,
+      "validation_errors": 1,
+      "validation_mis": [
+        6
+      ],
+      "validation_ci": [
+        0.8711834051199223,
+        0.9955732825922052
+      ],
+      "validation_cm": [
+        [
+          9,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "validation_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        }
+      },
+      "test_acc": 0.975,
+      "test_macro_f1": 0.974937343358396,
+      "test_errors": 1,
+      "test_mis": [
+        39
+      ],
+      "test_ci": [
+        0.8711834051199223,
+        0.9955732825922052
+      ],
+      "test_cm": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "test_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        }
+      },
+      "size_units": "298 float params",
+      "est_bytes": 1192,
+      "n_features_used": 49,
+      "train_cv": 0.9916083916083916
+    },
+    {
+      "id": "DT_depth2",
+      "name": "Decision Tree depth 2",
+      "family": "DecisionTree",
+      "params": "{\"max_depth\": 2}",
+      "validation_acc": 0.975,
+      "validation_macro_f1": 0.9749373433583959,
+      "validation_errors": 1,
+      "validation_mis": [
+        6
+      ],
+      "validation_ci": [
+        0.8711834051199223,
+        0.9955732825922052
+      ],
+      "validation_cm": [
+        [
+          9,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "validation_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        }
+      },
+      "test_acc": 0.95,
+      "test_macro_f1": 0.9498746867167919,
+      "test_errors": 2,
+      "test_mis": [
+        39,
+        157
+      ],
+      "test_ci": [
+        0.834958291820748,
+        0.9861796228538989
+      ],
+      "test_cm": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          9
+        ]
+      ],
+      "test_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        }
+      },
+      "size_units": "7 nodes",
+      "est_bytes": 84,
+      "n_features_used": 2,
+      "train_cv": 0.9832167832167832
+    },
+    {
+      "id": "DT_depth3",
+      "name": "Decision Tree depth 3",
+      "family": "DecisionTree",
+      "params": "{\"max_depth\": 3}",
+      "validation_acc": 0.975,
+      "validation_macro_f1": 0.9749373433583959,
+      "validation_errors": 1,
+      "validation_mis": [
+        6
+      ],
+      "validation_ci": [
+        0.8711834051199223,
+        0.9955732825922052
+      ],
+      "validation_cm": [
+        [
+          9,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "validation_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 10
+        }
+      },
+      "test_acc": 0.95,
+      "test_macro_f1": 0.9498746867167919,
+      "test_errors": 2,
+      "test_mis": [
+        39,
+        157
+      ],
+      "test_ci": [
+        0.834958291820748,
+        0.9861796228538989
+      ],
+      "test_cm": [
+        [
+          9,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          9
+        ]
+      ],
+      "test_per_class": {
+        "LIGHT_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        },
+        "HARD_PRESS": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "DOUBLE_SQUEEZE": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1": 0.9523809523809523,
+          "support": 10
+        },
+        "NO_PRESS": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        }
+      },
+      "size_units": "7 nodes",
+      "est_bytes": 84,
+      "n_features_used": 2,
+      "train_cv": 0.9832167832167832
+    }
+  ],
+  "mcnemar": {
+    "RF_existing vs B0_majority": {
+      "only_first_correct": 29,
+      "only_second_correct": 0,
+      "p_value_exact": 3.725290298461914e-09
+    },
+    "RF_existing vs B1_mean_adc_centroid": {
+      "only_first_correct": 10,
+      "only_second_correct": 1,
+      "p_value_exact": 0.01171875
+    },
+    "RF_existing vs LR_C0.1": {
+      "only_first_correct": 1,
+      "only_second_correct": 0,
+      "p_value_exact": 1.0
+    },
+    "RF_existing vs LR_C1": {
+      "only_first_correct": 0,
+      "only_second_correct": 0,
+      "p_value_exact": 1.0
+    },
+    "RF_existing vs LR_C10": {
+      "only_first_correct": 0,
+      "only_second_correct": 0,
+      "p_value_exact": 1.0
+    },
+    "RF_existing vs DT_depth2": {
+      "only_first_correct": 1,
+      "only_second_correct": 0,
+      "p_value_exact": 1.0
+    },
+    "RF_existing vs DT_depth3": {
+      "only_first_correct": 1,
+      "only_second_correct": 0,
+      "p_value_exact": 1.0
+    }
+  },
+  "wilson_10_10": 0.7224598312333834,
+  "wilson_9_10": 0.5958436145024278,
+  "hp": {
+    "rf": {
+      "n_estimators": 300,
+      "max_depth": null,
+      "min_samples_leaf": 1,
+      "max_features": "sqrt",
+      "class_weight": "balanced",
+      "criterion": "gini",
+      "bootstrap": true,
+      "random_state": 42
+    },
+    "lr": {
+      "pipeline": [
+        "standardscaler",
+        "logisticregression"
+      ],
+      "C": 1.0,
+      "solver": "lbfgs",
+      "l1_ratio": 0.0,
+      "max_iter": 5000,
+      "class_weight": null
+    },
+    "dt": {
+      "max_depth": 2,
+      "criterion": "gini",
+      "min_samples_leaf": 1,
+      "class_weight": null,
+      "random_state": 42
+    }
+  },
+  "ds": {
+    "n_trials": 50,
+    "presses_distribution": {
+      "3": 13,
+      "4": 20,
+      "5": 11,
+      "6": 5,
+      "7": 1
+    },
+    "trials_with_exactly_2_presses": 0,
+    "complete_presses_median": 3.0,
+    "median_press_ms": 430.0,
+    "median_gap_ms": 280.0,
+    "presses_per_s_median": 1.3333333333333333,
+    "rest_after_2nd_press_ms_median": 280.0,
+    "rest_after_2nd_press_ms_max": 580.0,
+    "trials_with_>=1000ms_rest_after_2nd_press": 0,
+    "active_at_window_end": 31,
+    "active_at_window_start": 11,
+    "spearman_trialid_vs_peak": [
+      0.37580734242146513,
+      0.007155549221304191
+    ],
+    "spearman_trialid_vs_presses": [
+      -0.21099661270359968,
+      0.1413313313861654
+    ],
+    "peak_adc_median": 1424.0
+  },
+  "onset": {
+    "LIGHT_PRESS": {
+      "active_at_start": 45,
+      "active_at_end": 48,
+      "single_press": 42,
+      "n": 50
+    },
+    "HARD_PRESS": {
+      "active_at_start": 49,
+      "active_at_end": 50,
+      "single_press": 49,
+      "n": 50
+    }
+  },
+  "e1": {
+    "RF": {
+      "model": "RF_existing",
+      "n_folds": 100,
+      "mean": 0.9807499999999998,
+      "std": 0.019954636052807385,
+      "min": 0.925,
+      "p05": 0.95,
+      "max": 1.0
+    },
+    "LR": {
+      "model": "LR_C1",
+      "n_folds": 100,
+      "mean": 0.9852499999999997,
+      "std": 0.016238457439054995,
+      "min": 0.95,
+      "p05": 0.95,
+      "max": 1.0
+    },
+    "DT": {
+      "model": "DT_depth2",
+      "n_folds": 100,
+      "mean": 0.9704999999999998,
+      "std": 0.025831182706178974,
+      "min": 0.925,
+      "p05": 0.925,
+      "max": 1.0
+    }
+  },
+  "e4": {
+    "chosen_on_validation": 0.8,
+    "val_coverage": 0.95,
+    "test_coverage": 0.925,
+    "test_accepted_accuracy": 0.972972972972973,
+    "test_accepted_errors": 1
+  },
+  "probes": [
+    {
+      "probe": "P1_two_squeezes_then_rest",
+      "model": "DT",
+      "original_label": "DOUBLE_SQUEEZE",
+      "LIGHT_PRESS": 0,
+      "HARD_PRESS": 0,
+      "DOUBLE_SQUEEZE": 19,
+      "NO_PRESS": 1
+    },
+    {
+      "probe": "P1_two_squeezes_then_rest",
+      "model": "LR",
+      "original_label": "DOUBLE_SQUEEZE",
+      "LIGHT_PRESS": 0,
+      "HARD_PRESS": 0,
+      "DOUBLE_SQUEEZE": 18,
+      "NO_PRESS": 2
+    },
+    {
+      "probe": "P1_two_squeezes_then_rest",
+      "model": "RF",
+      "original_label": "DOUBLE_SQUEEZE",
+      "LIGHT_PRESS": 0,
+      "HARD_PRESS": 0,
+      "DOUBLE_SQUEEZE": 18,
+      "NO_PRESS": 2
+    },
+    {
+      "probe": "P2_single_squeeze_then_rest",
+      "model": "DT",
+      "original_label": "DOUBLE_SQUEEZE",
+      "LIGHT_PRESS": 0,
+      "HARD_PRESS": 0,
+      "DOUBLE_SQUEEZE": 17,
+      "NO_PRESS": 3
+    },
+    {
+      "probe": "P2_single_squeeze_then_rest",
+      "model": "LR",
+      "original_label": "DOUBLE_SQUEEZE",
+      "LIGHT_PRESS": 0,
+      "HARD_PRESS": 0,
+      "DOUBLE_SQUEEZE": 10,
+      "NO_PRESS": 10
+    },
+    {
+      "probe": "P2_single_squeeze_then_rest",
+      "model": "RF",
+      "original_label": "DOUBLE_SQUEEZE",
+      "LIGHT_PRESS": 0,
+      "HARD_PRESS": 0,
+      "DOUBLE_SQUEEZE": 11,
+      "NO_PRESS": 9
+    },
+    {
+      "probe": "P3_press_with_onset_and_release",
+      "model": "DT",
+      "original_label": "HARD_PRESS",
+      "LIGHT_PRESS": 20,
+      "HARD_PRESS": 0,
+      "DOUBLE_SQUEEZE": 0,
+      "NO_PRESS": 0
+    },
+    {
+      "probe": "P3_press_with_onset_and_release",
+      "model": "DT",
+      "original_label": "LIGHT_PRESS",
+      "LIGHT_PRESS": 18,
+      "HARD_PRESS": 0,
+      "DOUBLE_SQUEEZE": 2,
+      "NO_PRESS": 0
+    },
+    {
+      "probe": "P3_press_with_onset_and_release",
+      "model": "LR",
+      "original_label": "HARD_PRESS",
+      "LIGHT_PRESS": 0,
+      "HARD_PRESS": 0,
+      "DOUBLE_SQUEEZE": 20,
+      "NO_PRESS": 0
+    },
+    {
+      "probe": "P3_press_with_onset_and_release",
+      "model": "LR",
+      "original_label": "LIGHT_PRESS",
+      "LIGHT_PRESS": 5,
+      "HARD_PRESS": 0,
+      "DOUBLE_SQUEEZE": 15,
+      "NO_PRESS": 0
+    },
+    {
+      "probe": "P3_press_with_onset_and_release",
+      "model": "RF",
+      "original_label": "HARD_PRESS",
+      "LIGHT_PRESS": 0,
+      "HARD_PRESS": 0,
+      "DOUBLE_SQUEEZE": 20,
+      "NO_PRESS": 0
+    },
+    {
+      "probe": "P3_press_with_onset_and_release",
+      "model": "RF",
+      "original_label": "LIGHT_PRESS",
+      "LIGHT_PRESS": 0,
+      "HARD_PRESS": 0,
+      "DOUBLE_SQUEEZE": 20,
+      "NO_PRESS": 0
+    }
+  ],
+  "gain_rf": {
+    "0.7": 0.925,
+    "0.85": 0.9625,
+    "1.0": 0.975,
+    "1.15": 0.975,
+    "1.3": 0.9375
+  },
+  "ds_press_counts": {
+    "3": 13,
+    "4": 20,
+    "5": 11,
+    "6": 5,
+    "7": 1
+  },
+  "c": {
+    "n": 200,
+    "agree_features": 200,
+    "agree_raw": 200,
+    "feat_exact": {
+      "longest_active_run_frac": 200,
+      "segment_1_mean": 200
+    },
+    "boundary_n": 26,
+    "boundary_agree": 26,
+    "naive_disagree": 2
+  },
+  "vs": {
+    "generated_utc": "2026-10-10T15:22:42+00:00",
+    "hardware_used": false,
+    "new_data_collected": false,
+    "model_retrained": false,
+    "environment": {
+      "python": "3.12.13",
+      "sklearn": "1.9.1",
+      "numpy": "2.5.3",
+      "pandas": "3.0.6",
+      "cc": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+      "platform": "macOS-27.0.1-arm64-arm-64bit"
+    },
+    "compiler": {
+      "flags": [
+        "-std=c99",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Wconversion",
+        "-Wsign-conversion",
+        "-Wshadow",
+        "-Wdouble-promotion",
+        "-Wstrict-prototypes",
+        "-Wmissing-prototypes",
+        "-Wfloat-equal",
+        "-Wcast-qual",
+        "-Wformat=2",
+        "-Wundef",
+        "-Wvla"
+      ],
+      "exe_exit": 0,
+      "obj_exit": 0,
+      "n_warnings": 0,
+      "warnings_text": ""
+    },
+    "trials": 200,
+    "agreement_features_mode": 200,
+    "agreement_raw_adc_mode": 200,
+    "features_bit_exact_raw_mode": {
+      "longest_active_run_frac": 200,
+      "segment_1_mean": 200
+    },
+    "python_features_match_saved_trial_features": true,
+    "python_matches_followup_predictions_val_test": true,
+    "followup_trials_compared": 80,
+    "boundary_tests": {
+      "n": 26,
+      "agree": 26,
+      "naive_double_compare_disagreements": 2,
+      "naive_double_compare_disagreements_on_200_real_trials": 0
+    },
+    "invalid_input_rejected": true,
+    "accuracy_vs_labels_by_split": {
+      "test": 0.95,
+      "train": 1.0,
+      "validation": 0.975
+    },
+    "misclassified_vs_labels": [
+      {
+        "trial": 6,
+        "split": "validation",
+        "actual": "LIGHT_PRESS",
+        "python_sklearn": "DOUBLE_SQUEEZE"
+      },
+      {
+        "trial": 39,
+        "split": "test",
+        "actual": "LIGHT_PRESS",
+        "python_sklearn": "HARD_PRESS"
+      },
+      {
+        "trial": 157,
+        "split": "test",
+        "actual": "NO_PRESS",
+        "python_sklearn": "DOUBLE_SQUEEZE"
+      }
+    ],
+    "sizes": {
+      "estimate_phase2_12_bytes_per_node": 84,
+      "c_tables_sizeof_bytes_host": 84,
+      "adc_window_buffer_bytes": 300,
+      "executable_file_bytes": 34560,
+      "executable_size_cmd": {
+        "__TEXT": "16384",
+        "__DATA": "0",
+        "__OBJC": "0",
+        "others": "4295000064",
+        "dec": "4295016448",
+        "hex": "10000c000"
+      },
+      "object_file_bytes": 3296,
+      "object_size_cmd": {
+        "__TEXT": "1159",
+        "__DATA": "48",
+        "__OBJC": "0",
+        "others": "160",
+        "dec": "1367",
+        "hex": "557"
+      },
+      "object_size_m_output": "Segment : 1376\n\tSection (__TEXT, __text): 972\n\tSection (__TEXT, __literal16): 16\n\tSection (__TEXT, __const): 85\n\tSection (__DATA, __const): 48\n\tSection (__TEXT, __cstring): 86\n\tSection (__LD, __compact_unwind): 160\n\ttotal 1367\ntotal 1376",
+      "binary_arch": "/Users/zenith/Desktop/GripSense-TinyML /models/c_port/build/decision_tree: Mach-O 64-bit executable arm64",
+      "note": "Host macOS build (Apple clang). Does not represent ESP32 flash/RAM usage; the ESP32 toolchain (xtensa/riscv gcc), libc, and FreeRTOS change all sizes."
+    },
+    "preservation": {
+      "files_checked": 70,
+      "changed": [],
+      "saved_model_unchanged": true
+    },
+    "stage_log": [
+      {
+        "stage": "1. read fitted tree from saved model",
+        "utc": "2026-10-10T15:22:41+00:00"
+      },
+      {
+        "stage": "2. generate C source + metadata",
+        "utc": "2026-10-10T15:22:42+00:00"
+      },
+      {
+        "stage": "3. compile with cc (strict warnings)",
+        "utc": "2026-10-10T15:22:42+00:00"
+      },
+      {
+        "stage": "4. verify Python vs C on all 200 trials",
+        "utc": "2026-10-10T15:22:42+00:00"
+      },
+      {
+        "stage": "4c. threshold boundary tests",
+        "utc": "2026-10-10T15:22:42+00:00"
+      },
+      {
+        "stage": "5. sizes (host build; not ESP32)",
+        "utc": "2026-10-10T15:22:42+00:00"
+      },
+      {
+        "stage": "6. preservation checks",
+        "utc": "2026-10-10T15:22:42+00:00"
+      }
+    ],
+    "all_checks_pass": true
+  },
+  "tree": {
+    "generated_utc": "2026-10-10T15:22:42+00:00",
+    "source_model": "models/followup/DT_depth2.joblib",
+    "source_model_sha256": "d8c854e47f0dbb8ee6bb68f09417e058581c1e8b28afacbd3c7455e67bfa0362",
+    "sklearn_version": "1.9.1",
+    "label_order_c_enum": [
+      "LIGHT_PRESS",
+      "HARD_PRESS",
+      "DOUBLE_SQUEEZE",
+      "NO_PRESS"
+    ],
+    "sklearn_classes_order": [
+      "DOUBLE_SQUEEZE",
+      "HARD_PRESS",
+      "LIGHT_PRESS",
+      "NO_PRESS"
+    ],
+    "features_c_order": [
+      "longest_active_run_frac",
+      "segment_1_mean"
+    ],
+    "features_original_column_index": [
+      15,
+      31
+    ],
+    "feature_units": {
+      "longest_active_run_frac": "fraction of 150 samples (0..1); longest consecutive run with ADC > 100",
+      "segment_1_mean": "ADC counts; mean of samples 15..29"
+    },
+    "comparison_semantics": "go left if (double)(float)x <= threshold (sklearn casts X to float32)",
+    "nodes": [
+      {
+        "node": 0,
+        "is_leaf": false,
+        "feature_orig_index": 15,
+        "feature_c_index": 0,
+        "feature_name": "longest_active_run_frac",
+        "threshold": 0.35333333909511566,
+        "threshold_hex": "0x1.69d0370000000p-2",
+        "threshold_is_float32_exact": false,
+        "left": 1,
+        "right": 4,
+        "leaf_class": null,
+        "leaf_class_c_index": -1,
+        "n_train_samples": 120
+      },
+      {
+        "node": 1,
+        "is_leaf": false,
+        "feature_orig_index": 15,
+        "feature_c_index": 0,
+        "feature_name": "longest_active_run_frac",
+        "threshold": 0.046666666865348816,
+        "threshold_hex": "0x1.7e4b180000000p-5",
+        "threshold_is_float32_exact": true,
+        "left": 2,
+        "right": 3,
+        "leaf_class": null,
+        "leaf_class_c_index": -1,
+        "n_train_samples": 60
+      },
+      {
+        "node": 2,
+        "is_leaf": true,
+        "feature_orig_index": -1,
+        "feature_c_index": -1,
+        "feature_name": null,
+        "threshold": null,
+        "threshold_hex": null,
+        "threshold_is_float32_exact": null,
+        "left": -1,
+        "right": -1,
+        "leaf_class": "NO_PRESS",
+        "leaf_class_c_index": 3,
+        "n_train_samples": 30
+      },
+      {
+        "node": 3,
+        "is_leaf": true,
+        "feature_orig_index": -1,
+        "feature_c_index": -1,
+        "feature_name": null,
+        "threshold": null,
+        "threshold_hex": null,
+        "threshold_is_float32_exact": null,
+        "left": -1,
+        "right": -1,
+        "leaf_class": "DOUBLE_SQUEEZE",
+        "leaf_class_c_index": 2,
+        "n_train_samples": 30
+      },
+      {
+        "node": 4,
+        "is_leaf": false,
+        "feature_orig_index": 31,
+        "feature_c_index": 1,
+        "feature_name": "segment_1_mean",
+        "threshold": 840.6333312988281,
+        "threshold_hex": "0x1.a451110000000p+9",
+        "threshold_is_float32_exact": false,
+        "left": 5,
+        "right": 6,
+        "leaf_class": null,
+        "leaf_class_c_index": -1,
+        "n_train_samples": 60
+      },
+      {
+        "node": 5,
+        "is_leaf": true,
+        "feature_orig_index": -1,
+        "feature_c_index": -1,
+        "feature_name": null,
+        "threshold": null,
+        "threshold_hex": null,
+        "threshold_is_float32_exact": null,
+        "left": -1,
+        "right": -1,
+        "leaf_class": "LIGHT_PRESS",
+        "leaf_class_c_index": 0,
+        "n_train_samples": 30
+      },
+      {
+        "node": 6,
+        "is_leaf": true,
+        "feature_orig_index": -1,
+        "feature_c_index": -1,
+        "feature_name": null,
+        "threshold": null,
+        "threshold_hex": null,
+        "threshold_is_float32_exact": null,
+        "left": -1,
+        "right": -1,
+        "leaf_class": "HARD_PRESS",
+        "leaf_class_c_index": 1,
+        "n_train_samples": 30
+      }
+    ],
+    "rules": [
+      "if ((float)longest_active_run_frac <= 0.35333333909511566):",
+      "    if ((float)longest_active_run_frac <= 0.046666666865348816):",
+      "        -> NO_PRESS",
+      "    else:",
+      "        -> DOUBLE_SQUEEZE",
+      "else:",
+      "    if ((float)segment_1_mean <= 840.6333312988281):",
+      "        -> LIGHT_PRESS",
+      "    else:",
+      "        -> HARD_PRESS"
+    ],
+    "samples_per_window": 150,
+    "active_threshold_adc": 100,
+    "c_source": "models/c_port/decision_tree.c",
+    "c_source_sha256": "cdba6e7d0adada7856f46470e62c451057b185f9209e967627b21f3dd473991f"
+  },
+  "c_warnings": 0,
+  "c_accuracy_by_split": {
+    "test": 0.95,
+    "train": 1.0,
+    "validation": 0.975
+  },
+  "c_info": "n_nodes 7\nn_features 2\nn_classes 4\nmax_depth 2\nfeature 0 longest_active_run_frac\nfeature 1 segment_1_mean\nlabel 0 LIGHT_PRESS\nlabel 1 HARD_PRESS\nlabel 2 DOUBLE_SQUEEZE\nlabel 3 NO_PRESS\nsizeof_tables_bytes 84\nsizeof_threshold_table_bytes 56\nsizeof_adc_window_bytes 300",
+  "c_info_ok": true,
+  "c_label_map": {
+    "0": "LIGHT_PRESS",
+    "1": "HARD_PRESS",
+    "2": "DOUBLE_SQUEEZE",
+    "3": "NO_PRESS"
+  },
+  "c_src_has_float_cast": true,
+  "c_seg_bounds": [
+    "15",
+    "30"
+  ],
+  "feat_src_checks": {
+    "ACTIVE_THRESHOLD = 100": true,
+    "longest_active_run_frac = _longest_run(active) / n": true,
+    "segments via np.array_split(x, N_SEGMENTS)": true
+  },
+  "dashboard": {
+    "exists": true,
+    "path": "~/Desktop/gripsense-dashboard",
+    "actions": [
+      "LIGHT_PRESS",
+      "HARD_PRESS",
+      "DOUBLE_SQUEEZE"
+    ],
+    "has_no_press": false
+  },
+  "generated_utc": "2026-10-10T15:56:58+00:00",
+  "report_date": "2026-10-10"
+}

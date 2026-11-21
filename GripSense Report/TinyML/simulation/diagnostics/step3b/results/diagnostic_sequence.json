@@ -1,0 +1,140 @@
+{
+  "current_dt2": {
+    "events": [
+      [
+        "LIGHT_PRESS",
+        1
+      ],
+      [
+        "DOUBLE_SQUEEZE",
+        64
+      ]
+    ],
+    "episodes": 2,
+    "hits": 1,
+    "missed": 1,
+    "first_event_correct": 1,
+    "wrong_label_events": 1,
+    "false_ds_events": 1,
+    "rest_false_events": 0,
+    "ambiguous_events": 0,
+    "false_events_total": 1,
+    "duplicate_events": 0,
+    "recovered_after_false": 0
+  },
+  "gate_ev2": {
+    "events": [
+      [
+        "LIGHT_PRESS",
+        1
+      ],
+      [
+        "DOUBLE_SQUEEZE",
+        64
+      ]
+    ],
+    "episodes": 2,
+    "hits": 1,
+    "missed": 1,
+    "first_event_correct": 1,
+    "wrong_label_events": 1,
+    "false_ds_events": 1,
+    "rest_false_events": 0,
+    "ambiguous_events": 0,
+    "false_events_total": 1,
+    "duplicate_events": 0,
+    "recovered_after_false": 0
+  },
+  "gate_ev3": {
+    "events": [
+      [
+        "LIGHT_PRESS",
+        1
+      ],
+      [
+        "LIGHT_PRESS",
+        64
+      ]
+    ],
+    "episodes": 2,
+    "hits": 2,
+    "missed": 0,
+    "first_event_correct": 2,
+    "wrong_label_events": 0,
+    "false_ds_events": 0,
+    "rest_false_events": 0,
+    "ambiguous_events": 0,
+    "false_events_total": 0,
+    "duplicate_events": 0,
+    "recovered_after_false": 0
+  },
+  "dt2_robust": {
+    "events": [
+      [
+        "HARD_PRESS",
+        1
+      ],
+      [
+        "HARD_PRESS",
+        65
+      ]
+    ],
+    "episodes": 2,
+    "hits": 0,
+    "missed": 2,
+    "first_event_correct": 0,
+    "wrong_label_events": 2,
+    "false_ds_events": 0,
+    "rest_false_events": 0,
+    "ambiguous_events": 0,
+    "false_events_total": 2,
+    "duplicate_events": 0,
+    "recovered_after_false": 0
+  },
+  "dt3_robust": {
+    "events": [
+      [
+        "LIGHT_PRESS",
+        1
+      ],
+      [
+        "LIGHT_PRESS",
+        65
+      ]
+    ],
+    "episodes": 2,
+    "hits": 2,
+    "missed": 0,
+    "first_event_correct": 2,
+    "wrong_label_events": 0,
+    "false_ds_events": 0,
+    "rest_false_events": 0,
+    "ambiguous_events": 0,
+    "false_events_total": 0,
+    "duplicate_events": 0,
+    "recovered_after_false": 0
+  },
+  "dt3_all": {
+    "events": [
+      [
+        "LIGHT_PRESS",
+        1
+      ],
+      [
+        "DOUBLE_SQUEEZE",
+        64
+      ]
+    ],
+    "episodes": 2,
+    "hits": 1,
+    "missed": 1,
+    "first_event_correct": 1,
+    "wrong_label_events": 1,
+    "false_ds_events": 1,
+    "rest_false_events": 0,
+    "ambiguous_events": 0,
+    "false_events_total": 1,
+    "duplicate_events": 0,
+    "recovered_after_false": 0
+  }
+}

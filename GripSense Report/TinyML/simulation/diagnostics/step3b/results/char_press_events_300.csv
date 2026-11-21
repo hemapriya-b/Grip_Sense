@@ -1,0 +1,13 @@
+split,label,0,1,2,3,4,5,6,7,8
+test,DOUBLE_SQUEEZE,0,1,0,5,2,1,0,1,0
+test,HARD_PRESS,0,10,0,0,0,0,0,0,0
+test,LIGHT_PRESS,0,7,2,0,1,0,0,0,0
+test,NO_PRESS,9,1,0,0,0,0,0,0,0
+train,DOUBLE_SQUEEZE,0,0,0,8,13,5,4,0,0
+train,HARD_PRESS,0,28,1,1,0,0,0,0,0
+train,LIGHT_PRESS,0,23,4,1,1,0,1,0,0
+train,NO_PRESS,30,0,0,0,0,0,0,0,0
+validation,DOUBLE_SQUEEZE,0,0,0,4,3,2,0,0,1
+validation,HARD_PRESS,0,10,0,0,0,0,0,0,0
+validation,LIGHT_PRESS,0,6,2,1,0,0,0,0,1
+validation,NO_PRESS,10,0,0,0,0,0,0,0,0

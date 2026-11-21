@@ -1,0 +1,41 @@
+trial,actual,predicted,correct,prob_DOUBLE_SQUEEZE,prob_HARD_PRESS,prob_LIGHT_PRESS,prob_NO_PRESS,confidence,audit_flags,split
+6,LIGHT_PRESS,DOUBLE_SQUEEZE,False,0.78,0.0633,0.0467,0.11,0.78,atypical_std(z=+7.2); atypical_max(z=+7.3); atypical_zero_fraction(z=+6.3); atypical_mean_abs_diff(z=+6.7); dropout_to_zero_during_press(35%); light_press_peak_in_hard_range(max=1954),validation
+9,LIGHT_PRESS,LIGHT_PRESS,True,0.0,0.0,1.0,0.0,1.0,,validation
+11,LIGHT_PRESS,LIGHT_PRESS,True,0.02,0.0,0.9667,0.0133,0.9667,,validation
+22,LIGHT_PRESS,LIGHT_PRESS,True,0.0,0.0,1.0,0.0,1.0,,validation
+25,LIGHT_PRESS,LIGHT_PRESS,True,0.0,0.0,0.9967,0.0033,0.9967,,validation
+30,LIGHT_PRESS,LIGHT_PRESS,True,0.0,0.0,1.0,0.0,1.0,,validation
+31,LIGHT_PRESS,LIGHT_PRESS,True,0.0,0.0,1.0,0.0,1.0,,validation
+43,LIGHT_PRESS,LIGHT_PRESS,True,0.0,0.07,0.93,0.0,0.93,,validation
+46,LIGHT_PRESS,LIGHT_PRESS,True,0.0833,0.0,0.8967,0.02,0.8967,dropout_to_zero_during_press(13%),validation
+47,LIGHT_PRESS,LIGHT_PRESS,True,0.0233,0.0033,0.97,0.0033,0.97,,validation
+53,HARD_PRESS,HARD_PRESS,True,0.1333,0.6433,0.22,0.0033,0.6433,atypical_std(z=+8.6); atypical_zero_fraction(z=+5.4); dropout_to_zero_during_press(11%),validation
+56,HARD_PRESS,HARD_PRESS,True,0.0,1.0,0.0,0.0,1.0,,validation
+65,HARD_PRESS,HARD_PRESS,True,0.0133,0.9033,0.0833,0.0,0.9033,atypical_std(z=+5.6); atypical_mean_abs_diff(z=+7.7),validation
+66,HARD_PRESS,HARD_PRESS,True,0.0033,0.9633,0.0267,0.0067,0.9633,atypical_std(z=+4.1); atypical_mean_abs_diff(z=+5.0),validation
+69,HARD_PRESS,HARD_PRESS,True,0.0,1.0,0.0,0.0,1.0,,validation
+71,HARD_PRESS,HARD_PRESS,True,0.0,1.0,0.0,0.0,1.0,,validation
+74,HARD_PRESS,HARD_PRESS,True,0.0,1.0,0.0,0.0,1.0,,validation
+83,HARD_PRESS,HARD_PRESS,True,0.0,0.98,0.02,0.0,0.98,,validation
+84,HARD_PRESS,HARD_PRESS,True,0.0,1.0,0.0,0.0,1.0,,validation
+100,HARD_PRESS,HARD_PRESS,True,0.0,1.0,0.0,0.0,1.0,,validation
+102,DOUBLE_SQUEEZE,DOUBLE_SQUEEZE,True,1.0,0.0,0.0,0.0,1.0,,validation
+105,DOUBLE_SQUEEZE,DOUBLE_SQUEEZE,True,1.0,0.0,0.0,0.0,1.0,,validation
+116,DOUBLE_SQUEEZE,DOUBLE_SQUEEZE,True,1.0,0.0,0.0,0.0,1.0,,validation
+122,DOUBLE_SQUEEZE,DOUBLE_SQUEEZE,True,0.95,0.0,0.0233,0.0267,0.95,,validation
+125,DOUBLE_SQUEEZE,DOUBLE_SQUEEZE,True,0.9967,0.0,0.0,0.0033,0.9967,,validation
+132,DOUBLE_SQUEEZE,DOUBLE_SQUEEZE,True,0.9467,0.0,0.0033,0.05,0.9467,,validation
+136,DOUBLE_SQUEEZE,DOUBLE_SQUEEZE,True,1.0,0.0,0.0,0.0,1.0,,validation
+137,DOUBLE_SQUEEZE,DOUBLE_SQUEEZE,True,0.9967,0.0,0.0033,0.0,0.9967,,validation
+142,DOUBLE_SQUEEZE,DOUBLE_SQUEEZE,True,1.0,0.0,0.0,0.0,1.0,,validation
+146,DOUBLE_SQUEEZE,DOUBLE_SQUEEZE,True,0.9333,0.0,0.0667,0.0,0.9333,,validation
+158,NO_PRESS,NO_PRESS,True,0.0,0.0,0.0,1.0,1.0,,validation
+162,NO_PRESS,NO_PRESS,True,0.0,0.0,0.0,1.0,1.0,,validation
+170,NO_PRESS,NO_PRESS,True,0.0,0.0,0.0,1.0,1.0,,validation
+174,NO_PRESS,NO_PRESS,True,0.0,0.0,0.0,1.0,1.0,,validation
+175,NO_PRESS,NO_PRESS,True,0.0,0.0,0.0,1.0,1.0,,validation
+177,NO_PRESS,NO_PRESS,True,0.0,0.0,0.0,1.0,1.0,,validation
+180,NO_PRESS,NO_PRESS,True,0.0,0.0,0.0,1.0,1.0,,validation
+183,NO_PRESS,NO_PRESS,True,0.0,0.0,0.0,1.0,1.0,,validation
+195,NO_PRESS,NO_PRESS,True,0.0,0.0,0.0,1.0,1.0,,validation
+197,NO_PRESS,NO_PRESS,True,0.0,0.0,0.0,1.0,1.0,,validation
